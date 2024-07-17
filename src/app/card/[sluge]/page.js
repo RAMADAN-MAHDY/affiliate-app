@@ -1,17 +1,19 @@
 'use client'
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import * as d3 from 'd3';
+import { useState, useEffect, Suspense } from 'react';
+import Navebar from "@/app/componant/navbar";
+import Loading from '../../loading';
+
 const DataComponent = ({ params }) => {
-  console.log(params.sluge);
+//   console.log(params.sluge);
   const [showCashNumber , setshowCashNumber ] = useState(false) 
   const [data, setData] = useState(null);
   const [commitionreq, setcommitionreq] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [countbutton,setcountbutton] =useState(0);
   const [hiddenBut, setHiddenBut] = useState({});
+  
 //   console.log(commitionreq)
   useEffect(()=>{
   console.log(commitionreq)
@@ -88,6 +90,8 @@ const DataComponent = ({ params }) => {
         // console.log(responseData);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setIsLoading(false);
+
       }
     };
 
@@ -95,7 +99,19 @@ const DataComponent = ({ params }) => {
   }, [params]);
 
   return (
-    <div dir='rtl'>
+    <div className={`${!data && "bg-[#515251fa]"}bg-[#515251fa] min-h-screen`} >
+       
+            <Navebar/>     
+       
+  {/* <div className="mb-3 self-center border border-gray-400 rounded-lg p-4 group hover:bg-white bg-gradient-to-br from-red-500 to-blue-500 via-green-500">
+
+<p className="text-center bg-clip-text bg-gradient-to-br from-red-500 to-blue-500 via-green-500 text-[#fff] hover:text-white animate-pulse">
+  El mahdy
+</p>
+</div> */}
+
+
+        <Suspense fallback={<Loading/>}>
       {isLoading ? (
       <div className="m-[40%] loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32 p-3">
       <p className='p-3 m-3'>Loading</p>
@@ -103,13 +119,7 @@ const DataComponent = ({ params }) => {
 
       ) : data ? (
         <div className='m-3'>
-                 <div className="mb-3 self-center border border-gray-400 rounded-lg p-4 group hover:bg-white bg-gradient-to-br from-red-500 to-blue-500 via-green-500">
-
-<span className="bg-clip-text bg-gradient-to-br from-red-500 to-blue-500 via-green-500 text-[#fff] hover:text-white animate-pulse">
-  Roial corner
-</span>
-</div>
-        <Link className='bg-[#88bbd1e4] p-3 rounded-xl hover:bg-[#1ebcffd3]' href={'/'}>الصفحه الرئيسيه</Link>
+               
           <p className='bg-[#dad1d1] p-6 '>Name: {data.name}</p>
           <p className='bg-[#dad1d1] p-6 '>Code: {data.code}</p>
           <div className="overflow-x-auto">
@@ -179,8 +189,12 @@ const DataComponent = ({ params }) => {
           </div>
         </div>
       ) : (
-        <p>No data available</p>
+        
+            <p className=' font-bold text-[40px] ml-[40%]'>السله فارغه   </p>
       )}
+
+      </Suspense>
+
     </div>
   );
 };

@@ -4,6 +4,14 @@ import { AiFillFrown, AiFillSmile } from "react-icons/ai";
 import Notec from '@/app/componant/notec';
 import io from 'socket.io-client';
 import Link from 'next/link';
+import { Amiri, Alkalami } from 'next/font/google';
+import {Button} from "@nextui-org/button";
+import DropdownComp from '@/app/componant/admin/dropdown';
+import Navebar from '@/app/componant/navbar';
+const amiri = Alkalami({
+    weight: ['400'],
+    subsets: ['arabic'], 
+  });
 
 const Admin = () => {
     const [data, setData] = useState(null);
@@ -126,8 +134,12 @@ const Admin = () => {
     };
 
     return (
+        <>
+        <Navebar/>
+        
+       
         <div dir='rtl'>
-            <div className='flex justify-between'>
+            <div className='flex justify-between sm:mt-0 mt-[-66px]'>
                 <input
                     className='p-3 rounded-3xl mt-3 sm:w-[200px] w-[100px] h-[30px] left-0'
                     type="text"
@@ -135,12 +147,11 @@ const Admin = () => {
                     value={searchInput}
                     onChange={handleSearchInputChange}
                 />
-                <h1 className='text-[#ffffff] sm:h-[50px] h-[50px] mb-3 sm:text-[24px] p-1 bg-[#c5c5c1] shadow-[0_35px_35px_rgba(3,3,3,1.25)]'> بسم الله الرحمن الرحيم</h1>
-                <div className="mb-3 h-[60px] self-center border border-gray-400 rounded-lg sm:p-4 pt-4 group hover:bg-white bg-gradient-to-br from-red-500 to-blue-500 via-green-500">
-                    <span className="h-[60px] bg-clip-text bg-gradient-to-br from-red-500 to-blue-500 via-green-500 text-[#fff] hover:text-white animate-pulse">
-                        Royal corner
-                    </span>
-                </div>
+                <DropdownComp />
+
+                <h1 className={`rounded-3xl text-[#ffffff] sm:h-[50px] h-[50px] ml-[30%] mb-2 sm:text-[24px] p-2 bg-[#c5c5c1] shadow-[0_35px_35px_rgba(3,3,3,1.25)] ${amiri.className}`}> بسم الله الرحمن الرحيم</h1>
+
+
             </div>
             {newConditionLength > 0 ? (
                 <div className="relative top-[8px]">
@@ -205,7 +216,8 @@ const Admin = () => {
             ) : (
                 <p>No data available</p>
             )}
-        </div>
+        </div> 
+        </>
     );
 };
 
