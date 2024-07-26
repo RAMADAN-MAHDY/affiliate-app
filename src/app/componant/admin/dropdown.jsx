@@ -6,6 +6,7 @@ const DropdownComp = () => {
     <Dropdown>
       <DropdownTrigger>
         <Button 
+        className="bg-[#494948] text-[#fff] font-bold"
           variant="bordered" 
         >
           لوحة التحكم 

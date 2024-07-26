@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllData } from '@/lib/authSlice';
 import LoadingCard from '@/app/componant/loadingCard/loadingCards';
@@ -12,6 +12,7 @@ import Link from 'next/link';
 const ProductList = () => {
   const dispatch = useDispatch();
   const { Allprodectes, status } = useSelector(state => state.prodectData);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -21,69 +22,94 @@ const ProductList = () => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      }
+    ]
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(add({ ...product, quantity: 1 }));
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 2000);
   };
 
   return (
-    <div className="container  p-4 bg-gradient-to-b from-[#443444] to-purple-600 m-0 w-full">
-         <h1 className="text-3xl font-bold text-white mb-7">منتجاتنا</h1>
+    <div className="p-4 bg-gradient-to-b from-[#443444] to-purple-600 m-0 w-full">
+      <h1 className="text-3xl font-bold text-white mb-7">منتجاتنا</h1>
       {status === 'failed' && <LoadingCard />}
       {status === 'succeeded' && (
         <div>
           {Object.keys(Allprodectes).map(category => (
-            <div key={category}>
+            <div key={category} className="mb-8">
               <h2 className="text-xl font-bold mb-4 text-[#fff]">{category}</h2>
               <Slider {...settings}>
-                {Allprodectes[category].map(product => (
+                {Allprodectes[category].map((product) => (
+                  <div
+                    key={product._id}
+                    className=" shadow-md dark:text-[#fff] dark:bg-gray-800 dark:shadow-none rounded-lg overflow-hidden transition-transform transform hover:scale-105 sm:w-[200px] p-4 mx-2"
+                    style={{ width: '150px' }}
+                  >
+                    <div className='bg-[#1ffa1f]'>
 
-
-                  <div key={product._id} className="p-2">
-                    {product.category&& <h2>  {product.category} </h2>}
-
-                    <div className="relative border p-4 rounded-lg transition-transform duration-300 hover:scale-105 bg-[#868686]"
- 
-                    >
-                          {product.image && product.image.length > 0 && (
-                        <img 
-                          src={product.image[0]} 
-                          alt={product.address} 
-                          className="mt-0 mb-2 w-full h-auto object-cover rounded-lg"
-                        />
-                      )}
-                      <h3 className="text-lg font-semibold text-[#fff]">{product.address}</h3>
-                      <p className="mt-2">
-                        {product.newprice > 0 ? (
-                          <>
-                            <span className="line-through font-bold text-red-500">ج.م{product.price}</span>
-                            <span className="ml-2 mr-2 font-bold text-green-500">ج.م{product.newprice}</span>
-                          </>
-                        ) : (
-                          <span>ج.م{product.price}</span>
-                        )}
+                    {product.image && (
+                      <img
+                        className="w-full h-48 object-cover transition-opacity duration-200 hover:opacity-75"
+                        src={product.image[0]}
+                        alt={product.address}
+                      />
+                    )}
+                    <div className="px-4 py-3">
+                      <h2 className="text-lg font-bold text-gray-800">{product.address}</h2>
+                      <p className={`text-gray-700 ${product.newprice > 0 ? 'line-through text-red-500 p-1 ' : ''}`}>
+                        السعر: ج{product.price}
                       </p>
-                      {product.newprice > 0  && (
-                        <p className="mt-1 text-sm font-bold text-[#fff]">
-                           {Math.round(((product.price - product.newprice) / product.price) * 100)}%خصم  
-                        </p>
+                      {product.newprice > 0 && (
+                        <div className='flex justify-around'>
+                          <p className="text-gray-700">السعر: ج{product.newprice}</p>
+                          <p className='font-bold bg-[#ff0000] text-[#ffffff]'>{((product.price - product.newprice) / product.price * 100).toFixed(0)}%</p>
+                        </div>
                       )}
+                    </div>
+                    <div className="px-4 pb-3 flex justify-between">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white"
+                      >
+                        إضافة إلى السلة
+                      </button>
                       <Link
-                href={`/prodect/${product._id}`}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full line-clamp-none"
-              >
-                 التفاصيل
-              </Link>
+                        href={`/prodect/${product._id}`}
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+                      >
+                        عرض التفاصيل
+                      </Link>
+                    </div>
+
                     </div>
                   </div>
-))}
+                ))}
               </Slider>
             </div>
           ))}
         </div>
       )}
-      {/* {status === 'failed' && <div>Error loading data</div>} */}
     </div>
   );
 };

@@ -5,7 +5,7 @@ export const fetchData = createAsyncThunk(
   'counterSlice/fetchData',
   async (category) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/${category}`);
+      const response = await fetch(`http://localhost:5000/api/${category}`,{ next: { revalidate: 3600 } });
       const data = await response.json();
       return data;
     } catch (error) {
@@ -19,7 +19,7 @@ export const fetchData = createAsyncThunk(
     'counterSlice/fetchAllData',
     async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/productsAll');
+        const response = await fetch('http://localhost:5000/api/productsAll',{ next: { revalidate: 3600 } });
         const data = await response.json();
         return data;
       } catch (error) {
@@ -27,7 +27,6 @@ export const fetchData = createAsyncThunk(
       }
     }
   );
-
 
 export const counterSlice = createSlice({
   name: "counterSlice",
@@ -88,7 +87,7 @@ export const counterSlice = createSlice({
         console.error('Error fetching data:', action.error);
       })
       .addCase(fetchAllData.pending, (state) => {
-        state.status = "loaging" ;
+        state.status = "loading" ;
       })
       .addCase(fetchAllData.fulfilled, (state, action) => {
 

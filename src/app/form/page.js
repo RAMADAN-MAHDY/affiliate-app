@@ -2,11 +2,45 @@
 // components/ConditionForm.js
 import { useState , useCallback} from 'react';
 import { useDropzone } from 'react-dropzone';
+import Navebar from '../componant/navbar';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast , Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ConditionForm = () => {
-    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
+
+    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     const [err , setErr] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const filteredProduct = useSelector(state => state.prodectData.carts[0]);
+
+    console.log(filteredProduct);
+
+
+    const notifySuccess = () => toast.success('تم إرسال البيانات بنجاح اذهب اللي السله لمتابعة الطلبات', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Flip,
+      })
+    
+      const notifyError = () => toast.error('يوجد خطا برجاء التاكد من النت ومن كل الحقول ', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Flip,
+      })
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -16,15 +50,15 @@ const ConditionForm = () => {
       phone: '',
       covernorate: '',
       city: '',
-      productname: '',
-      productprece: '',
+      productname: filteredProduct.address,
+      productprece: filteredProduct.newprice || filteredProduct.price,
       productorder: '',
       quantuty :1,
       commition: '',
       total: '',
       notes: '',
       state: '',
-      imagePaths: []
+      imagePaths: filteredProduct.image
     }
   });
 
@@ -83,95 +117,122 @@ const ConditionForm = () => {
     }));
   }, []);
 
-  
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+
+
+  const imageBase64 = async () => {
+    const path = formData.stateDetail.imagePaths[0];
+    
+    // قم بإنشاء عنصر صورة جديد
+    const img = new Image();
+    img.src = path;
+  
+    // استخدم Promise للتأكد من تحميل الصورة بالكامل
+    return new Promise((resolve, reject) => {
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg'));
+      };
+      img.onerror = reject;
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
+    
     if (formData.stateDetail.imagePaths.length === 0) {
-        setIsLoading(false)
-        setErr(true); // تعديل: ضبط حالة الخطأ إذا لم يتم تحميل أي صور
-        return;
+      setIsLoading(false);
+      setErr(true);
+      return;
     }
   
-    // تحويل الصور إلى Base64
-    const imageBase64 = formData.stateDetail.imagePaths.map((path) => {
-      const img = new Image();
-      img.src = path;
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      return canvas.toDataURL('image/jpeg');
-    });
-
-    // إنشاء كائن JSON للبيانات المرسلة
-    const requestData = {
-      name: formData.name,
-      code: usercode,
-      stateDetail: {
-        clientname: formData.stateDetail.clientname,
-        phone: formData.stateDetail.phone,
-        covernorate: formData.stateDetail.covernorate,
-        city: formData.stateDetail.city,
-        productname: formData.stateDetail.productname,
-        productprece: formData.stateDetail.productprece,
-        productorder: formData.stateDetail.productorder,
-        quantity: formData.stateDetail.quantuty,
-        commition: formData.stateDetail.commition,
-        total: formData.stateDetail.total,
-        notes: formData.stateDetail.notes,
-        state: formData.stateDetail.state,
-        imagePaths: imageBase64 // إضافة الصور المحولة إلى Base64
-      }
-    };
-    console.log(err)
-  //https://api-order-form.onrender.com
     try {
-        //https://api-order-form.onrender.com
-      const response = await fetch('https://api-order-form.vercel.app/condition', {
+      const imageBase64Data = await imageBase64();
+  
+      const requestData = {
+        name: formData.name,
+        code: usercode,
+        stateDetail: {
+          clientname: formData.stateDetail.clientname,
+          phone: formData.stateDetail.phone,
+          covernorate: formData.stateDetail.covernorate,
+          city: formData.stateDetail.city,
+          productname: formData.stateDetail.productname,
+          productprece: formData.stateDetail.productprece,
+          productorder: formData.stateDetail.productorder,
+          quantity: formData.stateDetail.quantuty,
+          commition: formData.stateDetail.commition,
+          total: formData.stateDetail.total,
+          notes: formData.stateDetail.notes,
+          state: formData.stateDetail.state,
+          imagePaths: imageBase64Data // إضافة الصور المحولة إلى Base64
+        }
+      };
+  
+      const response = await fetch('http://localhost:5000/api/condition', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(requestData) // إرسال البيانات كجسم JSON
+        body: JSON.stringify(requestData)
       });
-  console.log(response)
+  
       if (response.ok) {
-        alert('تم إرسال البيانات بنجاح');
+        notifySuccess();
         setFormData({
-            name: '',
-            code: '',
-            stateDetail: {
-              clientname: '',
-              phone: '',
-              covernorate: '',
-              city: '',
-              productname: '',
-              productprece: '',
-              productorder: '',
-              quantuty: 1,
-              commition: '',
-              total: '',
-              notes: '',
-              state: '',
-              imagePaths: []
-            }
-          });
+          name: '',
+          code: '',
+          stateDetail: {
+            clientname: '',
+            phone: '',
+            covernorate: '',
+            city: '',
+            productname: '',
+            productprece: '',
+            productorder: '',
+            quantuty: 1,
+            commition: '',
+            total: '',
+            notes: '',
+            state: '',
+            imagePaths: []
+          }
+        });
       } else {
         const errorData = await response.json();
         alert(`حدث خطأ أثناء إرسال البيانات: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
-      alert(`فشل في إرسال البيانات: ${error.message}`);
-    }finally {
-        setIsLoading(false); // نهاية عملية التحميل
+      notifyError();
+    } finally {
+      setIsLoading(false);
     }
   };
   
+  
   return (
+    <>
+            <ToastContainer
+position="top-right"
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition={Flip}
+/>
+    <Navebar/>
+    
     <form onSubmit={handleSubmit} className="w-[95%] md:max-w-xl mx-auto p-6 bg-gray-100 shadow-md rounded-lg">
       <div className="mb-4">
         <label className="block text-gray-700">اسم المسوق</label>
@@ -242,43 +303,8 @@ const ConditionForm = () => {
           className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      {/* المزيد من الحقول هنا */}
-      <div className="mb-4">
-  <label className="block text-gray-700">الصور</label>
-  <div required {...getRootProps()} className={`dropzone border-[3px] border-[#fff] ${err ?"bg-[#f80707]" :"bg-[#bcef57]"}`}>
-  <input {...getInputProps()}/>
-    {isDragActive ? (
-      <p>قم بإسقاط الصور هنا</p>
-    ) : (
-      <p>قم بإسقاط الصور هنا أو انقر لتحميلها</p>
-    )}
-  </div>
-  {/* إضافة عرض الصور المختارة */}
-  {formData.stateDetail.imagePaths.length > 0 && (
-    <div className="mt-4">
-      <p>الصور المختارة:</p>
-      <ul>
-        {formData.stateDetail.imagePaths.map((path, index) => (
-          <li key={index}>
-            <img src={path} alt={`صورة ${index}`} className="w-32 h-32 object-cover rounded-lg" />
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700">اسم المنتج</label>
-        <input
-        required
-          type="text"
-          name="productname"
-          value={formData.stateDetail.productname}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+ 
       <div className="mb-4">
         <label className="block text-gray-700">الكميه</label>
         <input
@@ -290,17 +316,7 @@ const ConditionForm = () => {
           className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">سعر المنتج</label>
-        <input
-        required
-          type="text"
-          name="productprece"
-          value={formData.stateDetail.productprece}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+  
       <div className="mb-4">
         <label className="block text-gray-700"> سعر الشحن</label>
         <input
@@ -354,6 +370,64 @@ const ConditionForm = () => {
       </button>
     )}
     </form>
+
+
+
+    <div className="mt-[90px] bg-gray-50 dark:bg-gray-800 min-h-screen flex flex-col items-center justify-start p-6">
+      <div className="max-w-4xl w-full bg-white shadow-xl dark:shadow-none dark:bg-gray-900 rounded-lg overflow-hidden">
+        <div className="flex flex-col md:flex-row gap-8 p-6">
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+              {filteredProduct.address}
+            </h2>
+            <p className={`text-gray-700 text-[24px] ${filteredProduct.newprice > 0 ? 'line-through text-red-500' : ''}`}>
+        السعر: ج{filteredProduct.price}
+      </p>
+      {filteredProduct.newprice > 0 &&
+                    <div className='flex justify-around'>
+                        <p className="text-gray-700 font-bold text-[24px] ">السعر: ج{filteredProduct.newprice}</p>
+                           
+                           <p className='font-bold bg-[#f82525] p-1 text-[#fafafa]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
+                           
+                         </div>  
+                           } 
+            
+            <div
+              className={`max-w-screen-sm text-gray-600 dark:text-gray-300 mt-6 p-6 rounded-lg transition-all 
+        "bg-green-200 hover:bg-gray-300 dark:hover:bg-gray-600`} 
+              style={{ cursor: "pointer" }}
+            >
+              {filteredProduct.details}
+            </div>
+            <div className="mt-2">
+            </div>
+          </div>
+          <div className="flex-1 grid grid-cols-2 gap-6">
+            {filteredProduct.image.map((image, idx) => (
+              <div
+                key={idx}
+                className="group relative h-48 md:h-64 rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu hover:scale-110"
+              >
+                <img
+                  src={image}
+                  loading="lazy"
+                  alt={`Product image ${idx}`}
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"
+                />
+                <span className="relative ml-4 mb-3 text-white md:text-lg">Image {idx + 1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    </>
   );
 };
 

@@ -1,130 +1,125 @@
 'use client'
 import React, { useState } from 'react';
 
-const SignUpComponent = ({onSignin}) => {
+const SignUpComponent = ({ onSignin }) => {
   const [email, setEmail] = useState('');
-  const [code, setcode] = useState('');
+  const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setloading] = useState("تأكيد انشاء الحساب ");
+  const [loading, setLoading] = useState("تأكيد انشاء الحساب");
 
-  const handleSignUp = async(e) => {
-   
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
+
     // التحقق من صحة البريد الإلكتروني
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   setError('Invalid email address');
-    //   return;
-    // }
+    if (!validateEmail(email)) {
+      setError('البريد الإلكتروني غير صالح');
+      return;
+    }
 
     // التحقق من قوة كلمة المرور
     if (password.length < 6) {
-      setError(' كلمة السر يجب ان تكون اكثر من 6 ارقام او احرف');
+      setError('كلمة السر يجب أن تكون أكثر من 6 أرقام أو أحرف');
       return;
     }
-
-    // if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[@#$%^&*]/.test(password)) {
-    //   setError('Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character');
-    //   return;
-    // }
 
     // التحقق من تطابق كلمتي المرور
-    if (password !== confirmPassword ) {
-      setError('كلمه السر غير متطابقه');
+    if (password !== confirmPassword) {
+      setError('كلمة السر غير متطابقة');
       return;
     }
-    if (!email ||!code ) {
-        setError('تاكد من ادخال الاسم والكود');
-        return;
-      }
-    setloading("جاري انشاء الحساب")
-    // إرسال بيانات التسجيل إلى الخادم
-    try{
-        const response = await fetch('https://api-order-form.vercel.app/user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password ,code}),
-          })
-          if (!response.ok) {
-            setloading("تأكيد انشاء الحساب ")
-            throw new Error('Failed to sign up');
-          }
-    // إعادة تعيين الحقول بعد التسجيل
-    setEmail('');
-    setcode('');
-    setPassword('');
-    setConfirmPassword('');
-    setError('');
-    setloading("تم انشاء الحساب ")
-    alert('تم انشاء حسابك بنجاح')
-    }catch(err){
-        console.error(err.message);
-        setloading("تأكيد انشاء الحساب ")
 
-        setError('An error occurred. Please try again later.');
-
+    if (!email || !code) {
+      setError('تأكد من إدخال البريد الإلكتروني والكود');
+      return;
     }
 
+    setLoading("جاري إنشاء الحساب...");
 
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, code }),
+      });
+
+      if (!response.ok) {
+        setLoading("تأكيد إنشاء الحساب");
+        throw new Error('فشل في إنشاء الحساب');
+      }
+
+      // إعادة تعيين الحقول بعد التسجيل
+      setEmail('');
+      setCode('');
+      setPassword('');
+      setConfirmPassword('');
+      setError('');
+      setLoading("تم إنشاء الحساب بنجاح");
+      alert('تم إنشاء حسابك بنجاح');
+    } catch (err) {
+      console.error(err.message);
+      setLoading("تأكيد إنشاء الحساب");
+      setError('حدث خطأ. يرجى المحاولة مرة أخرى لاحقًا.');
+    }
   };
 
   return (
-    // <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <div className="bg-white p-8 rounded shadow-md w-80 ml-[10%] lg:ml-[20%] ">
-        <h2 className="text-2xl font-bold mb-4 text-center">انشاء حساب </h2>
-        <input
+    <div className="bg-white p-8 rounded shadow-md w-80 ml-[10%] lg:ml-[20%]">
+      <h2 className="text-2xl font-bold mb-4 text-center">إنشاء حساب</h2>
+      <input
         required
-          type="text"
-          placeholder="اسم المستخدم"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-        <input
+        type="text"
+        placeholder="البريد الإلكتروني"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+      <input
         required
-          type="password"
-          placeholder="كلمه السر"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-        <input
+        type="password"
+        placeholder="كلمة السر"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+      <input
         required
-          type="password"
-          placeholder="تاكيد كلمة السر "
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-          <input
-          required
-          type="number"
-          placeholder="الكود"
-          value={code}
-          onChange={(e) => setcode(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-        <button
-          onClick={handleSignUp}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-           {loading}
-        </button>
-        <button
-          onClick={()=>{
-            onSignin()
-          }}
-          className="w-full mt-2 bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          تسجيل الدخول
-        </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-      </div>
-    // </div>
+        type="password"
+        placeholder="تأكيد كلمة السر"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+      <input
+        required
+        type="number"
+        placeholder="الكود"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+      <button
+        onClick={handleSignUp}
+        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+      >
+        {loading}
+      </button>
+      <button
+        onClick={() => onSignin()}
+        className="w-full mt-2 bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+      >
+        تسجيل الدخول
+      </button>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+    </div>
   );
 };
 

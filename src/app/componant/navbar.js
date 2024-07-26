@@ -2,14 +2,16 @@
 import React from 'react';
 import { FcHome, FcOnlineSupport } from "react-icons/fc";
 import { TbShoppingCartExclamation } from "react-icons/tb";
+import { RiLogoutBoxFill } from "react-icons/ri";
 import { FcMenu } from "react-icons/fc";
 import { useState } from 'react';
 import Link from 'next/link';
 
 import styles from './FormComponent.module.css'// If using CSS modules
 
-const Navebar = () => {
-    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
+const Navebar = ({para}) => {
+    console.log(para)
+    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     return (
 
         <header className={styles.header}>
@@ -22,31 +24,38 @@ const Navebar = () => {
                 <ul className={styles.ul}>
                     <li className='flex'>
                         <Link href="/" className='inline-flex items-center'>
-                            <FcHome className='w-[50px]' />
+                            <FcHome className='w-[50px] font-bold' />
                             <span>الرئيسيه</span>
                         </Link>
                     </li>
                     <li className='flex'>
-                        <Link href="/card/3" className='inline-flex items-center'>
-                            <TbShoppingCartExclamation className='w-[30px] text-[#05fc05]' />
+                        <Link href={`/card/${usercode}`} className='inline-flex items-center'>
+                            <TbShoppingCartExclamation className='w-[30px] font-bold text-[#05fc05]' />
                             السله
                         </Link></li>
 
                     <li className='flex'>
                         <Link href="#" className='inline-flex items-center'>
-                            <FcOnlineSupport className='w-[50px]' />
+                            <FcOnlineSupport className='w-[60px]' />
                             تواصل معنا
                         </Link>
                     </li>
-                {usercode? <li className='' onClick={() => {
+                {usercode? <li className='flex ' onClick={() => {
                         localStorage.removeItem("emailorderform");
-                        localStorage.removeItem("codeorderform");
+                        localStorage.removeItem("codeorderaffilate");
                         location.reload();
-                    }}>تسجيل خروج</li> :
+                    }} >
+                        <div className='inline-flex items-center'>
+                        <RiLogoutBoxFill />
+                        تسجيل خروج
+
+                        </div>
+                       </li> :
                     
                     <li className='flex'>
-                 <Link className={`text-[#fff] font-bold inline-flex items-center rounded-3xl text-center `} href="/login">  
-                   <span className='ml-10'>..</span>تسجيل دخول</Link>
+                 <Link className={`text-[#fff] font-bold inline-flex  rounded-3xl items-center `} href="/login">  
+                 <RiLogoutBoxFill />
+                تسجيل دخول</Link>
               </li>
                 }    
                     {/*<button  className='bg-[#c59e44] rounded-xl h-[50px] text-[#fff] hover:text-[#f43030] hover:bg-[#ebd39d] mb-3' */}

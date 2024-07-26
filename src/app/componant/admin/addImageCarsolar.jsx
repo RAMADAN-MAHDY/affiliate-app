@@ -1,6 +1,8 @@
 'use client'
 import { useState } from "react";
 import { ToastContainer, toast , Flip } from 'react-toastify';
+import Compressor from 'compressorjs';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddImageToCarousel = () => {
@@ -39,17 +41,26 @@ const AddImageToCarousel = () => {
     caption,
   }
 
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const imagePromises = files.map(file => {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
+        new Compressor(file, {
+          quality: 0.8, // نسبة الجودة (0-1)
+          success(result) {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(result);
+          },
+          error(err) {
+            reject(err);
+          }
+        });
       });
     });
-
+  
     Promise.all(imagePromises)
       .then(imagesData => {
         const base64Images = imagesData.map(imageData => imageData);
@@ -57,6 +68,7 @@ const AddImageToCarousel = () => {
       })
       .catch(error => console.error(error));
   };
+  
 
   
   const postData = async (data) => {

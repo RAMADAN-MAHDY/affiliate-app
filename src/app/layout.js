@@ -6,7 +6,7 @@ import {NextUIProvider} from "@nextui-org/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Royal corner",
+  title: "EL MAHDY",
   description: "للتسويق الالكتروني",
 };
 

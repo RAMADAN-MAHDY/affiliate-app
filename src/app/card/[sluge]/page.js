@@ -1,11 +1,17 @@
 'use client'
 
-import Link from 'next/link';
 import { useState, useEffect, Suspense } from 'react';
 import Navebar from "@/app/componant/navbar";
-import Loading from '../../loading';
+// import Loading from '../../loading';
+import dynamic from 'next/dynamic';
+import { ToastContainer, toast , Flip } from 'react-toastify';
 
 const DataComponent = ({ params }) => {
+
+    const Loading = dynamic(()=> import('@/app/loading') , {
+        ssr : false,
+    });
+
 //   console.log(params.sluge);
   const [showCashNumber , setshowCashNumber ] = useState(false) 
   const [data, setData] = useState(null);
@@ -13,11 +19,40 @@ const DataComponent = ({ params }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [hiddenBut, setHiddenBut] = useState({});
+
+
+
+  const notifySuccess = () => toast.success('تم ارسال الطلب  بنجاح!', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
+
+  const notifyError = () => toast.error('يوجد خطا برجاء التاكد من النت  او رقم الكاش  ', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
+
+
+
   
+//   console.log(data)
+//   useEffect(()=>{
 //   console.log(commitionreq)
-  useEffect(()=>{
-  console.log(commitionreq)
-  },[commitionreq])
+//   },[commitionreq])
   //handle hiddenButData
   useEffect(() => {
     const hiddenButData = JSON.parse(localStorage.getItem('hiddenbut')) || {};
@@ -43,13 +78,13 @@ const DataComponent = ({ params }) => {
   const handlecommitionreq = async (id)=>{
 
     try {
-    console.log(commitionreq)
-    console.log(data.code)
-    console.log(id)
+    // console.log(commitionreq)
+
+    // console.log(id)
     const isValid = /^[0-9]{11}$/.test(commitionreq);
 
        if(isValid){
-        const response = await fetch(`https://api-order-form.vercel.app/condition/${data.code}/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/condition/${params.sluge}/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -58,7 +93,7 @@ const DataComponent = ({ params }) => {
           });
   
           if (response.ok) {
-            alert('تم ارسال الطلب');
+            notifySuccess();
             setError('')
             setshowCashNumber(false)
             const updatedHiddenBut = { ...hiddenBut, [id]: true };
@@ -67,6 +102,7 @@ const DataComponent = ({ params }) => {
             setcommitionreq('')
           } else {
             const errorData = await response.json();
+            notifyError();
             alert(`حدث خطأ أثناء إرسال البيانات: ${errorData.message || response.statusText}`);
           }
        }else{
@@ -74,7 +110,8 @@ const DataComponent = ({ params }) => {
        }
        
       } catch (error) {
-        alert(`فشل في إرسال البيانات: ${error.message}`);
+        notifyError();
+        console.error(error);
       }
 
   }
@@ -83,7 +120,7 @@ const DataComponent = ({ params }) => {
     const fetchData = async () => {
       try {
         //https://api-order-form.onrender.com
-        const response = await fetch(`https://api-order-form.vercel.app/condition/${params.sluge}`);
+        const response = await fetch(`http://localhost:5000/api/condition/${params.sluge}`);
         const responseData = await response.json();
         setData(responseData);
         setIsLoading(false);
@@ -117,7 +154,7 @@ const DataComponent = ({ params }) => {
       <p className='p-3 m-3'>Loading</p>
     </div>
 
-      ) : data ? (
+      ) : data !== "حدث خطا" ? (
         <div className='m-3'>
                
           <p className='bg-[#dad1d1] p-6 '>Name: {data.name}</p>

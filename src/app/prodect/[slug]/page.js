@@ -1,8 +1,13 @@
 'use client';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"; 
+import { add } from '@/lib/authSlice';
 import { useState } from "react";
 import Navebar from "@/app/componant/navbar";
+import Link from "next/link";
 export default function Page({ params }) {
+
+  const dispatch = useDispatch();
+  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
   const [copied, setCopied] = useState(false);
   const productID = params.slug;
   const products = useSelector((state) =>state.prodectData.prodectes );
@@ -16,6 +21,10 @@ export default function Page({ params }) {
       .writeText(filteredProduct.description)
       .then(() => setCopied(true))
       .catch(() => setCopied(false));
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(add({ ...product, quantity: 1 }));
   };
 
   if (!filteredProduct) {
@@ -37,14 +46,14 @@ export default function Page({ params }) {
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
               {filteredProduct.address}
             </h2>
-            <p className={`text-gray-700 ${filteredProduct.newprice ? 'line-through text-red-500' : ''}`}>
+            <p className={`text-gray-700 text-[24px] ${filteredProduct.newprice > 0 ? 'line-through text-red-500' : ''}`}>
         السعر: ج{filteredProduct.price}
       </p>
-      {filteredProduct.newprice&&
+      {filteredProduct.newprice > 0 &&
                     <div className='flex justify-around'>
-                        <p className="text-gray-700 ">السعر: ج{filteredProduct.newprice}</p>
+                        <p className="text-gray-700 font-bold text-[24px] ">السعر: ج{filteredProduct.newprice}</p>
                            
-                           <p className='font-bold text-[#02ff74]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
+                           <p className='font-bold bg-[#f82525] p-1 text-[#fafafa]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
                            
                          </div>  
                            } 
@@ -53,7 +62,7 @@ export default function Page({ params }) {
               className={`max-w-screen-sm text-gray-600 dark:text-gray-300 mt-6 p-6 rounded-lg transition-all ${
                 copied ? "bg-green-200" : "bg-gray-200"
               } hover:bg-gray-300 dark:hover:bg-gray-600`}
-              onClick={handleCopy}
+              onClick={handleCopy} 
               style={{ cursor: "pointer" }}
             >
               {filteredProduct.details}
@@ -62,7 +71,7 @@ export default function Page({ params }) {
               {copied ? (
                 <span className="text-green-500">تم نسخ النص بنجاح!</span>
               ) : (
-                <span className="text-red-500">انقر لنسخ النص</span>
+                <span className="text-red-500">انقر علي النص لنسخه</span>
               )}
             </div>
           </div>
@@ -87,7 +96,11 @@ export default function Page({ params }) {
           </div>
         </div>
         <button className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1">
-          أضف إلى السلة
+        <Link href={usercode?'/form' : "/login"}
+                onClick={() => handleAddToCart(filteredProduct)}
+              >
+                 طلب المنتج 
+              </Link>
         </button>
       </div>
     </div>

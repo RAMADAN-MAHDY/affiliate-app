@@ -5,7 +5,7 @@ import LoginForm from '@/app/componant/login';
 import SignUpComponent from '@/app/componant/sinUp';
 import Navebar from "@/app/componant/navbar";
 import { useState,useEffect } from 'react';
-import Link from 'next/link';
+
 // import io from 'socket.io-client';
 
 const amiri = Alkalami   ({
@@ -47,9 +47,9 @@ export default function Home() {
   return (
 
     <main className="flex min-h-screen flex-col items-center">
-        {!usercode&& 
+     
     <Navebar/>
-}
+
       <dev className='flex justify-between '>
          <div className="mb-3 self-center border border-gray-400 rounded-lg p-4 group hover:bg-white bg-gradient-to-br from-red-500 to-blue-500 via-green-500">
 

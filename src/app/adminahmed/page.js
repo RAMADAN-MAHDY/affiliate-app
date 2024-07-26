@@ -2,10 +2,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { AiFillFrown, AiFillSmile } from "react-icons/ai";
 import Notec from '@/app/componant/notec';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import Link from 'next/link';
 import { Amiri, Alkalami } from 'next/font/google';
-import {Button} from "@nextui-org/button";
+// import {Button} from "@nextui-org/button";
 import DropdownComp from '@/app/componant/admin/dropdown';
 import Navebar from '@/app/componant/navbar';
 const amiri = Alkalami({
@@ -41,7 +41,7 @@ const Admin = () => {
         const fetchData = async () => {
             try {
                 //https://api-order-form.onrender.com
-                const response = await fetch('https://api-order-form.vercel.app/user');
+                const response = await fetch('http://localhost:5000/api/user');
                 const responseData = await response.json();
                 setData(responseData);
                 setIsLoading(false);
@@ -56,7 +56,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchLength = async () => {
             try {
-                const response = await fetch('https://api-order-form.vercel.app/lengthoforder');
+                const response = await fetch('http://localhost:5000/api/lengthoforder');
                 setLengthIsLoading(false);
                 if (!response.ok) {
                     throw new Error('Failed to fetch length');
@@ -75,45 +75,45 @@ const Admin = () => {
         
     
 
-    useEffect(() => {
-        const socket = io('http://localhost:5000');
-        socket.on('new-condition', (data) => {
-            setNewCondition(prevConditions => {
-                const updatedConditions = [...prevConditions, data];
-                localStorage.setItem('newCondition', JSON.stringify(updatedConditions));
-                return updatedConditions;
-            });
-            setNewConditionLength(prevLength => {
-                const updatedLength = prevLength + 1;
-                localStorage.setItem('newConditionLength', updatedLength.toString());
-                return updatedLength;
-            });
-        });
-        socket.on('unread-notifications', (data) => {
-          const code = data.map(eo => eo.message)
-        //   console.log( code)
+    // useEffect(() => {
+    //     const socket = io('http://localhost:5000');
+    //     socket.on('new-condition', (data) => {
+    //         setNewCondition(prevConditions => {
+    //             const updatedConditions = [...prevConditions, data];
+    //             localStorage.setItem('newCondition', JSON.stringify(updatedConditions));
+    //             return updatedConditions;
+    //         });
+    //         setNewConditionLength(prevLength => {
+    //             const updatedLength = prevLength + 1;
+    //             localStorage.setItem('newConditionLength', updatedLength.toString());
+    //             return updatedLength;
+    //         });
+    //     });
+    //     socket.on('unread-notifications', (data) => {
+    //       const code = data.map(eo => eo.message)
+    //     //   console.log( code)
 
-          setnewConditionnotSee(prevConditions => {
-                const updatedConditions = [...prevConditions, code];
-                // localStorage.setItem('newCondition', JSON.stringify(updatedConditions));
-            // console.log(updatedConditions );
+    //       setnewConditionnotSee(prevConditions => {
+    //             const updatedConditions = [...prevConditions, code];
+    //             // localStorage.setItem('newCondition', JSON.stringify(updatedConditions));
+    //         // console.log(updatedConditions );
 
-                return updatedConditions;
-            });
-            // setNewConditionLength(prevLength => {
-            //     const updatedLength = prevLength + 1;
-            //     // localStorage.setItem('newConditionLength', updatedLength.toString());
-            //     return updatedLength;
-            // });
+    //             return updatedConditions;
+    //         });
+    //         // setNewConditionLength(prevLength => {
+    //         //     const updatedLength = prevLength + 1;
+    //         //     // localStorage.setItem('newConditionLength', updatedLength.toString());
+    //         //     return updatedLength;
+    //         // });
             
-            // افعل أي شيء آخر تحتاج إليه هنا
-        });
+    //         // افعل أي شيء آخر تحتاج إليه هنا
+    //     });
 
-        return () => {
-            socket.disconnect();
-        };
+    //     return () => {
+    //         socket.disconnect();
+    //     };
    
-    }, []);
+    // }, []);
 
     const handleSearchInputChange = (event) => {
         setSearchInput(event.target.value);
@@ -147,7 +147,7 @@ const Admin = () => {
                     value={searchInput}
                     onChange={handleSearchInputChange}
                 />
-                <DropdownComp />
+                <DropdownComp  />
 
                 <h1 className={`rounded-3xl text-[#ffffff] sm:h-[50px] h-[50px] ml-[30%] mb-2 sm:text-[24px] p-2 bg-[#c5c5c1] shadow-[0_35px_35px_rgba(3,3,3,1.25)] ${amiri.className}`}> بسم الله الرحمن الرحيم</h1>
 

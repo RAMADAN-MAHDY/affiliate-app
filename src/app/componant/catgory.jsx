@@ -1,35 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
+const DropdownCategory = ({ getCategory }) => {
+  const [buttonText, setButtonText] = useState("اختر فئة");
 
-const Dropdowncategory = ({ getCategory }) => {
+  const handleAction = (key, value) => {
+    setButtonText(value); // تحديث النص في الزر
+    getCategory(key); // تمرير المفتاح إلى الدالة المرسلة
+  };
+
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button variant="faded">الفئات</Button>
+        <Button variant="faded">{buttonText}</Button>
       </DropdownTrigger>
-      <DropdownMenu 
-        aria-label="Action event example" 
-        onAction={(key) => getCategory(key)}
-      >
-        <DropdownItem key="products/1" textValue="مستحضرات التجميل">
-        مستحضرات التجميل
+      <DropdownMenu aria-label="Action event example">
+        <DropdownItem
+          key="products/5"
+          textValue="قطع غيار موتوسكلات"
+          onClick={() => handleAction("products/5", "قطع غيار موتوسكلات")}
+        >
+          قطع غيار موتوسكلات
         </DropdownItem>
-
-        <DropdownItem key="products/2" textValue="ملابس">
-        ملابس
+        <DropdownItem
+          key="products/1"
+          textValue="مستحضرات التجميل"
+          onClick={() => handleAction("products/1", "مستحضرات التجميل")}
+        >
+          مستحضرات التجميل
         </DropdownItem>
-
-        <DropdownItem key="products/3" textValue="منتجات منزلية">
-        منتجات منزلية
+        <DropdownItem
+          key="products/2"
+          textValue="ملابس"
+          onClick={() => handleAction("products/2", "ملابس")}
+        >
+          ملابس
         </DropdownItem>
-
-        <DropdownItem key="products/4" textValue="منتجات اوت دور (حدائق)">
+        <DropdownItem
+          key="products/3"
+          textValue="منتجات منزلية"
+          onClick={() => handleAction("products/3", "منتجات منزلية")}
+        >
+          منتجات منزلية
+        </DropdownItem>
+        <DropdownItem
+          key="products/4"
+          textValue="منتجات اوت دور (حدائق)"
+          onClick={() => handleAction("products/4", "منتجات اوت دور (حدائق)")}
+        >
           منتجات اوت دور (حدائق)
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
-}
+};
 
-export default Dropdowncategory;
+export default DropdownCategory;

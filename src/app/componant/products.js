@@ -1,16 +1,26 @@
 'use client';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"; 
 import { add, fetchData } from '@/lib/authSlice';
 import Link from 'next/link';
 import Dropdowncategory from '@/app/componant/catgory';
+import { FcSearch } from "react-icons/fc";
 
 const ProductsCard = () => {
+
+
+
+  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [showmasage, setShowMasage] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const dispatch = useDispatch();
   const products = useSelector((state) => state.prodectData.prodectes);
 
+//send category to authSlice 
   const getCategory = (category) => {
     console.log(category);
     dispatch(fetchData(category));
@@ -19,17 +29,25 @@ const ProductsCard = () => {
     return category;
   };
 
+  // send category spare partes by default
   useEffect(() => {
-    // استدعاء fetchData بدون تمرير فئة محددة في البداية لعرض كل المنتجات
-    dispatch(fetchData(getCategory));
+    dispatch(fetchData("products/5"));
     console.log(products)
   }, [dispatch]);
 
   const handleAddToCart = (product) => {
     dispatch(add({ ...product, quantity: 1 }));
-    setShowMasage(true);
-    setTimeout(() => setShowMasage(false), 2000);
   };
+
+
+//   filter data by name and price
+const filteredProducts = products.filter((product) => {
+    const matchesSearchTerm = product.address.toLowerCase().includes(searchTerm.toLowerCase());
+    const priceToUse = product.newprice > 0 ? product.newprice : product.price;
+    const matchesMinPrice = minPrice === '' || priceToUse >= parseFloat(minPrice);
+    const matchesMaxPrice = maxPrice === '' || priceToUse <= parseFloat(maxPrice);
+    return matchesSearchTerm && matchesMinPrice && matchesMaxPrice;
+  });
 
   return (
     <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[30px]">
@@ -37,11 +55,43 @@ const ProductsCard = () => {
 
       <Dropdowncategory getCategory={getCategory} />
 
+      <div className="mb-6">
+      <div className="relative mb-4">
+          <input
+            type="text"
+            placeholder="بحث بالاسم"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 rounded-md w-full pl-10"
+          />
+          <FcSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
+        </div>
+        
+        <div className="flex space-x-4">
+          <input
+            type="number"
+            placeholder="السعر الأدنى"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            className="p-2 rounded-md w-full"
+          />
+          <input
+            type="number"
+            placeholder="السعر الأقصى"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="p-2 rounded-md w-full"
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-9">
-        {products.length > 0 && products.map((product) => (
+
+
+        {filteredProducts.length > 0 && filteredProducts.map((product) => (
           <div
             key={product._id}
-            className="bg-white shadow-md dark:bg-gray-800 dark:shadow-none rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+            className="bg-white shadow-md dark:bg-gray-800 dark:shadow-none rounded-lg overfl-hiddowen transition-transform transform hover:scale-105"
           >
             {product.image && (
               <img
@@ -63,12 +113,12 @@ const ProductsCard = () => {
               )}
             </div>
             <div className="px-6 pb-4 flex justify-between">
-              <button
+              <Link href={usercode?'/form' : "/login"}
                 onClick={() => handleAddToCart(product)}
                 className={`hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white`}
               >
-                إضافة إلى السلة
-              </button>
+                 طلب المنتج 
+              </Link>
               <Link
                 href={`/prodect/${product._id}`}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
@@ -79,11 +129,6 @@ const ProductsCard = () => {
           </div>
         ))}
       </div>
-      {showmasage && (
-        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-3 rounded-lg shadow-lg">
-          المنتج تمت إضافته إلى السلة
-        </div>
-      )}
     </div>
   );
 };

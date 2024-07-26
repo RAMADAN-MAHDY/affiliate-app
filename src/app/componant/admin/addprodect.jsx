@@ -231,10 +231,11 @@ transition={Flip}
   <option value="2">ملابس </option>
   <option value="3">ادوات منزليه</option>
   <option value="4">منتجات اوت دور</option>
+  <option value="5">قطع غيار موتوسكلات</option>
   <option value="منوعات">منوعات
     </option>
      </select>
-     {category !== "1" && category !== "2" && category !== "3" && category !== "4" && <input placeholder="ادخل نوع الفئة او الصنف" onChange={(e)=>setcategory(e.target.value)} required/> }
+     {category !== "1" && category !== "2" && category !== "3" && category !== "4" && category !== "5" && <input placeholder="ادخل نوع الفئة او الصنف" onChange={(e)=>setcategory(e.target.value)} required/> }
      
       <button type="submit" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Add Product</button>
     </form>
