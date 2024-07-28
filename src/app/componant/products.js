@@ -11,7 +11,7 @@ const ProductsCard = () => {
 
 
 
-  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
+//   const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [showmasage, setShowMasage] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -113,11 +113,11 @@ const filteredProducts = products.filter((product) => {
               )}
             </div>
             <div className="px-6 pb-4 flex justify-between">
-              <Link href={usercode?'/form' : "/login"}
+              <Link href="/cart"
                 onClick={() => handleAddToCart(product)}
                 className={`hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white`}
               >
-                 طلب المنتج 
+                  اضافة اللي السلة 
               </Link>
               <Link
                 href={`/prodect/${product._id}`}

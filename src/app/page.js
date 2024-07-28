@@ -27,7 +27,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center w-full">
       <Navebar para= "home" />
 
-      <h1 className={`text-[#ffffff] mb-3 text-[24px] p-3 pb-2 rounded-3xl bg-[#a1a10e4c] shadow-[0_35px_35px_rgba(3,3,3,1.25)] ${amiri.className} relative z-10 sm:mt-[0px] mt-[-70px]`}>
+      <h1 className={`text-[#000000] mb-3 text-[24px] p-3 pb-2 rounded-3xl bg-[#a1a10e4c] shadow-[0_35px_35px_rgba(3,3,3,1.25)] ${amiri.className} relative z-10 sm:mt-[0px] mt-[-70px]`}>
         بسم الله الرحمن الرحيم
       </h1>
 

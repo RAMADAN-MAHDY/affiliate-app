@@ -1,5 +1,5 @@
 'use client'
-
+import OrderStatus from '@/app/componant/orderStatus';
 import { useState, useEffect, Suspense } from 'react';
 import Navebar from "@/app/componant/navbar";
 // import Loading from '../../loading';
@@ -173,13 +173,13 @@ const DataComponent = ({ params }) => {
                   <th className="border border-gray-800 px-4 py-2">الشحن</th>
                   <th className="border border-gray-800 px-4 py-2">العموله</th>
                   <th className="border border-gray-800 px-4 py-2">اجمالي السعر</th>
-                  <th className="border border-gray-800 px-4 py-2">حالة الطلب</th>
                   <th className="border border-gray-800 px-4 py-2"> طلب العموله </th>
                   {/* <th className="border border-gray-800 px-4 py-2">الصور</th> */}
                 </tr>
               </thead>
               <tbody>
                 {data.conditions.map((rowData, index) => (
+                    <>
                   <tr key={rowData._id} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
                     <td className="border border-gray-800 px-4 py-2">{rowData.clientname}</td>
                     <td className="border border-gray-800 px-4 py-2">{rowData.phone}</td>
@@ -191,8 +191,7 @@ const DataComponent = ({ params }) => {
                     <td className="border border-gray-800 px-4 py-2">{rowData.productorder}</td>
                     <td className="border border-gray-800 px-4 py-2">{rowData.commition}</td>
                     <td className="border border-gray-800 px-4 py-2">{rowData.total}</td>
-                    <td className="border border-gray-800 px-4 py-2">{rowData.state}</td>
-                    {rowData.state === "تم التسليم"  &&  <td className="border border-gray-800 px-4 py-2"> 
+                    {rowData.state === "3"  &&  <td className="border border-gray-800 px-4 py-2"> 
                     <button className={`bg-[#40d151] p-2 rounded-2xl hover:bg-[#2b8936] hover:text-[#fff] ${hiddenBut[rowData._id]&&"bg-[#000000]"}`} disabled={hiddenBut[rowData._id]}  onClick={()=>{
                         handlecommitionreq(rowData._id)
                         setshowCashNumber(true)
@@ -204,7 +203,17 @@ const DataComponent = ({ params }) => {
                 
                      {/* <img src={rowData.imagePaths[0]} alt="Product" /> */}
                   </tr>
+                  <tr>
+                        <td colSpan="12" className="p-4">
+                          <div className="min-w-screen p-6">
+                            <OrderStatus currentStatus={rowData.state} />
+                          </div>
+                        </td>
+                      </tr>
+
+                  </>
                 ))}
+
               </tbody>
             </table>
              {showCashNumber &&           <div id="cashNumberDiv" className="bg-[#bfd93b] fixed top-[10%] left-1/2 z-10 p-3 rounded-s-2xl rounded-b-full transform -translate-x-1/2 -translate-y-1/2 opacity-0">

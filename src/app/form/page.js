@@ -1,6 +1,6 @@
 "use client"
 // components/ConditionForm.js
-import { useState , useCallback} from 'react';
+import {useEffect, useState , useCallback} from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navebar from '../componant/navbar';
 import { useSelector } from 'react-redux';
@@ -11,13 +11,15 @@ const ConditionForm = () => {
 
     const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     const [err , setErr] = useState();
+    const [commition , setcommition] = useState(0);
+    const [delevary , setdelevary] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const filteredProduct = useSelector(state => state.prodectData.carts[0]);
 
     console.log(filteredProduct);
 
 
-    const notifySuccess = () => toast.success('تم إرسال البيانات بنجاح اذهب اللي السله لمتابعة الطلبات', {
+    const notifySuccess = () => toast.success('تم إرسال البيانات بنجاح اذهب اللي التقارير لمتابعة الطلبات', {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -41,6 +43,10 @@ const ConditionForm = () => {
         transition: Flip,
       })
 
+const price = filteredProduct.newprice > 0 ? filteredProduct.newprice : filteredProduct.price;
+
+
+const calculaterTotal = (parseFloat(price) * filteredProduct.quantity) + parseFloat(delevary) + parseFloat(commition);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -51,11 +57,11 @@ const ConditionForm = () => {
       covernorate: '',
       city: '',
       productname: filteredProduct.address,
-      productprece: filteredProduct.newprice || filteredProduct.price,
-      productorder: '',
-      quantuty :1,
-      commition: '',
-      total: '',
+      productprece: price,
+      productorder: delevary,
+      quantuty :filteredProduct.quantity,
+      commition: commition,
+      total:  calculaterTotal || 0,
       notes: '',
       state: '',
       imagePaths: filteredProduct.image
@@ -88,7 +94,22 @@ const ConditionForm = () => {
     "كفرالشيخ"
     // يمكنك إضافة المزيد من المحافظات والمدن هنا
   ];
-  
+
+  // Update total whenever delevary or commition changes
+  useEffect(() => {
+    
+    setFormData(prevData => ({
+        ...prevData,
+        stateDetail: {
+            ...prevData.stateDetail,
+            productorder: delevary,
+            commition: commition,
+            total : calculaterTotal,
+        }
+    }));
+}, [delevary, commition, price]);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -309,7 +330,7 @@ transition={Flip}
         <label className="block text-gray-700">الكميه</label>
         <input
         required
-          type="text"
+          type="number"
           name="quantuty"
           value={formData.stateDetail.quantuty}
           onChange={handleChange}
@@ -321,10 +342,12 @@ transition={Flip}
         <label className="block text-gray-700"> سعر الشحن</label>
         <input
         required
-          type="text"
+          type="number"
           name="productorder"
-          value={formData.stateDetail.productorder}
-          onChange={handleChange}
+          value={delevary}
+          onChange={(e)=>{
+            setdelevary(e.target.value)
+          }}
           className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -333,10 +356,12 @@ transition={Flip}
         <label className="block text-gray-700">العمولة</label>
         <input
         required
-          type="text"
+          type="number"
           name="commition"
-          value={formData.stateDetail.commition}
-          onChange={handleChange}
+          value={commition}
+          onChange={(e)=>{
+            setcommition(e.target.value)
+          }}
           className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -344,7 +369,7 @@ transition={Flip}
         <label className="block text-gray-700">الاجمالي شامل العموله والشحن</label>
         <input
         required
-          type="text"
+          type="number"
           name="total"
           value={formData.stateDetail.total}
           onChange={handleChange}

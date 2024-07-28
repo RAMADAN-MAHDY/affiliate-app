@@ -188,7 +188,27 @@ const cancelEdit = () => {
         ${rowData.productname}  \t ${rowData.quantity} \t ${rowData.total}
     `;
     };
+ // handle get status text 
+ const getStatusText = (state)=>{
 
+    switch(state) {
+        case '0':
+         return 'قيد المراجعه';
+        case '1':
+         return 'تم قبول الطلب';
+        case '2':
+         return 'جاري التوصيل';
+        case '3':
+         return 'تم التسليم';
+        case '4':
+         return 'تم القبض';
+        case '5':
+         return 'ملغي';
+      default:
+        return 'قيد المراجعه';
+    }
+
+ }
 
 
     if (isLoading) {
@@ -197,7 +217,11 @@ const cancelEdit = () => {
     return (<>
     <Navbar/>
 <DropdownComp/>
-
+<div className='flex  justify-around items-center font-bold text-[#000]' >
+<p> {data.name}</p>    
+<p> {data.code}</p>    
+    
+</div>
 <div className="relative">
             {/* عرض نموذج التعديل فوق الجدول */}
             {isEditing && selectedProduct && (
@@ -278,7 +302,9 @@ const cancelEdit = () => {
                             <td className="border border-gray-800 px-4 py-2">{rowData.productorder}</td>
                             <td className="border border-gray-800 px-4 py-2">{rowData.commition}</td>
                             <td className="border border-gray-800 px-4 py-2">{rowData.total}</td>
-                            <td className="border border-gray-800 px-4 py-2 text-[#5d11ff]">    <span className='text-[#fd3737]' >{rowData.state}</span>
+                            <td className="border border-gray-800 px-4 py-2 text-[#5d11ff]">    <span className='text-[#fd3737]' >{
+                            getStatusText(rowData.state)               
+                                }</span>
 
                                 <div>
                                     <label htmlFor={`options-${rowData._id}`}>اختر خيارًا:</label>
@@ -287,13 +313,13 @@ const cancelEdit = () => {
                                         value={selectedOptions[rowData._id] || ''}
                                         onChange={(event) => handleOptionChange(event, rowData._id, data.code)}
                                     >
-                                        <option value="">اختر...</option>
-                                        <option value="قيد المراجعه"> قيد المراجعه</option>
-                                        <option value="تم قبول الطلب"> تم قبول الطلب</option>
-                                        <option value="جاري التوصيل"> جاري التوصيل</option>
-                                        <option value="تم التسليم">  تم التسليم</option>
-                                        <option value="تم القبض">  تم القبض</option>
-                                        <option value="(خصم العموله)ملغي">   (خصم العموله)ملغي </option>
+                                        {/* <option value="">اختر...</option> */}
+                                        <option value="0"> قيد المراجعه</option>
+                                        <option value="1"> تم قبول الطلب</option>
+                                        <option value="2"> جاري التوصيل</option>
+                                        <option value="3">  تم التسليم</option>
+                                        <option value="4">  تم القبض</option>
+                                        <option value="5">  ملغي </option>
                                     </select>
                                     {
                                         selectedOptions[rowData._id] === '(خصم العموله)ملغي' &&
@@ -332,7 +358,7 @@ const cancelEdit = () => {
                                 }>حفظ</button>
                             </td>
 
-                            <td className="border border-gray-800 px-4 py-2">
+                            <td className="border border-gray-800 ">
                                 {rowData.imagePaths && rowData.imagePaths.length > 0 && (
 
                                     rowData.imagePaths.map((sre, imgIndex) => (
