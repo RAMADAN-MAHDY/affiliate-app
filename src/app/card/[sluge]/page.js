@@ -148,17 +148,17 @@ const DataComponent = ({ params }) => {
 </div> */}
 
 
-        <Suspense fallback={<Loading/>}>
+     <Suspense fallback={<Loading/>}>
       {isLoading ? (
-      <div className="m-[40%] loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32 p-3">
-      <p className='p-3 m-3'>Loading</p>
-    </div>
+      
+      <Loading/>
+   
 
       ) : data !== "حدث خطا" ? (
         <div className='m-3'>
                
-          <p className='bg-[#dad1d1] p-6 '>Name: {data.name}</p>
-          <p className='bg-[#dad1d1] p-6 '>Code: {data.code}</p>
+          <p className='bg-[#eceaea] p-6 text-[#000000] font-bold text-[24px] font-serif'>Name: <span className='text-[#000000dc] font-bold text-[24px] font-serif'> {data.name}  </span>    </p>
+          <p className='bg-[#e6e0e0] p-6 text-[#000000] font-bold text-[24px] font-serif'>Code:  <span className='text-[#000000ea] font-bold text-[24px] font-serif' >  {data.code}  </span>   </p>
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-800 -z-0">
               <thead>
@@ -191,7 +191,7 @@ const DataComponent = ({ params }) => {
                     <td className="border border-gray-800 px-4 py-2">{rowData.productorder}</td>
                     <td className="border border-gray-800 px-4 py-2">{rowData.commition}</td>
                     <td className="border border-gray-800 px-4 py-2">{rowData.total}</td>
-                    {rowData.state === "3"  &&  <td className="border border-gray-800 px-4 py-2"> 
+                    {rowData.state === "3"  ?  <td className="border border-gray-800 px-4 py-2"> 
                     <button className={`bg-[#40d151] p-2 rounded-2xl hover:bg-[#2b8936] hover:text-[#fff] ${hiddenBut[rowData._id]&&"bg-[#000000]"}`} disabled={hiddenBut[rowData._id]}  onClick={()=>{
                         handlecommitionreq(rowData._id)
                         setshowCashNumber(true)
@@ -199,7 +199,7 @@ const DataComponent = ({ params }) => {
                       {hiddenBut[rowData._id] ?  "تم الطلب":" طلب العموله"}  
                     </button>
                     
-                    </td>}
+                    </td>  :  <td className="border border-gray-800 px-4 py-2"></td> }
                 
                      {/* <img src={rowData.imagePaths[0]} alt="Product" /> */}
                   </tr>
@@ -236,7 +236,7 @@ const DataComponent = ({ params }) => {
         </div>
       ) : (
         
-            <p className=' font-bold text-[40px] ml-[40%]'>السله فارغه   </p>
+            <p className=' font-bold text-[40px] ml-[40%]'>لا يوجد تقارير لعرضها    </p>
       )}
 
       </Suspense>

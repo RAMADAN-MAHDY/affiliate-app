@@ -3,13 +3,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { add } from '@/lib/authSlice';
 import { useState } from "react";
 import Navebar from "@/app/componant/navbar";
-import Link from "next/link";
+import { ToastContainer, toast , Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 export default function Page({ params }) {
 
   const dispatch = useDispatch();
-  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
+
   const [copied, setCopied] = useState(false);
+
+  const notifySuccess = () => toast.success('تم اضافة المنتج اللي السله', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
+
   const productID = params.slug;
+
   const products = useSelector((state) =>state.prodectData.prodectes );
 
   const filteredProduct = products.filter(
@@ -25,6 +43,7 @@ export default function Page({ params }) {
 
   const handleAddToCart = (product) => {
     dispatch(add({ ...product, quantity: 1 }));
+    notifySuccess();
   };
 
   if (!filteredProduct) {
@@ -39,6 +58,21 @@ export default function Page({ params }) {
   return (
     <>
     <Navebar/>
+
+    <ToastContainer
+position="top-right"
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition={Flip}
+/>
+
     <div className="mt-[90px] bg-gray-50 dark:bg-gray-800 min-h-screen flex flex-col items-center justify-start p-6">
       <div className="max-w-4xl w-full bg-white shadow-xl dark:shadow-none dark:bg-gray-900 rounded-lg overflow-hidden">
         <div className="flex flex-col md:flex-row gap-8 p-6">
@@ -87,20 +121,16 @@ export default function Page({ params }) {
                   alt={`Product image ${idx}`}
                   className="absolute inset-0 w-full h-full object-cover object-center"
                 />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"
-                />
-                <span className="relative ml-4 mb-3 text-white md:text-lg">Image {idx + 1}</span>
               </div>
             ))}
           </div>
         </div>
-        <button className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1">
-        <Link href={usercode?'/form' : "/login"}
-                onClick={() => handleAddToCart(filteredProduct)}
-              >
-                 طلب المنتج 
-              </Link>
+        <button className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1"
+        onClick={() => handleAddToCart(filteredProduct)}
+        >
+       
+                  اضافة اللي السلة 
+              
         </button>
       </div>
     </div>

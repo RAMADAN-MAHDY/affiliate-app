@@ -50,7 +50,7 @@ export default function Home() {
      
     <Navebar/>
 
-      <dev className='flex justify-between '>
+      {/* <dev className='flex justify-between '>
          <div className="mb-3 self-center border border-gray-400 rounded-lg p-4 group hover:bg-white bg-gradient-to-br from-red-500 to-blue-500 via-green-500">
 
 <span className="bg-clip-text bg-gradient-to-br from-red-500 to-blue-500 via-green-500 text-[#fff] hover:text-white animate-pulse">
@@ -59,9 +59,10 @@ export default function Home() {
 </div>
 
   
-  </dev>
+  </dev> */}
     
-
+      <img src="WhatsApp Image 2024-07-11 at 21.01.51_df437c70.jpg" alt='image' className='w-[154px] rounded-full m-3 justify-end'/>
+      
 
         
          {!showsignup? <LoginForm onSignInSuccess={handleSignInSuccess} onSignUp={handleShowSignUp} />  : <SignUpComponent onSignin={handleShowSignUp}/> }

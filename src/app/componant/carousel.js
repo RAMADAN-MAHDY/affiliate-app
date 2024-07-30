@@ -30,7 +30,7 @@ const CarouselFadeExample = () => {
             caption: item.caption,
           }))
         );
-
+    
         setImages(formattedImages);
       } catch (error) {
         console.error('Error fetching images:', error);
@@ -46,15 +46,16 @@ const CarouselFadeExample = () => {
   }, [images]);
 
   return (
-    <div className="relative w-full h-full sm:mt-[100px] overflow-hidden">
-      <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh]">
+    <div className="relative w-full md:h-[800px] sm:mt-[0px] overflow-hidden">
+      <div className="relative w-full h-[50vh] md:h-[100vh] lg:h-[700vh]">
         {images.map((image, index) => (
-          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} bg-gray-900 bg-opacity-50 w-full h-[50vh] md:h-[50vh] lg:h-[50vh]`}>
+          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} bg-gray-900 bg-opacity-50 w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
             <img
+            
               src={image.src} // استخدام Base64 كـ src
               alt={image.label}
-              className="w-full h-full object-cover"
-              style={{ height: '50vh' }} 
+              className="w-full h-full md:h-[60vh] lg:h-[70vh] object-cover"
+              style={{ height: '70vh' }} 
             />
             <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
               <h3 className="text-white text-lg">{image.label}</h3>

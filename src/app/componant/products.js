@@ -6,14 +6,14 @@ import { add, fetchData } from '@/lib/authSlice';
 import Link from 'next/link';
 import Dropdowncategory from '@/app/componant/catgory';
 import { FcSearch } from "react-icons/fc";
-
+import { ToastContainer, toast , Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoadingCard from '@/app/componant/loadingCard/loadingCards'; 
 const ProductsCard = () => {
 
 
 
 //   const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
-  const [showmasage, setShowMasage] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
@@ -22,21 +22,39 @@ const ProductsCard = () => {
 
 //send category to authSlice 
   const getCategory = (category) => {
-    console.log(category);
+    // console.log(category);
     dispatch(fetchData(category));
-    console.log(products)
+    // console.log(products)
 
     return category;
   };
 
+  const notifySuccess = () => toast.success('تم اضافة المنتج اللي السله', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
+
+
   // send category spare partes by default
   useEffect(() => {
     dispatch(fetchData("products/5"));
-    console.log(products)
+    // console.log(products)
   }, [dispatch]);
 
   const handleAddToCart = (product) => {
     dispatch(add({ ...product, quantity: 1 }));
+    notifySuccess()
+    // setTimeout(() => {
+    // setShowMasage(true);
+        
+    // }, 2000);
   };
 
 
@@ -52,6 +70,20 @@ const filteredProducts = products.filter((product) => {
   return (
     <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[30px]">
       <h1 className="text-3xl font-bold text-white mb-7">منتجاتنا</h1>
+
+      <ToastContainer
+position="top-right"
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition={Flip}
+/>
 
       <Dropdowncategory getCategory={getCategory} />
 
@@ -88,7 +120,7 @@ const filteredProducts = products.filter((product) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-9">
 
 
-        {filteredProducts.length > 0 && filteredProducts.map((product) => (
+        {filteredProducts.length > 0 ? filteredProducts.map((product) => (
           <div
             key={product._id}
             className="bg-white shadow-md dark:bg-gray-800 dark:shadow-none rounded-lg overfl-hiddowen transition-transform transform hover:scale-105"
@@ -113,12 +145,12 @@ const filteredProducts = products.filter((product) => {
               )}
             </div>
             <div className="px-6 pb-4 flex justify-between">
-              <Link href="/cart"
+              <button 
                 onClick={() => handleAddToCart(product)}
                 className={`hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white`}
               >
                   اضافة اللي السلة 
-              </Link>
+              </button>
               <Link
                 href={`/prodect/${product._id}`}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
@@ -127,7 +159,11 @@ const filteredProducts = products.filter((product) => {
               </Link>
             </div>
           </div>
-        ))}
+        )):
+        
+        <LoadingCard/>
+        
+        }
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export default function Home() {
         بسم الله الرحمن الرحيم
       </h1>
 
-      <div className="w-full mt-[-137px] sm:mt-[-68px] z-0 h-full"> 
+      <div className="w-full mt-[-137px] sm:mt-[-68px] z-0 "> 
         <CarouselFadeExample />
       </div>
       {/* <ProductList/> */}

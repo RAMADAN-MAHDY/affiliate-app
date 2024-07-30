@@ -5,18 +5,28 @@ import { useDropzone } from 'react-dropzone';
 import Navebar from '../componant/navbar';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast , Flip } from 'react-toastify';
+import { usePathname, useSearchParams } from 'next/navigation';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 const ConditionForm = () => {
-
     const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     const [err , setErr] = useState();
     const [commition , setcommition] = useState(0);
     const [delevary , setdelevary] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const filteredProduct = useSelector(state => state.prodectData.carts[0]);
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const query = searchParams.get('id');// get order id from cart
 
-    console.log(filteredProduct);
+
+
+    const Products = useSelector(state => state.prodectData.carts);
+    // console.log(Products);
+
+    const filteredProduct = Products.filter((items , index)=>  items._id === query)
+    // console.log(filteredProduct);
+    // console.log(filteredProduct.length + "-----------------" );
 
 
     const notifySuccess = () => toast.success('تم إرسال البيانات بنجاح اذهب اللي التقارير لمتابعة الطلبات', {
@@ -43,10 +53,10 @@ const ConditionForm = () => {
         transition: Flip,
       })
 
-const price = filteredProduct.newprice > 0 ? filteredProduct.newprice : filteredProduct.price;
+const price = filteredProduct[0].newprice > 0 ? filteredProduct[0].newprice : filteredProduct[0].price;
 
 
-const calculaterTotal = (parseFloat(price) * filteredProduct.quantity) + parseFloat(delevary) + parseFloat(commition);
+const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + parseFloat(delevary) + parseFloat(commition);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -56,15 +66,15 @@ const calculaterTotal = (parseFloat(price) * filteredProduct.quantity) + parseFl
       phone: '',
       covernorate: '',
       city: '',
-      productname: filteredProduct.address,
+      productname: filteredProduct[0].address,
       productprece: price,
       productorder: delevary,
-      quantuty :filteredProduct.quantity,
+      quantuty :filteredProduct[0].quantity,
       commition: commition,
       total:  calculaterTotal || 0,
       notes: '',
       state: '',
-      imagePaths: filteredProduct.image
+      imagePaths: filteredProduct[0].image
     }
   });
 
@@ -254,7 +264,64 @@ transition={Flip}
 />
     <Navebar/>
     
-    <form onSubmit={handleSubmit} className="w-[95%] md:max-w-xl mx-auto p-6 bg-gray-100 shadow-md rounded-lg">
+    
+
+
+{filteredProduct.length > 0 && filteredProduct.map((filteredProduct)=>(
+    <div className="mt-[30px] bg-gray-50 dark:bg-gray-800  flex flex-col items-center justify-start p-6">
+      <div className="max-w-4xl w-full bg-white shadow-xl dark:shadow-none dark:bg-gray-900 rounded-lg overflow-hidden">
+        <div className="flex flex-col md:flex-row gap-8 p-6">
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+              {filteredProduct.address}
+            </h2>
+            <p className={`text-gray-700 text-[24px] ${filteredProduct.newprice > 0 ? 'line-through text-red-500' : ''}`}>
+        السعر: ج{filteredProduct.price}
+      </p>
+      {filteredProduct.newprice > 0 &&
+                    <div className='flex justify-around'>
+                        <p className="text-gray-700 font-bold text-[24px] ">السعر: ج{filteredProduct.newprice}</p>
+                           
+                           <p className='font-bold bg-[#f82525] p-1 text-[#fafafa]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
+                           
+                         </div>  
+                           } 
+            
+            <div
+              className={`max-w-screen-sm text-gray-600 dark:text-gray-300 mt-6 p-6 rounded-lg transition-all 
+        "bg-green-200 hover:bg-gray-300 dark:hover:bg-gray-600`} 
+              style={{ cursor: "pointer" }}
+            >
+              {filteredProduct.details}
+            </div>
+            <div className="mt-2">
+            </div>
+          </div>
+          <div className="flex-1 grid grid-cols-2 gap-6">
+            {filteredProduct.image.map((image, idx) => (
+              <div
+                key={idx}
+                className="group relative h-48 md:h-64 rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu hover:scale-110"
+              >
+                <img
+                  src={image}
+                  loading="lazy"
+                  alt={`Product image ${idx}`}
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"
+                />
+                <span className="relative ml-4 mb-3 text-white md:text-lg">Image {idx + 1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+))}
+
+<form onSubmit={handleSubmit} className="w-[95%] md:max-w-xl mx-auto p-6 bg-gray-100 shadow-md rounded-lg">
       <div className="mb-4">
         <label className="block text-gray-700">اسم المسوق</label>
         <input
@@ -395,63 +462,6 @@ transition={Flip}
       </button>
     )}
     </form>
-
-
-
-    <div className="mt-[90px] bg-gray-50 dark:bg-gray-800 min-h-screen flex flex-col items-center justify-start p-6">
-      <div className="max-w-4xl w-full bg-white shadow-xl dark:shadow-none dark:bg-gray-900 rounded-lg overflow-hidden">
-        <div className="flex flex-col md:flex-row gap-8 p-6">
-          <div className="flex-1">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-              {filteredProduct.address}
-            </h2>
-            <p className={`text-gray-700 text-[24px] ${filteredProduct.newprice > 0 ? 'line-through text-red-500' : ''}`}>
-        السعر: ج{filteredProduct.price}
-      </p>
-      {filteredProduct.newprice > 0 &&
-                    <div className='flex justify-around'>
-                        <p className="text-gray-700 font-bold text-[24px] ">السعر: ج{filteredProduct.newprice}</p>
-                           
-                           <p className='font-bold bg-[#f82525] p-1 text-[#fafafa]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
-                           
-                         </div>  
-                           } 
-            
-            <div
-              className={`max-w-screen-sm text-gray-600 dark:text-gray-300 mt-6 p-6 rounded-lg transition-all 
-        "bg-green-200 hover:bg-gray-300 dark:hover:bg-gray-600`} 
-              style={{ cursor: "pointer" }}
-            >
-              {filteredProduct.details}
-            </div>
-            <div className="mt-2">
-            </div>
-          </div>
-          <div className="flex-1 grid grid-cols-2 gap-6">
-            {filteredProduct.image.map((image, idx) => (
-              <div
-                key={idx}
-                className="group relative h-48 md:h-64 rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu hover:scale-110"
-              >
-                <img
-                  src={image}
-                  loading="lazy"
-                  alt={`Product image ${idx}`}
-                  className="absolute inset-0 w-full h-full object-cover object-center"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"
-                />
-                <span className="relative ml-4 mb-3 text-white md:text-lg">Image {idx + 1}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
     </>
   );
 };

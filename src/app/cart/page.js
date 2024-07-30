@@ -4,11 +4,12 @@ import Image from 'next/image';
 
 import { useEffect, useState } from 'react';
 import { useSelector ,useDispatch } from 'react-redux';
-import { addquantity } from '@/lib/authSlice';
+import { addquantity , remove} from '@/lib/authSlice'; 
 import Navebar from '../componant/navbar';
 const CartTable = ({ products, quantities, onQuantityChange }) => {
 
-    // const dispatch = useDispatch();
+    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
+    const dispatch = useDispatch();
 // const [Delivery, setDelivary] = useState(
 //     products.reduce((acc, product) => {
 //       acc[product._id] = product.Delivery;
@@ -27,7 +28,9 @@ const CartTable = ({ products, quantities, onQuantityChange }) => {
 //     dispatch(addDelivary({productId , deliveryValue}));
 //   };
   
-  
+const handleRemove = (id) => {
+    dispatch(remove({ id }));
+  };
   
   
 
@@ -42,6 +45,7 @@ const CartTable = ({ products, quantities, onQuantityChange }) => {
           {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">الشحن</th> */}
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[30px]">الكمية</th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">إزالة</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">طلب المنتج </th>
         </tr>
       </thead>
       <tbody>
@@ -79,7 +83,26 @@ const CartTable = ({ products, quantities, onQuantityChange }) => {
               />
             </td>
             <td className="px-6 py-4 text-red-600 hover:text-red-800">
-              <button>إزالة</button>
+              <button
+              onClick={()=>
+                handleRemove(product._id)
+              }
+              >
+                إزالة
+              
+              </button>
+            </td>
+            <td>
+
+            <Link
+          href={
+           { pathname: usercode?'/form' : "/login",
+            query: usercode ? {id : product._id} :{}
+           }}
+          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition-colors"
+        >
+          طلب المنتج 
+        </Link>       
             </td>
           </tr>
         ))}
@@ -136,8 +159,6 @@ const dispatch = useDispatch();
 
 
 
-
-
   
   return (
     <>
@@ -149,12 +170,14 @@ const dispatch = useDispatch();
       <CartTable products={products} quantities={quantities} onQuantityChange={handleQuantityChange} />
       <div className="flex justify-between items-center py-4">
         <h2 className="text-xl font-bold">الإجمالي: {total} جنيه</h2>
+       {/* {!products &&      
         <Link
           href={usercode?'/form' : "/login"}
           className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition-colors"
         >
           طلب المنتج 
-        </Link>
+        </Link>       
+       } */}
       </div>
     </div>
     </>

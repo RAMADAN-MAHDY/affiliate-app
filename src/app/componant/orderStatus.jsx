@@ -12,7 +12,7 @@ const statuses = [
 const OrderStatus = ({ currentStatus }) => {
   return (
     <div className="relative flex items-center w-full">
-      {statuses.map((status, index) => (
+      {currentStatus < 5 ? statuses.map((status, index) => (
         <div key={index} className="relative flex items-center flex-shrink-0">
           {/* Circle */}
           <div
@@ -33,7 +33,15 @@ const OrderStatus = ({ currentStatus }) => {
             />
           )}
         </div>
-      ))}
+      )):
+      <div className="flex justify-around">
+      <div
+            className={`w-9 h-9 rounded-full bg-[red] border-2 border-gray-800`}
+          >
+          </div>
+          <p className=" text-sm p-1"> الطلب ملغي </p>
+     </div>
+      }
     </div>
   );
 };
