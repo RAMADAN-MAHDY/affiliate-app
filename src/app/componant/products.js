@@ -79,30 +79,28 @@ const filteredProducts = products.filter((product) => {
 
 console.log(products);
 
-if(products.length > 0 ){
-    return <>
-    <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
-      <h1 className="text-3xl font-bold text-white mb-7 font-serif">منتجاتنا</h1>
-
-      <ToastContainer
-position="top-right"
-autoClose={3000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-transition={Flip}
-/>
-
-      <Dropdowncategory getCategory={getCategory} />
-    <h1> سيتم افتتاح هذا القسم قريبا ان شاء الله </h1>
-    </div>
-    </>
-}
+if (products.length === 0) {
+    return (
+      <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
+        <h1 className="text-3xl font-bold text-white mb-7 font-serif">منتجاتنا</h1>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Flip}
+        />
+        <Dropdowncategory getCategory={getCategory} />
+        <h1>سيتم افتتاح هذا القسم قريبا ان شاء الله</h1>
+      </div>
+    );
+  }
 
   return (
     <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
