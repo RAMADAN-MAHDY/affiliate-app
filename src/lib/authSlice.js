@@ -100,7 +100,7 @@ export const counterSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchData.pending, (state) => {
-        state.status = "loaging" ;
+        state.status = "loading" ;
       })
       .addCase(fetchData.fulfilled, (state, action) => {
 
