@@ -231,7 +231,7 @@ transition={Flip}
         />
       </div>
       <select id="category" className="m-2 p-2 " onChange={(e)=>setcategory(e.target.value) }>
-  <option value="1">مستحضرات تجميل</option>
+  <option value="1"> منوعات</option>
   <option value="2">ملابس </option>
   <option value="3">ادوات منزليه</option>
   <option value="4">منتجات اوت دور</option>
