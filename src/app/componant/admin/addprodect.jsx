@@ -235,7 +235,7 @@ transition={Flip}
   <option value="2">ملابس </option>
   <option value="3">ادوات منزليه</option>
   <option value="4">منتجات اوت دور</option>
-  <option value="5">قطع غيار موتوسكلات</option>
+  <option value="5">  ستائر و مفروشات</option>
   <option value="منوعات">منوعات
     </option>
      </select>
