@@ -77,7 +77,7 @@ const filteredProducts = products.filter((product) => {
   });
 
 
-
+console.log(products)
 
 if(!products){
     return <>
