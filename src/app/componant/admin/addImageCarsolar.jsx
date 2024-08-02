@@ -6,6 +6,9 @@ import Compressor from 'compressorjs';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddImageToCarousel = () => {
+
+    const URL= process.env.NEXT_PUBLIC_API_URL
+
   const [images, setImages] = useState([]);
   const [label, setlabel] = useState('');
   const [caption, setcaption] = useState('');
@@ -73,7 +76,7 @@ const AddImageToCarousel = () => {
   
   const postData = async (data) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/image`, {
+      const response = await fetch(`${URL}/image`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,18 +99,17 @@ const AddImageToCarousel = () => {
     e.preventDefault();
     setisloading(true)
     // يمكنك هنا تنفيذ عملية إرسال البيانات إلى الخادم أو أي إجراء آخر
-    console.log(data);
+    // console.log(data);
     if(images.length ===0 ){
-    console.log(images.length);
+    // console.log(images.length);
         setisloading(false);
         return null;
     }
     postData(data)
     .then((response) => {
-      console.log(response.message ==="تم تحميل الصوره بنجاح" 
-  );
+
       if (response.message ==="تم تحميل الصوره بنجاح" ) {
-        console.log("done");
+        // console.log("done");
         setImages([]);
         setlabel('');
         setcaption('');

@@ -6,12 +6,15 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 import { FcMenu } from "react-icons/fc";
 import {Avatar , Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,} from "@nextui-org/react";
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
 import styles from './FormComponent.module.css'// If using CSS modules
 
 const Navebar = ({ para }) => {
-    console.log(para)
+    // console.log(para)
+    const products = useSelector((state) => state.prodectData.carts);
+
     const [usercode, setUsercode] = useState(typeof window !== 'undefined' ? localStorage.getItem('codeorderaffilate') || '' : '');
     const [userEmail, setUserEmail] = useState(typeof window !== 'undefined' ? localStorage.getItem('emailorderaffilate') || '' : '');
     const [showinfoUser , setshowinfoUser ] = useState(false);
@@ -34,13 +37,22 @@ const Navebar = ({ para }) => {
                         </Link>
                     </li>
                     <li className='flex'>
-                        <Link href={`/cart`} className='inline-flex items-center'>
+                        <Link href={`/cart`} className='inline-flex items-center '>
+
+                        <div className='relative'>
+                        { products.length > 0 && <span className='bg-[#ff0404] pl-1 pr-1 pb-2 w-4 h-4 rounded-full text-[11px] font-bold text-[#ffffff] fixed mt-[-7px]'>
+                               { products.length}
+                            </span> }
                             <TbShoppingCartExclamation className='w-[30px] font-bold text-[#05fc05]' />
+                        </div>
+                       
+                           
                             السله
+                           
                         </Link></li>
 
                     <li className='flex'>
-                        <Link href="#" className='inline-flex items-center '>
+                        <Link href="/SupportPage" className='inline-flex items-center '>
                             <FcOnlineSupport className='w-[60px]' />
                              الدعم
                         </Link>
@@ -100,7 +112,7 @@ const Navebar = ({ para }) => {
                     </li>
                     <li className='flex items-center justify-center'>
 
-<img src='WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' />
+<img src='/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' />
 
 </li>
 

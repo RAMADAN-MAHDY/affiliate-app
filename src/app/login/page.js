@@ -15,8 +15,8 @@ const amiri = Alkalami   ({
 
 
 export default function Home() {
-    const [userEmail, setUserEmail] = useState( typeof window !== 'undefined' ?localStorage.getItem('emailorderform') || '' : '');
-    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
+    const [userEmail, setUserEmail] = useState( typeof window !== 'undefined' ?localStorage.getItem('emailorderaffilate') || '' : '');
+    const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     const handleSignInSuccess = (email,code) => {
         setUserEmail(email);
         setUsercode(code);
@@ -61,7 +61,7 @@ export default function Home() {
   
   </dev> */}
     
-      <img src="WhatsApp Image 2024-07-11 at 21.01.51_df437c70.jpg" alt='image' className='w-[154px] rounded-full m-3 justify-end'/>
+      <img src="/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.jpg" alt='image' className='w-[154px] rounded-full m-3 justify-end'/>
       
 
         

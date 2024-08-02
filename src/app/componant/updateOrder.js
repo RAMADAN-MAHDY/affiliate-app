@@ -7,7 +7,8 @@ const ConditionForm = ({product , code , onCancel}) => {
     // const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderform') || '':'');
     const [err , setErr] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    console.log(product)
+    const URL= process.env.NEXT_PUBLIC_API_URL
+    // console.log(product)
   const [formData, setFormData] = useState({ 
       clientname: product.clientname,
       phone: product.phone,
@@ -131,7 +132,7 @@ const ConditionForm = ({product , code , onCancel}) => {
     // console.log(product._id)
 
     // https://api-order-form.onrender.com 
-    const response = await fetch(`http://localhost:5000/api/update/${product._id}/${code}`, {
+    const response = await fetch(`${URL}/update/${product._id}/${code}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

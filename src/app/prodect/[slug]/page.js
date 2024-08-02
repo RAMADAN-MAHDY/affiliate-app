@@ -103,7 +103,7 @@ transition={Flip}
             </div>
             <div className="mt-2">
               {copied ? (
-                <span className="text-green-500">تم نسخ النص بنجاح!</span>
+                <span className="text-green-500">تم النسخ  !</span>
               ) : (
                 <span className="text-red-500">انقر علي النص لنسخه</span>
               )}

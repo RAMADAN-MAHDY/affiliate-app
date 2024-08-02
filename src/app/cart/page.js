@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { useSelector ,useDispatch } from 'react-redux';
 import { addquantity , remove} from '@/lib/authSlice'; 
 import Navebar from '../componant/navbar';
+import { ImBin } from "react-icons/im";
+
 const CartTable = ({ products, quantities, onQuantityChange }) => {
 
     const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
@@ -82,13 +84,13 @@ const handleRemove = (id) => {
                 className="border  w-[60px] p-2 rounded text-center text-gray-700"
               />
             </td>
-            <td className="px-6 py-4 text-red-600 hover:text-red-800">
+            <td className="px-6 py-4 text-[24px] text-red-600 hover:text-red-800">
               <button
               onClick={()=>
                 handleRemove(product._id)
               }
               >
-                إزالة
+              <ImBin />
               
               </button>
             </td>

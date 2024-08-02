@@ -3,44 +3,37 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"; 
 import { add, fetchData ,setCategory } from '@/lib/authSlice';
-import Link from 'next/link';
 import Dropdowncategory from '@/app/componant/catgory';
 import { FcSearch } from "react-icons/fc";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingCard from '@/app/componant/loadingCard/loadingCards'; 
-const ProductsCard = () => {
+const ProductsCardAdmin = ({fetchProductsFromAPI , reloadEditForm}) => {
 
-
+    const URL= process.env.NEXT_PUBLIC_API_URL
 
 //   const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [reload, setreload] = useState(true);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.prodectData.prodectes);
   const currentCategory = useSelector((state) => state.prodectData.currentCategory);
 
+  const notifySuccess = (eo) => toast.success(eo, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
 
-
-  const fetchProducts = (category) => {
-
-    dispatch(fetchData(category));
-
-  };
-
-
-
-
-
-//send category to authSlice 
-
-    const getCategory = (category) => {
-        dispatch(setCategory(category));  // تحديث الفئة الحالية في الحالة
-        fetchProducts(category);  // جلب المنتجات بناءً على الفئة المحددة
-      };
-
-  const notifySuccess = () => toast.success('تم اضافة المنتج اللي السله', {
+  const notifyError = (text) => toast.error(text, {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: false,
@@ -53,18 +46,55 @@ const ProductsCard = () => {
   })
 
 
+  const fetchProducts = (category) => {
+
+    dispatch(fetchData(category));
+
+  };
+
+// handle DELETE product 
+const DELETE = async (id)=>{
+
+    try{
+        const response = await fetch(`${URL}/${currentCategory}/${id}`, {
+          method: "DELETE", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        notifySuccess("تم الحذف");
+        setreload(!reload)
+        return response.json();
+  
+  
+      } catch (error) {
+        notifyError("فشل الجذف ")
+        console.error('There was a problem with your fetch operation:', error);
+        throw error;
+      }
+}
+// handle Edit product
+const Edit =(id)=>{
+    fetchProductsFromAPI(currentCategory , id)
+}
+
+
+//send category to authSlice 
+
+    const getCategory = (category) => {
+        dispatch(setCategory(category));  // تحديث الفئة الحالية في الحالة
+        fetchProducts(category);  // جلب المنتجات بناءً على الفئة المحددة
+      };
+
+
   // send category spare partes by default
   useEffect(() => {
     fetchProducts(currentCategory);
-  }, [currentCategory]);
+  }, [currentCategory , reload , reloadEditForm]);
   
-
-  const handleAddToCart = (product) => {
-
-    dispatch(add({ ...product, quantity: 1 }));
-
-    notifySuccess();
-  };
 
 
 //   filter data by name and price
@@ -94,7 +124,7 @@ theme="light"
 transition={Flip}
 />
 
-      <Dropdowncategory getCategory={getCategory} />
+      <Dropdowncategory getCategory={getCategory}  />
 
       <div className="mb-6">
       <div className="relative mb-4">
@@ -126,7 +156,7 @@ transition={Flip}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-9">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-9">
 
 
         {filteredProducts.length > 0 ? filteredProducts.map((product) => (
@@ -140,7 +170,7 @@ transition={Flip}
     src={product.image[0]}
     alt={product.address}
   />
-{product.newprice < product.price  &&
+{product.newprice > 0 &&
 <p className='font-bold bg-{#333} bg-[#f00] p-2 text-[#ffffff] fixed top-3 right-2 rounded-full'>{((product.price - product.newprice) / product.price * 100).toFixed(0)}%</p>
 }
               </div>
@@ -158,18 +188,23 @@ transition={Flip}
               )}
             </div>
             <div className="px-6 pb-4 flex justify-between">
-              <button 
-                onClick={() => handleAddToCart(product)}
-                className={`hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white`}
+              <button
+                onClick={()=>{
+                    Edit(product._id)
+                }}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold p-3  rounded-3xl"
               >
-                  اضافة اللي السلة 
+                 تعديل
               </button>
-              <Link
-                href={`/prodect/${product._id}`}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold p-1  rounded-3xl"
-              >
-                 التفاصيل
-              </Link>
+              <button
+
+className="bg-red-500 hover:bg-red-700 text-white font-bold p-3  rounded-3xl"
+onClick={()=>{
+
+    DELETE(product._id)
+}}>
+ حذف
+</button>
             </div>
           </div>
         )):
@@ -182,4 +217,4 @@ transition={Flip}
   );
 };
 
-export default ProductsCard;
+export default ProductsCardAdmin;

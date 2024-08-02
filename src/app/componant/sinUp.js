@@ -8,6 +8,7 @@ const SignUpComponent = ({ onSignin }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState("تأكيد انشاء الحساب");
+  const URL= process.env.NEXT_PUBLIC_API_URL
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,7 +44,7 @@ const SignUpComponent = ({ onSignin }) => {
     setLoading("جاري إنشاء الحساب...");
 
     try {
-      const response = await fetch('http://localhost:5000/api/signup', {
+      const response = await fetch(`${URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

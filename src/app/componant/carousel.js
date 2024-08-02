@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { TbPlayerTrackNextFilled , TbPlayerTrackPrevFilled} from "react-icons/tb";
 
 const CarouselFadeExample = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [images, setImages] = useState([]);
-//   console.log(images);
+  const URL= process.env.NEXT_PUBLIC_API_URL
+//   console.log(URL);
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide === images.length - 1 ? 0 : prevSlide + 1));
@@ -18,7 +20,7 @@ const CarouselFadeExample = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/Images');
+        const res = await fetch(`${URL}/Images`);
         const data = await res.json();
         // console.log(data);
 
@@ -64,8 +66,12 @@ const CarouselFadeExample = () => {
           </div>
         ))}
       </div>
-      <button onClick={prevSlide} className="absolute top-1/2 left-0 transform -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white">Prev</button>
-      <button onClick={nextSlide} className="absolute top-1/2 right-0 transform -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white">Next</button>
+      <button onClick={prevSlide} className="absolute rounded-3xl top-1/2 left-0 transform -translate-y-1/2 p-2 bg-[#020202] bg-opacity-50 text-white">
+      <TbPlayerTrackPrevFilled />
+      </button>
+      <button onClick={nextSlide} className="absolute rounded-3xl top-1/2 right-0 transform -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white">
+      <TbPlayerTrackNextFilled />
+      </button>
     </div>
   );
 };
