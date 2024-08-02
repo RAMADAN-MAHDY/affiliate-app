@@ -17,10 +17,10 @@ const DropdownCategory = ({ getCategory }) => {
       <DropdownMenu aria-label="Action event example">
         <DropdownItem
           key="products/5"
-          textValue="قطع غيار موتوسكلات"
+          textValue=" ستائر ومفروشات"
           onClick={() => handleAction("products/5", "قطع غيار موتوسكلات")}
         >
-          قطع غيار موتوسكلات
+           ستائر و مفروشات 
         </DropdownItem>
         <DropdownItem
           key="products/1"
