@@ -61,7 +61,7 @@ const ProductsCard = () => {
    
   if (products.length === 0) {
     return (
-      <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
+      <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px] w-full">
         <h1 className="text-3xl font-bold text-white mb-7 font-serif">منتجاتنا</h1>
         <ToastContainer
           position="top-right"
