@@ -77,7 +77,7 @@ const ProductsCard = () => {
           transition={Flip}
         />
         <Dropdowncategory getCategory={getCategory} />
-        <h1>سيتم افتتاح هذا القسم قريبا إن شاء الله</h1>
+        <h1 className='text-[#fff] text-[24px] w-full font-bold m-9 p-3'>سيتم افتتاح هذا القسم قريبا إن شاء الله</h1>
       </div>
     );
   }
