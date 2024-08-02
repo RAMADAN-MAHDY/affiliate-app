@@ -77,9 +77,9 @@ const filteredProducts = products.filter((product) => {
   });
 
 
-console.log(products)
+console.log(products);
 
-if(!products){
+if(products.length > 0 ){
     return <>
     <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
       <h1 className="text-3xl font-bold text-white mb-7 font-serif">منتجاتنا</h1>
