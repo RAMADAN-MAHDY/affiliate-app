@@ -24,10 +24,10 @@ const DropdownCategory = ({ getCategory }) => {
         </DropdownItem>
         <DropdownItem
           key="products/1"
-          textValue="مستحضرات التجميل"
-          onClick={() => handleAction("products/1", "مستحضرات التجميل")}
+          textValue=" منوعات"
+          onClick={() => handleAction("products/1", " منوعات")}
         >
-          مستحضرات التجميل
+           منوعات
         </DropdownItem>
         <DropdownItem
           key="products/2"
