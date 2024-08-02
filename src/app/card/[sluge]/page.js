@@ -13,6 +13,7 @@ const DataComponent = ({ params }) => {
     });
 
 //   console.log(params.sluge);
+const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [showCashNumber , setshowCashNumber ] = useState(false) 
   const [data, setData] = useState(null);
   const [commitionreq, setcommitionreq] = useState();
@@ -20,7 +21,10 @@ const DataComponent = ({ params }) => {
   const [error, setError] = useState('');
   const [hiddenBut, setHiddenBut] = useState({});
 
-
+  const URL= process.env.NEXT_PUBLIC_API_URL
+//   console.log(params.sluge);
+//   console.log(usercode);
+//   console.log(data);
 
   const notifySuccess = () => toast.success('تم ارسال الطلب  بنجاح!', {
     position: "top-center",
@@ -84,7 +88,7 @@ const DataComponent = ({ params }) => {
     const isValid = /^[0-9]{11}$/.test(commitionreq);
 
        if(isValid){
-        const response = await fetch(`http://localhost:5000/api/condition/${params.sluge}/${id}`, {
+        const response = await fetch(`${URL}/condition/${usercode}/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -120,7 +124,7 @@ const DataComponent = ({ params }) => {
     const fetchData = async () => {
       try {
         //https://api-order-form.onrender.com
-        const response = await fetch(`http://localhost:5000/api/condition/${params.sluge}`);
+        const response = await fetch(`${URL}/condition/${usercode}`);
         const responseData = await response.json();
         setData(responseData);
         setIsLoading(false);
@@ -134,6 +138,9 @@ const DataComponent = ({ params }) => {
 
     fetchData();
   }, [params]);
+ 
+
+
 
   return (
     <div className={`${!data && "bg-[#515251fa]"}bg-[#515251fa] min-h-screen`} >
@@ -154,7 +161,7 @@ const DataComponent = ({ params }) => {
       <Loading/>
    
 
-      ) : data !== "حدث خطا" ? (
+      ) :  data !== null ? (
         <div className='m-3'>
                
           <p className='bg-[#eceaea] p-6 text-[#000000] font-bold text-[24px] font-serif'>Name: <span className='text-[#000000dc] font-bold text-[24px] font-serif'> {data.name}  </span>    </p>

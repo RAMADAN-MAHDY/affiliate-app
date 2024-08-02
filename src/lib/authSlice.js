@@ -1,11 +1,15 @@
 
 import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
 
+
+const URL= process.env.NEXT_PUBLIC_API_URL
+
+
 export const fetchData = createAsyncThunk(
   'counterSlice/fetchData',
   async (category) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/${category}`,{ next: { revalidate: 3600 } });
+      const response = await fetch(`${URL}/${category}`,{ next: { revalidate: 3600 } });
       const data = await response.json();
       return data;
     } catch (error) {
@@ -19,7 +23,7 @@ export const fetchData = createAsyncThunk(
     'counterSlice/fetchAllData',
     async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/productsAll',{ next: { revalidate: 3600 } });
+        const response = await fetch(`${URL}/productsAll`,{ next: { revalidate: 3600 } });
         const data = await response.json();
         return data;
       } catch (error) {
@@ -48,6 +52,7 @@ export const counterSlice = createSlice({
     carts: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart')) || [] : [],
     status:"idle",
     email:'',
+    currentCategory: 'products/5',
   },
   reducers: {
     add: (state, action) => {
@@ -87,6 +92,9 @@ export const counterSlice = createSlice({
         const { id } = action.payload;
         state.carts = state.carts.filter(item => item._id !== id);
         saveCartToLocalStorage(state.carts);
+      },
+      setCategory: (state, action) => {
+        state.currentCategory = action.payload;
       }
   },
   extraReducers: (builder) => {
@@ -121,5 +129,5 @@ export const counterSlice = createSlice({
   },
 });
 
-export const {add, addquantity ,addDelivary , remove} = counterSlice.actions ; 
+export const {add, addquantity ,addDelivary , remove , setCategory } = counterSlice.actions ; 
 export default counterSlice.reducer ;

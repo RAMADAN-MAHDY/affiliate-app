@@ -4,6 +4,10 @@ import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddProduct = () => {
+
+    const URL= process.env.NEXT_PUBLIC_API_URL
+    
+    
   const [productName, setProductName] = useState("");
   const [images, setImages] = useState([]);
   const [details, setDetails] = useState("");
@@ -69,7 +73,7 @@ const notifySuccess = () => toast.success('تم إضافة المنتج بنجا
 
   const postData = async (data) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${category}`, {
+      const response = await fetch(`${URL}/products/${category}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

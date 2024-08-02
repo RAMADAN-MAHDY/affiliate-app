@@ -18,6 +18,7 @@ const DropdownComp = () => {
         <DropdownItem textValue="الرئيسيه "><Link href='/adminahmed'  > الرئيسيه</Link></DropdownItem>
         <DropdownItem textValue="اضافة منتج"><Link href='/adminahmed/addproduct'  > أضافة منتج</Link></DropdownItem>
         <DropdownItem textValue="اضافة صور او اعلان "><Link href='/adminahmed/addImageToCarsolar'  > اضافة صور او اعلان </Link></DropdownItem>
+        <DropdownItem textValue="تعديل   /   حذف "><Link href='/adminahmed/showPruduct'  > تعديل   /   حذف  </Link></DropdownItem>
        
       </DropdownMenu>
     </Dropdown>

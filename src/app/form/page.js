@@ -16,6 +16,7 @@ const ConditionForm = () => {
     const [delevary , setdelevary] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const pathname = usePathname();
+    const URL= process.env.NEXT_PUBLIC_API_URL
     const searchParams = useSearchParams();
     const query = searchParams.get('id');// get order id from cart
 
@@ -206,7 +207,7 @@ const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + pars
         }
       };
   
-      const response = await fetch('http://localhost:5000/api/condition', {
+      const response = await fetch(`${URL}/condition`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

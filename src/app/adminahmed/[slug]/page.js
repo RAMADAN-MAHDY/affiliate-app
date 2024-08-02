@@ -9,6 +9,9 @@ import DropdownComp from '@/app/componant/admin/dropdown';
 import Navbar from '@/app/componant/navbar';
 const TableAdmin = ({ params }) => {
 
+
+    const URL= process.env.NEXT_PUBLIC_API_URL
+
     const [data, setData] = useState([]);
 
     // console.log(data.code)
@@ -37,7 +40,7 @@ const TableAdmin = ({ params }) => {
             } else { state = Object.values(selectedOptions[id]).join("") }
 
             console.log(state)
-            const response = await fetch(`http://localhost:5000/api/condition/state/${code}/${id}`, {
+            const response = await fetch(`${URL}/condition/state/${code}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,7 +69,7 @@ const TableAdmin = ({ params }) => {
     // console.log(params.slug)
 
     try {
-        const response = await fetch(`http://localhost:5000/api/item/${params.slug}/${id}`, {
+        const response = await fetch(`${URL}/item/${params.slug}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -90,7 +93,7 @@ const TableAdmin = ({ params }) => {
     // handle get fetch state 
     const handleGetCommition = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/Commitionschma`);
+            const response = await fetch(`${URL}/Commitionschma`);
             const responseData = await response.json();
             // console.log(responseData)
             setgetcommition(responseData);
@@ -113,7 +116,7 @@ const cancelEdit = () => {
                 alert('الرجاء إدخال العمولة');
                 return;
             }
-            const response = await fetch(`http://localhost:5000/api/Commitionschma`, {
+            const response = await fetch(`${URL}/Commitionschma`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -163,7 +166,7 @@ const cancelEdit = () => {
         const fetchData = async () => {
             try {
                 //https://api-order-form.onrender.com
-                const response = await fetch(`http://localhost:5000/api/condition/${params.slug}`);
+                const response = await fetch(`${URL}/condition/${params.slug}`);
                 const responseData = await response.json();
                 setData(responseData);
                 setIsLoading(false);

@@ -10,6 +10,7 @@ function LoginForm({ onSignInSuccess, onSignUp }) {
     const [go, setGo] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const URL= process.env.NEXT_PUBLIC_API_URL
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -27,7 +28,7 @@ function LoginForm({ onSignInSuccess, onSignUp }) {
         event.preventDefault();
         setIsLoading(true);
         try {
-            const response = await fetch("http://localhost:5000/api/login", {
+            const response = await fetch(`${URL}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
