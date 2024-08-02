@@ -18,7 +18,7 @@ const DropdownCategory = ({ getCategory }) => {
         <DropdownItem
           key="products/5"
           textValue=" ستائر ومفروشات"
-          onClick={() => handleAction("products/5", "قطع غيار موتوسكلات")}
+          onClick={() => handleAction("products/5", " ستائر ومفروشات")}
         >
            ستائر و مفروشات 
         </DropdownItem>
