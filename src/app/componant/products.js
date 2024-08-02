@@ -56,6 +56,9 @@ const ProductsCard = () => {
     return matchesSearchTerm && matchesMinPrice && matchesMaxPrice;
   });
 
+
+  console.log(products.length === 0)
+   
   if (products.length === 0) {
     return (
       <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
