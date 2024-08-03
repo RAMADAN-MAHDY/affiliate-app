@@ -145,11 +145,12 @@ const ProductsCard = () => {
                   src={product.image[0]}
                   alt={product.address}
                 />
-                {product.newprice < product.price && (
-                  <p className='font-bold bg-red-600 p-2 text-white fixed top-3 right-2 rounded-full'>
-                    {((product.price - product.newprice) / product.price * 100).toFixed(0)}%
-                  </p>
-                )}
+               {product.newprice !== undefined && product.newprice !== null && product.newprice < product.price && (
+  <p className='font-bold bg-red-600 p-2 text-white fixed top-3 right-2 rounded-full'>
+    {((product.price - product.newprice) / product.price * 100).toFixed(0)}%
+  </p>
+)}
+
               </div>
             )}
             <div className="px-6 py-4">

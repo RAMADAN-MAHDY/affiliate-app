@@ -24,7 +24,9 @@ const Navebar = ({ para }) => {
 
         <header className={styles.header}>
             <input type="checkbox" className={styles.show_nav} id="menuToggle" />
-            <label className={styles.label} htmlFor="menuToggle"><FcMenu className='text-[#fff]' />
+            <label className={styles.label} htmlFor="menuToggle">
+                <FcMenu color='red' />
+
             </label>
 
             {/* <div className={styles.headerContent}> */}

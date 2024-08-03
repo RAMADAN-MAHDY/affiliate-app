@@ -1,9 +1,11 @@
 "use client";
-
+// import { useRouter } from 'next/router';
 import { useState } from 'react';
 import cookie from 'cookie';
 
 function LoginForm({ onSignInSuccess, onSignUp }) {
+    // const router = useRouter();
+
     const [email, setEmail] = useState( '');
     const [code, setCode] = useState('');
     const [password, setPassword] = useState('');
@@ -46,11 +48,11 @@ function LoginForm({ onSignInSuccess, onSignUp }) {
 
                 setGo(true);
                 onSignInSuccess(email, code);
-
                 setEmail('');
                 setCode('');
                 setPassword('')
                 setErrorMessage('')
+                window.location.href = '/';
             } else {
                 setErrorMessage(data.message || 'خطأ في التسجيل');
             }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { TbPlayerTrackNextFilled , TbPlayerTrackPrevFilled} from "react-icons/tb";
-
+import '@/app/componant/carsolar.module.css';
 const CarouselFadeExample = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [images, setImages] = useState([]);
@@ -54,10 +54,9 @@ const CarouselFadeExample = () => {
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} bg-gray-900 bg-opacity-50 w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
             <img
             
-              src={image.src} // استخدام Base64 كـ src
+              src={image.src} 
               alt={image.label}
-              className="w-full h-full md:h-[60vh] lg:h-[70vh] object-cover"
-              style={{ height: '70vh' }} 
+              className="w-full h-full md:h-[60vh] lg:h-[70vh] object-cover img-responsive"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
               <h3 className="text-white text-lg">{image.label}</h3>
