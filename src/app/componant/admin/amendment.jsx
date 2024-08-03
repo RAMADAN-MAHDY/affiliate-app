@@ -120,6 +120,7 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
       }
       notifySuccess('تم تعديل المنتج بنجاح!');
       setReloadEditForm(!reloadEditForm)
+      setOnClose(!onClose)
       return response.json();
 
 
@@ -140,7 +141,7 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
     <div className={`fixed inset-0 ${onClose === showEditForm ? "flex" : "hidden"} items-center justify-center bg-gray-800 bg-opacity-50 z-50`}>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg"
+        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] overflow-y-auto"
       >
         <h2 className="text-xl font-semibold mb-4">تعديل المنتج</h2>
 
