@@ -12,6 +12,10 @@ export const metadata = {
   
 
 export default function RootLayout({ children }) {
+
+    const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+
+
   return (
     <html lang="an" rel="rtl">
         <head>
@@ -24,7 +28,7 @@ export default function RootLayout({ children }) {
         </head>
       <body className={inter.className}>     
 
-<GoogleAnalytics/>
+      <GoogleAnalytics trackingId={GA_TRACKING_ID} />
 
       <StoreProvider>
       <NextUIProvider>
