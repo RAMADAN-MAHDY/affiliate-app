@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from './StoreProvider';
 import {NextUIProvider} from "@nextui-org/react";
-
+import GoogleAnalytics from '@/app/componant/GoogleAnalytics'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -24,14 +24,7 @@ export default function RootLayout({ children }) {
         </head>
       <body className={inter.className}>     
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5L4WGBVJ3F"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5L4WGBVJ3F');
-</script>
+<GoogleAnalytics/>
 
       <StoreProvider>
       <NextUIProvider>
