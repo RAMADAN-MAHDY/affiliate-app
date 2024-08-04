@@ -145,7 +145,7 @@ const ProductsCard = () => {
                   src={product.image[0]}
                   alt={product.address}
                 />
-               {product.newprice !== undefined && product.newprice !== null && product.newprice < product.price && (
+               {product.newprice !== undefined && product.newprice !== null && product.newprice < product.price && product.newprice > 0 && (
   <p className='font-bold bg-red-600 p-2 text-white fixed top-3 right-2 rounded-full'>
     {((product.price - product.newprice) / product.price * 100).toFixed(0)}%
   </p>
