@@ -185,7 +185,9 @@ const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localSt
                 </tr>
               </thead>
               <tbody>
-                {data.conditions.map((rowData, index) => (
+                {
+                data.map(data=>(          
+                data.conditions.map((rowData, index) => (
                     <>
                   <tr key={rowData._id} className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
                     <td className="border border-gray-800 px-4 py-2">{rowData.clientname}</td>
@@ -219,7 +221,9 @@ const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localSt
                       </tr>
 
                   </>
-                ))}
+                ))
+            )) 
+             }
 
               </tbody>
             </table>
