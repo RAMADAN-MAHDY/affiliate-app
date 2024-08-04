@@ -144,6 +144,7 @@ const ProductsCard = () => {
                   className="w-full h-56 object-cover transition-transform duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg rounded-lg"
                   src={product.image[0]}
                   alt={product.address}
+                  loading="lazy"
                 />
                {product.newprice !== undefined && product.newprice !== null && product.newprice < product.price && product.newprice > 0 && (
   <p className='font-bold bg-red-600 p-2 text-white fixed top-3 right-2 rounded-full'>
