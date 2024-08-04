@@ -114,7 +114,7 @@ const Navebar = ({ para }) => {
                     </li>
                     <li className='flex items-center justify-center'>
 
-<img src='/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' />
+<img src='/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' loading="lazy"/>
 
 </li>
 
