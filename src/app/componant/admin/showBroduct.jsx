@@ -170,7 +170,7 @@ transition={Flip}
     src={product.image[0]}
     alt={product.address}
   />
-{product.newprice > 0 &&
+{product.newprice !== undefined && product.newprice !== null && product.newprice < product.price && product.newprice > 0 &&
 <p className='font-bold bg-{#333} bg-[#f00] p-2 text-[#ffffff] fixed top-3 right-2 rounded-full'>{((product.price - product.newprice) / product.price * 100).toFixed(0)}%</p>
 }
               </div>
