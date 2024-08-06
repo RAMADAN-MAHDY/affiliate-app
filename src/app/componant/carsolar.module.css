@@ -1,19 +1,21 @@
 /* styles.css */
 .img-responsive {
     height: 50vh;
+    margin: 0 auto; /* لتوسيط الصورة */
+    display: block;
   }
   
   @media (min-width: 768px) {
     .img-responsive {
-        width: 80vw ;
-      height: 60vh; /* أو أي قيمة تريدها للشاشات الأكبر */
+      width: 60vw; /* عرض الصورة يكون 60% من عرض العرض الكامل */
+      height: 60vh;
     }
   }
   
   @media (min-width: 1024px) {
     .img-responsive {
-        width: 90vw ;
-      height: 70vh; /* أو أي قيمة تريدها للشاشات الأكبر */
+      width: 50vw; /* عرض الصورة يكون 50% من عرض العرض الكامل */
+      height: 70vh;
     }
   }
   
