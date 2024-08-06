@@ -53,7 +53,7 @@ const DropdownCategory = ({ getCategory }) => {
         //   </DropdownMenu>
         // </Dropdown>
 
-        <div className="flex flex-wrap gap-6 items-center">
+        <div className="flex flex-wrap gap-6 items-center mb-3">
 
             <Button color="success"
                 onClick={() => handleAction("products/3")}
