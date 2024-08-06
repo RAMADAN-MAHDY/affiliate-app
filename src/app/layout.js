@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
 
 
   return (
-    <html lang="an" rel="rtl">
+    <html lang="ar" rel="rtl">
         <head>
         <meta name="keywords" content="افليت المهدي, EL MAHDY, تسويق الكتروني, تسويق بالعمولة, تحسين محركات البحث, استراتيجيات تسويق" />
 
