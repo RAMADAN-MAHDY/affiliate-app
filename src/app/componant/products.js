@@ -57,9 +57,9 @@ const ProductsCard = () => {
   });
 
 
-  console.log(products.length === 0)
+  console.log(products === false)
    
-  if (products.length === 0) {
+  if (products === false) {
     return (
       <div className="bg-gradient-to-b from-[#443444] to-purple-600 sm:p-10 p-6 mt-[10px] w-full">
         <h1 className="text-3xl font-bold text-white mb-7 mt-[-20px] font-serif">منتجاتنا</h1>
