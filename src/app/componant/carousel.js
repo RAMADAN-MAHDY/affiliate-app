@@ -49,30 +49,30 @@ const CarouselFadeExample = () => {
 
   return (
     <div className="relative w-full md:h-[800px] sm:mt-[0px] overflow-hidden">
-      <div className="relative w-full h-[50vh] md:h-[100vh] lg:h-[700vh]">
-        {images.map((image, index) => (
-          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}  w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
-            <img
-            
-              src={image.src}
-              alt={image.label}
-              className="w-full md:w-3/5 lg:w-1/2 h-full object-cover img-responsive"
-              loading="lazy"
-            />
-            <div className="absolute bottom-0 left-0 right-0  p-4">
-              <h3 className="text-white text-lg">{image.label}</h3>
-              <p className="text-white text-sm">{image.caption}</p>
-            </div>
+    <div className="relative w-full h-[50vh] md:h-[100vh] lg:h-[700vh] flex items-center justify-center">
+      {images.map((image, index) => (
+        <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} flex items-center justify-center w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
+          <img
+            src={image.src}
+            alt={image.label}
+            className="img-responsive"
+            loading="lazy"
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <h3 className="text-white text-lg">{image.label}</h3>
+            <p className="text-white text-sm">{image.caption}</p>
           </div>
-        ))}
-      </div>
-      <button onClick={prevSlide} className="absolute rounded-3xl top-1/2 left-0 transform -translate-y-1/2 p-2 bg-[#020202] bg-opacity-50 text-white">
-      <TbPlayerTrackPrevFilled />
-      </button>
-      <button onClick={nextSlide} className="absolute rounded-3xl top-1/2 right-0 transform -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white">
-      <TbPlayerTrackNextFilled />
-      </button>
+        </div>
+      ))}
     </div>
+    <button onClick={prevSlide} className="absolute rounded-3xl top-1/2 left-0 transform -translate-y-1/2 p-2 bg-[#020202] bg-opacity-50 text-white">
+      <TbPlayerTrackPrevFilled />
+    </button>
+    <button onClick={nextSlide} className="absolute rounded-3xl top-1/2 right-0 transform -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white">
+      <TbPlayerTrackNextFilled />
+    </button>
+  </div>
+  
   );
 };
 

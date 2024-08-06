@@ -1,6 +1,7 @@
-/* styles.css */
 .img-responsive {
-    height: 50vh;
+    height: 100%; /* اجعل الصورة تأخذ ارتفاع الحاوية بالكامل */
+    width: 100%; /* اجعل الصورة تأخذ عرض الحاوية بالكامل */
+    object-fit: cover; /* حافظ على نسبة العرض إلى الارتفاع مع تغطية كامل المنطقة */
     margin: 0 auto; /* لتوسيط الصورة */
     display: block;
   }
@@ -8,14 +9,14 @@
   @media (min-width: 768px) {
     .img-responsive {
       width: 60vw; /* عرض الصورة يكون 60% من عرض العرض الكامل */
-      height: 60vh;
+      height: auto; /* اجعل الارتفاع يتناسب مع العرض */
     }
   }
   
   @media (min-width: 1024px) {
     .img-responsive {
       width: 50vw; /* عرض الصورة يكون 50% من عرض العرض الكامل */
-      height: 70vh;
+      height: auto; /* اجعل الارتفاع يتناسب مع العرض */
     }
   }
   
