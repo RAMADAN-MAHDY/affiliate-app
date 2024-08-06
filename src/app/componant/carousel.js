@@ -54,9 +54,9 @@ const CarouselFadeExample = () => {
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} bg-gray-900 bg-opacity-50 w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
             <img
             
-              src={image.src} 
+              src={image.src}
               alt={image.label}
-              className="w-full h-full md:h-[60vh] lg:h-[70vh] object-cover img-responsive"
+              className="w-full md:mx-[20%]  h-full md:h-[60vh] lg:h-[70vh] object-cover img-responsive"
               loading="lazy"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
