@@ -1,11 +1,12 @@
+"use client"
 import React, { useState } from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
 const DropdownCategory = ({ getCategory }) => {
-    //   const [buttonText, setButtonText] = useState("اختر فئة");
+      const [buttonFocas, setButtonfocas] = useState(null);
 
     const handleAction = (key, value) => {
-        // setButtonText(value); // تحديث النص في الزر
+        setButtonfocas(value); // تحديث النص في الزر
         getCategory(key); // تمرير المفتاح إلى الدالة المرسلة
     };
 
@@ -56,29 +57,35 @@ const DropdownCategory = ({ getCategory }) => {
         <div className="flex flex-wrap gap-6 items-center mb-3">
 
             <Button color="success"
-                onClick={() => handleAction("products/3")}
+                className={`${buttonFocas==="1" && "mb-4 p-6"} `}
+                onClick={() => handleAction("products/3" , "1")}
             >
                 منتجات منزلية
             </Button>
             
             <Button color="primary"
-                onClick={() => handleAction("products/1")}
+className={`${buttonFocas==="2" && "mb-4 p-6"} `}
+                onClick={() => handleAction("products/1",'2')}
             >
                 منوعات
             </Button>
 
             <Button color="secondary"
-                onClick={() => handleAction("products/2", "ملابس")}
+className={`${buttonFocas==="3" && "mb-4 p-6"} `}
+                onClick={() => handleAction("products/2", "3")}
             >
                 ملابس
             </Button>
 
-            <Button color="default" onClick={() => handleAction("products/5")}>
+            <Button color="default"
+            className={`${buttonFocas==="4" && "mb-4 p-6"} `}
+            onClick={() => handleAction("products/5" , '4')}>
                 ستائر ومفروشات
             </Button>
 
             <Button color="warning"
-                onClick={() => handleAction("products/4")}
+            className={`${buttonFocas==="5" && "mb-4 p-6"} `}
+                onClick={() => handleAction("products/4" ,'5')}
             >
                 منتجات اوت دور (حدائق)
             </Button>
