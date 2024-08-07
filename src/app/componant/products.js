@@ -88,8 +88,8 @@ const ProductsCard = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-10 w-full m-3 mt-[10px]">
-      <h1 className="text-3xl font-bold text-white mb-7 mt-[-30px] font-serif">منتجاتنا</h1>
+    <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-3 w-full m-3 sm:mt-[10px]">
+      <h1 className="text-3xl font-bold text-white mb-7 ml-[30vw] font-serif">منتجاتنا</h1>
 
       <ToastContainer
         position="top-right"

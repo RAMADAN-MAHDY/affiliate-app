@@ -7,15 +7,30 @@
 
 .marquee span {
     display: inline-block;
-    padding-left: 0px; /* يبدأ النص من خارج الزر لعمل تأثير التمرير */
-    animation: marquee 15s linear infinite; /* يمكنك ضبط مدة الحركة هنا */
+    padding-left: 0px; 
+    animation: marquee 15s linear infinite; 
 }
 
 @keyframes marquee {
     0% {
-        transform: translateX(-100%); /* يبدأ من خارج الزر من اليمين */
+        transform: translateX(-100%); /* يبدأ من خارج الزر من الشمال */
     }
     100% {
-        transform: translateX(40px); /* ينتهي خارج الزر من اليسار */
+        transform: translateX(40px); /* ينتهي خارج الزر من اليمين */
     }
+}
+/* marquee.module.css */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.buttonActive {
+    background-color: #4caf50;
+    border: 2px solid #388e3c;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    animation: shake 0.5s; /* إضافة تأثير الاهتزاز */
 }

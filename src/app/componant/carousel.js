@@ -48,8 +48,8 @@ const CarouselFadeExample = () => {
   }, [images]);
 
   return (
-    <div className="relative w-full md:h-[800px] sm:mt-[0px] overflow-hidden">
-    <div className="relative w-full h-[50vh] md:h-[100vh] lg:h-[700vh] flex items-center justify-center">
+    <div className="relative w-full md:h-[70vh] sm:mt-[0px] overflow-hidden">
+    <div className="relative w-full h-[35vh] md:h-[70vh] lg:h-[70vh] flex items-center justify-center">
       {images.map((image, index) => (
         <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'} flex items-center justify-center w-full h-[50vh] md:h-[60vh] lg:h-[70vh]`}>
           <img
