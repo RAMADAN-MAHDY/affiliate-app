@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { TbPlayerTrackNextFilled , TbPlayerTrackPrevFilled} from "react-icons/tb";
-import '@/app/componant/carsolar.module.css';
+import '@/app/componant/cssSheet/carsolar.module.css';
 const CarouselFadeExample = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [images, setImages] = useState([]);

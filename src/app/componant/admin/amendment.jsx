@@ -36,7 +36,12 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
 
 
   // فلترة المنتجات بناءً على المنتج المحدد
-  const filterProduct = product.filter((pro) => pro._id === productId);
+let filterProduct ;
+  if(Array.isArray(product)){
+
+       filterProduct = product.filter((pro) => pro._id === productId);
+
+  }
 //   console.log(product);
 //   console.log(filterProduct);
 //   console.log(onClose);

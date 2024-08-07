@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
-import styles from './FormComponent.module.css'// If using CSS modules
+import styles from './cssSheet/NavebarComponent.module.css'// If using CSS modules
 
 const Navebar = ({ para }) => {
     // console.log(para)

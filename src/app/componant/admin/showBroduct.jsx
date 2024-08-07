@@ -98,13 +98,45 @@ const Edit =(id)=>{
 
 
 //   filter data by name and price
-const filteredProducts = products.filter((product) => {
+let filteredProducts = [];
+
+if (Array.isArray(products)) {
+  filteredProducts = products.filter((product) => {
     const matchesSearchTerm = product.address.toLowerCase().includes(searchTerm.toLowerCase());
     const priceToUse = product.newprice > 0 ? product.newprice : product.price;
     const matchesMinPrice = minPrice === '' || priceToUse >= parseFloat(minPrice);
     const matchesMaxPrice = maxPrice === '' || priceToUse <= parseFloat(maxPrice);
     return matchesSearchTerm && matchesMinPrice && matchesMaxPrice;
   });
+}
+
+
+if (products.message === 'no productes fond') {
+    return (
+      <div className="bg-gradient-to-b from-[#443444] to-purple-600 sm:p-10 p-6 mt-[10px] w-full">
+        <h1 className="text-3xl font-bold text-white mb-7 mt-[-20px] font-serif">منتجاتنا</h1>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Flip}
+        />
+        <Dropdowncategory getCategory={getCategory} />
+        <h1 className='text-[#fff] text-[24px] w-full font-bold m-9 p-3'>سيتم افتتاح هذا القسم قريبا إن شاء الله</h1>
+      </div>
+    );
+  }
+
+  if (!Array.isArray(products) || products.length === 0) {
+    return <LoadingCard />;
+  }
 
   return (
     <div className=" bg-gradient-to-b from-[#443444] to-purple-600 p-10 mt-[10px]">
