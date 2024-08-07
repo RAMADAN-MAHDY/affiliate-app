@@ -8,7 +8,7 @@
 .marquee span {
     display: inline-block;
     padding-left: 0px; /* يبدأ النص من خارج الزر لعمل تأثير التمرير */
-    animation: marquee 20s linear infinite; /* يمكنك ضبط مدة الحركة هنا */
+    animation: marquee 15s linear infinite; /* يمكنك ضبط مدة الحركة هنا */
 }
 
 @keyframes marquee {
