@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import style from "./cssSheet/marquee.module.css"; // تأكد من إضافة ملف CSS هذا
 
 const DropdownCategory = ({ getCategory }) => {
-      const [buttonFocas, setButtonfocas] = useState(null);
+    const [buttonFocas, setButtonfocas] = useState(null);
 
     const handleAction = (key, value) => {
         setButtonfocas(value); // تحديث النص في الزر
@@ -11,88 +12,57 @@ const DropdownCategory = ({ getCategory }) => {
     };
 
     return (
-        // <Dropdown>
-        //   <DropdownTrigger>
-        //     <Button variant="faded">{buttonText}</Button>
-        //   </DropdownTrigger>
-        //   <DropdownMenu aria-label="Action event example">
-        //     <DropdownItem
-        //       key="products/5"
-        //       textValue=" ستائر ومفروشات"
-        //       onClick={() => handleAction("products/5", " ستائر ومفروشات")}
-        //     >
-        //        ستائر و مفروشات 
-        //     </DropdownItem>
-        //     <DropdownItem
-        //       key="products/1"
-        //       textValue=" منوعات"
-        //       onClick={() => handleAction("products/1", " منوعات")}
-        //     >
-        //        منوعات
-        //     </DropdownItem>
-        //     <DropdownItem
-        //       key="products/2"
-        //       textValue="ملابس"
-        //       onClick={() => handleAction("products/2", "ملابس")}
-        //     >
-        //       ملابس
-        //     </DropdownItem>
-        //     <DropdownItem
-        //       key="products/3"
-        //       textValue="منتجات منزلية"
-        //       onClick={() => handleAction("products/3", "منتجات منزلية")}
-        //     >
-        //       منتجات منزلية
-        //     </DropdownItem>
-        //     <DropdownItem
-        //       key="products/4"
-        //       textValue="منتجات اوت دور (حدائق)"
-        //       onClick={() => handleAction("products/4", "منتجات اوت دور (حدائق)")}
-        //     >
-        //       منتجات اوت دور (حدائق)
-        //     </DropdownItem>
-        //   </DropdownMenu>
-        // </Dropdown>
-
-        <div className="flex flex-wrap gap-6 items-center mb-3">
-
-            <Button color="success"
-                className={`${buttonFocas==="1" && "mb-4 p-6"} `}
-                onClick={() => handleAction("products/3" , "1")}
+        <div className="mb-3 overflow-x-auto flex space-x-3">
+            <Button
+                color="success"
+                className={`${buttonFocas==="1" ? "mb-4 p-6" : "p-3"} w-40 h-12`}
+                onClick={() => handleAction("products/3", "1")}
             >
-                منتجات منزلية
+                <div className={style.marquee}>
+                    <span>منتجات منزلية</span>
+                </div>
             </Button>
             
-            <Button color="primary"
-className={`${buttonFocas==="2" && "mb-4 p-6"} `}
-                onClick={() => handleAction("products/1",'2')}
+            <Button
+                color="primary"
+                className={`${buttonFocas==="2" ? "mb-4 p-6" : "p-3"} w-[170px] h-12`}
+                onClick={() => handleAction("products/1", '2')}
             >
-                منوعات
+                <div className={style.marquee}>
+                    <span>اجهزه الكترونيه ( ساعات - سماعات - موبيلات )</span>
+                </div>
             </Button>
 
-            <Button color="secondary"
-className={`${buttonFocas==="3" && "mb-4 p-6"} `}
+            <Button
+                color="secondary"
+                className={`${buttonFocas==="3" ? "mb-4 p-6" : "p-3"} w-40 h-12`}
                 onClick={() => handleAction("products/2", "3")}
             >
-                ملابس
+                <div className={style.marquee}>
+                    <span>ملابس ( رجالي - حريمي - اطفال )</span>
+                </div>
             </Button>
 
-            <Button color="default"
-            className={`${buttonFocas==="4" && "mb-4 p-6"} `}
-            onClick={() => handleAction("products/5" , '4')}>
-                ستائر ومفروشات
-            </Button>
-
-            <Button color="warning"
-            className={`${buttonFocas==="5" && "mb-4 p-6"} `}
-                onClick={() => handleAction("products/4" ,'5')}
+            <Button
+                color="default"
+                className={`${buttonFocas==="4" ? "mb-4 p-6" : "p-3"} w-40 h-12`}
+                onClick={() => handleAction("products/5", '4')}
             >
-                منتجات اوت دور (حدائق)
+                <div className={style.marquee}>
+                    <span>ستائر ومفروشات</span>
+                </div>
             </Button>
 
+            <Button
+                color="warning"
+                className={`${buttonFocas==="5" ? "mb-4 p-6" : "p-3"} w-40 h-12`}
+                onClick={() => handleAction("products/4", '5')}
+            >
+                <div className={style.marquee}>
+                    <span>منتجات اوت دور ( حدائق )</span>
+                </div>
+            </Button>
         </div>
-
-
     );
 };
 

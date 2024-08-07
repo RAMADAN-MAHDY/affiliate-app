@@ -1,0 +1,21 @@
+.marquee {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.marquee span {
+    display: inline-block;
+    padding-left: 0px; /* يبدأ النص من خارج الزر لعمل تأثير التمرير */
+    animation: marquee 20s linear infinite; /* يمكنك ضبط مدة الحركة هنا */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(-100%); /* يبدأ من خارج الزر من اليمين */
+    }
+    100% {
+        transform: translateX(40px); /* ينتهي خارج الزر من اليسار */
+    }
+}
