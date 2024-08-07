@@ -164,8 +164,8 @@ const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localSt
       ) :  data !== null ? (
         <div className='m-3'>
                
-          <p className='bg-[#eceaea] p-6 text-[#000000] font-bold text-[24px] font-serif'>Name: <span className='text-[#000000dc] font-bold text-[24px] font-serif'> {data.name}  </span>    </p>
-          <p className='bg-[#e6e0e0] p-6 text-[#000000] font-bold text-[24px] font-serif'>Code:  <span className='text-[#000000ea] font-bold text-[24px] font-serif' >  {data.code}  </span>   </p>
+          <p className='bg-[#eceaea] p-6 text-[#000000] font-bold text-[24px] font-serif'>Name: <span className='text-[#000000dc] font-bold text-[24px] font-serif'> {data[0].name}  </span>    </p>
+          <p className='bg-[#e6e0e0] p-6 text-[#000000] font-bold text-[24px] font-serif'>Code:  <span className='text-[#000000ea] font-bold text-[24px] font-serif' >  {data[0].code}  </span>   </p>
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-800 -z-0">
               <thead>
