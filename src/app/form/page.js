@@ -14,6 +14,7 @@ const ConditionForm = () => {
     const [err , setErr] = useState();
     const [commition , setcommition] = useState(0);
     const [delevary , setdelevary] = useState(0);
+    const [quantuty , setquantuty] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const pathname = usePathname();
     const URL= process.env.NEXT_PUBLIC_API_URL
@@ -57,7 +58,7 @@ const ConditionForm = () => {
 const price = filteredProduct[0].newprice > 0 ? filteredProduct[0].newprice : filteredProduct[0].price;
 
 
-const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + parseFloat(delevary) + parseFloat(commition);
+const calculaterTotal = (parseFloat(price) * quantuty) + parseFloat(delevary) + parseFloat(commition);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -70,7 +71,7 @@ const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + pars
       productname: filteredProduct[0].address,
       productprece: price,
       productorder: delevary,
-      quantuty :filteredProduct[0].quantity,
+      quantuty :quantuty,
       commition: commition,
       total:  calculaterTotal || 0,
       notes: '',
@@ -78,7 +79,7 @@ const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + pars
       imagePaths: filteredProduct[0].image
     }
   });
-
+ 
   const governorates = [
     "القاهرة",
     "الجيزة",
@@ -108,7 +109,11 @@ const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + pars
 
   // Update total whenever delevary or commition changes
   useEffect(() => {
-    
+    setquantuty(filteredProduct[0].quantity)
+  }
+    ,[])
+
+  useEffect(() => {
     setFormData(prevData => ({
         ...prevData,
         stateDetail: {
@@ -116,9 +121,10 @@ const calculaterTotal = (parseFloat(price) * filteredProduct[0].quantity) + pars
             productorder: delevary,
             commition: commition,
             total : calculaterTotal,
+            quantuty :quantuty,
         }
     }));
-}, [delevary, commition, price]);
+}, [delevary, commition, price , quantuty]);
 
 
 
@@ -401,7 +407,9 @@ transition={Flip}
           type="number"
           name="quantuty"
           value={formData.stateDetail.quantuty}
-          onChange={handleChange}
+          onChange={(e)=>{
+            setquantuty(e.target.value)
+          }}
           className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
