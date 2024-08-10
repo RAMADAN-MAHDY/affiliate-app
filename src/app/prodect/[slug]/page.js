@@ -36,7 +36,7 @@ export default function Page({ params }) {
 
   const handleCopy = () => {
     navigator.clipboard
-      .writeText(filteredProduct.description)
+      .writeText(filteredProduct.details)
       .then(() => setCopied(true))
       .catch(() => setCopied(false));
   };
