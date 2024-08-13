@@ -1,16 +1,15 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { ToastContainer, toast , Flip } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,reloadEditForm}) => {
+const EditForm = ({ categoryId, productId, showEditForm, setReloadEditForm, reloadEditForm }) => {
   const [onClose, setOnClose] = useState(true);
   const product = useSelector((state) => state.prodectData.prodectes);
-  const URL= process.env.NEXT_PUBLIC_API_URL
+  const URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const notifySuccess = (eo) => toast.success(eo, {
+  const notifySuccess = (message) => toast.success(message, {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: false,
@@ -20,9 +19,9 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
     progress: undefined,
     theme: "light",
     transition: Flip,
-  })
+  });
 
-  const notifyError = (text) => toast.error(text, {
+  const notifyError = (message) => toast.error(message, {
     position: "top-center",
     autoClose: 3000,
     hideProgressBar: false,
@@ -32,19 +31,12 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
     progress: undefined,
     theme: "light",
     transition: Flip,
-  })
+  });
 
-
-  // فلترة المنتجات بناءً على المنتج المحدد
-let filterProduct ;
-  if(Array.isArray(product)){
-
-       filterProduct = product.filter((pro) => pro._id === productId);
-
+  let filterProduct = [];
+  if (Array.isArray(product)) {
+    filterProduct = product.filter((pro) => pro._id === productId);
   }
-//   console.log(product);
-//   console.log(filterProduct);
-//   console.log(onClose);
 
   const [productData, setProductData] = useState({
     image: [],
@@ -54,7 +46,6 @@ let filterProduct ;
     newprice: ''
   });
   const [originalProductData, setOriginalProductData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (filterProduct.length > 0) {
@@ -68,85 +59,68 @@ let filterProduct ;
       });
       setOriginalProductData(product); // حفظ البيانات الأصلية
     }
-  }, [showEditForm]);
+  }, [filterProduct]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData((prevData) => ({ ...prevData, [name]: value }));
   };
-//   const handleImageChange = (e) => {
-//     const files = Array.from(e.target.files);
-//     const imagePromises = files.map(file => {
-//         return new Promise((resolve, reject) => {
-//             const reader = new FileReader();
-//             reader.onload = () => resolve(reader.result);
-//             reader.onerror = error => reject(error);
-//             reader.readAsDataURL(file);
-//         });
-//     });
 
-//     Promise.all(imagePromises)
-//         .then(imagesData => {
-//             const base64Images = imagesData.map(imageData => imageData);
-//             // setImages(base64Images);
-//             setProductData((prevData) => ({ ...prevData, image: base64Images }));
-//         })
-//         .catch(error => console.error(error));
-// };
-const handleImageChange = (e) => {
+  const handleImageChange = (e) => {
     const value = e.target.value;
-
     const imageUrls = value.split(',').map(url => url.trim());
-    setImages(imageUrls);
     setProductData((prevData) => ({ ...prevData, image: imageUrls }));
   };
 
-// handle Edit product
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // تحديد البيانات التي تغيرت فقط
     const changes = {};
     Object.keys(productData).forEach((key) => {
-      if (JSON.stringify(productData[key]) !== JSON.stringify(originalProductData[key])) {
+      if (Array.isArray(productData[key])) {
+        // قارن بين المصفوفات
+        if (!arraysAreEqual(productData[key], originalProductData[key])) {
+          changes[key] = productData[key];
+        }
+      } else if (JSON.stringify(productData[key]) !== JSON.stringify(originalProductData[key])) {
         changes[key] = productData[key];
       }
     });
 
     if (Object.keys(changes).length > 0) {
-    console.log(changes)
-    // console.log(formData)
-       try{
-    const response =
-     await fetch(`${URL}/${categoryId}/${productId}`, {
-        method: "PUT",
-        body: JSON.stringify(changes), 
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      if (!response.ok) {
-        notifyError("حدث خطأ غير متوقع ")
-        throw new Error('Network response was not ok');
+      try {
+        const response = await fetch(`${URL}/${categoryId}/${productId}`, {
+          method: "PUT",
+          body: JSON.stringify(changes),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          notifyError("حدث خطأ غير متوقع");
+          throw new Error('Network response was not ok');
+        }
+        notifySuccess('تم تعديل المنتج بنجاح!');
+        setReloadEditForm(!reloadEditForm);
+        setOnClose(!onClose);
+        return response.json();
+      } catch (error) {
+        notifyError("حدث خطأ أثناء معالجة الطلب");
+        console.error('There was a problem with your fetch operation:', error);
+        throw error;
       }
-      notifySuccess('تم تعديل المنتج بنجاح!');
-      setReloadEditForm(!reloadEditForm)
-      setOnClose(!onClose)
-      return response.json();
-
-
-    } catch (error) {
-        notifyError()
-      console.error('There was a problem with your fetch operation:', error);
-      throw error;
-    }
     } else {
-        notifyError('انت لسه مغيرتش حاجه ');
+      notifyError('لم يتم إجراء أي تغييرات');
     }
   };
 
+  const arraysAreEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    return arr1.every((item, index) => item === arr2[index]);
+  };
+
   if (!product) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className={`fixed inset-0 ${onClose === showEditForm ? "flex" : "hidden"} items-center justify-center bg-gray-800 bg-opacity-50 z-50`}>
@@ -156,7 +130,6 @@ const handleImageChange = (e) => {
       >
         <h2 className="text-xl font-semibold mb-4">تعديل المنتج</h2>
 
-        {/* عرض الصور الحالية */}
         {productData.image.length > 0 && (
           <div className="mb-4">
             <h3 className="text-lg font-medium mb-2">Current Images:</h3>
@@ -196,7 +169,6 @@ const handleImageChange = (e) => {
             className="w-full px-3 py-2 border border-gray-300 rounded resize both"
             rows="3"
           />
-          {/* <div className="absolute bottom-0 right-0 w-4 h-4 bg-gray-300 cursor-nwse-resize"></div> */}
         </div>
 
         <div className="mb-4">
@@ -225,13 +197,13 @@ const handleImageChange = (e) => {
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
           <textarea
-  rows="3"
-  type="text"
-  id="images"
-  placeholder="ادخل روابط الصور مفصولة بفواصل"
-  onChange={handleImageChange}
-  className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
-/>
+            rows="3"
+            type="text"
+            id="images"
+            placeholder="ادخل روابط الصور مفصولة بفواصل"
+            onChange={handleImageChange}
+            className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
+          />
         </div>
 
         <div className="flex justify-end gap-4">
