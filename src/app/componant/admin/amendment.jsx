@@ -74,26 +74,31 @@ let filterProduct ;
     const { name, value } = e.target;
     setProductData((prevData) => ({ ...prevData, [name]: value }));
   };
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const imagePromises = files.map(file => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
-    });
+//   const handleImageChange = (e) => {
+//     const files = Array.from(e.target.files);
+//     const imagePromises = files.map(file => {
+//         return new Promise((resolve, reject) => {
+//             const reader = new FileReader();
+//             reader.onload = () => resolve(reader.result);
+//             reader.onerror = error => reject(error);
+//             reader.readAsDataURL(file);
+//         });
+//     });
 
-    Promise.all(imagePromises)
-        .then(imagesData => {
-            const base64Images = imagesData.map(imageData => imageData);
-            // setImages(base64Images);
-            setProductData((prevData) => ({ ...prevData, image: base64Images }));
-        })
-        .catch(error => console.error(error));
-};
-  
+//     Promise.all(imagePromises)
+//         .then(imagesData => {
+//             const base64Images = imagesData.map(imageData => imageData);
+//             // setImages(base64Images);
+//             setProductData((prevData) => ({ ...prevData, image: base64Images }));
+//         })
+//         .catch(error => console.error(error));
+// };
+const handleImageChange = (e) => {
+    const value = e.target.value;
+
+    const imageUrls = value.split(',').map(url => url.trim());
+    setImages(imageUrls);
+  };
 
 // handle Edit product
   const handleSubmit = async (e) => {
@@ -218,12 +223,14 @@ let filterProduct ;
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleImageChange}
-            className="w-full text-gray-700"
-          />
+          <textarea
+  rows="3"
+  type="text"
+  id="images"
+  placeholder="ادخل روابط الصور مفصولة بفواصل"
+  onChange={handleImageChange}
+  className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
+/>
         </div>
 
         <div className="flex justify-end gap-4">
