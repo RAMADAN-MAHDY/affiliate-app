@@ -44,24 +44,32 @@ const notifySuccess = () => toast.success('تم إضافة المنتج بنجا
     theme: "light",
     transition: Flip,
   })
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const imagePromises = files.map(file => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
-    });
+//   const handleImageChange = (e) => {
+//     const files = Array.from(e.target.files);
+//     const imagePromises = files.map(file => {
+//         return new Promise((resolve, reject) => {
+//             const reader = new FileReader();
+//             reader.onload = () => resolve(reader.result);
+//             reader.onerror = error => reject(error);
+//             reader.readAsDataURL(file);
+//         });
+//     });
 
-    Promise.all(imagePromises)
-        .then(imagesData => {
-            const base64Images = imagesData.map(imageData => imageData);
-            setImages(base64Images);
-        })
-        .catch(error => console.error(error));
-};
+//     Promise.all(imagePromises)
+//         .then(imagesData => {
+//             const base64Images = imagesData.map(imageData => imageData);
+//             setImages(base64Images);
+//         })
+//         .catch(error => console.error(error));
+// };
+
+const handleImageChange = (e) => {
+    const value = e.target.value;
+
+    const imageUrls = value.split(',').map(url => url.trim());
+    setImages(imageUrls);
+  };
+  
    
   const data = {
     address: productName,
@@ -174,15 +182,15 @@ transition={Flip}
 
       <div className="mb-6">
         <label htmlFor="images" className="block text-gray-700 font-semibold mb-2">Images (3 to 4 images):</label>
-        <input
-          type="file"
-          id="images"
-          accept="image/*"
-          multiple
-          onChange={handleImageChange}
-          required
-          className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
-        />
+       <textarea
+  rows="3"
+  type="text"
+  id="images"
+  placeholder="ادخل روابط الصور مفصولة بفواصل"
+  onChange={handleImageChange}
+  className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
+/>
+
         {images.length > 0 && (
           <div className="mt-2 grid grid-cols-3 gap-2">
             {images.map((image, index) => (
