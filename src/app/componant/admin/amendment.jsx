@@ -98,6 +98,7 @@ const handleImageChange = (e) => {
 
     const imageUrls = value.split(',').map(url => url.trim());
     setImages(imageUrls);
+    setProductData((prevData) => ({ ...prevData, image: imageUrls }));
   };
 
 // handle Edit product
