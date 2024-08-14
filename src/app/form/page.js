@@ -319,7 +319,7 @@ transition={Flip}
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"
                 />
-                <span className="relative ml-4 mb-3 text-white md:text-lg">Image {idx + 1}</span>
+                
               </div>
             ))}
           </div>
