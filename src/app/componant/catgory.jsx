@@ -18,7 +18,7 @@ const DropdownCategory = ({ getCategory }) => {
                 onClick={() => handleAction("products/3", "1")}
             >
                 <div className={`${buttonFocas==="1" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block">منتجات منزلية</span>
+                    <span className="inline-block text-[#fff]">منتجات منزلية</span>
                 </div>
             </button>
             
@@ -28,7 +28,7 @@ const DropdownCategory = ({ getCategory }) => {
                 onClick={() => handleAction("products/1", '2')}
             >
                 <div className={`${buttonFocas === "2" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block">اجهزه الكترونيه ( ساعات - سماعات - موبيلات )</span>
+                    <span className="inline-block text-[#fff]">اجهزه الكترونيه ( ساعات - سماعات - موبيلات )</span>
                 </div>
             </button>
 
@@ -38,7 +38,7 @@ const DropdownCategory = ({ getCategory }) => {
                 onClick={() => handleAction("products/2", "3")}
             >
                 <div className={`${buttonFocas==="3" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block">ملابس ( رجالي - حريمي - اطفال )</span>
+                    <span className="inline-block text-[#fff]">ملابس ( رجالي - حريمي - اطفال )</span>
                 </div>
             </button>
 
@@ -48,7 +48,7 @@ const DropdownCategory = ({ getCategory }) => {
                 onClick={() => handleAction("products/5", '4')}
             >
                 <div className={`${buttonFocas==="4" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block">ستائر ومفروشات</span>
+                    <span className="inline-block text-[#fff]">ستائر ومفروشات</span>
                 </div>
             </button>
 
@@ -58,7 +58,7 @@ const DropdownCategory = ({ getCategory }) => {
                 onClick={() => handleAction("products/4", '5')}
             >
                 <div className={`${buttonFocas==="5" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block">منتجات اوت دور ( حدائق )</span>
+                    <span className="inline-block text-[#fff]">منتجات اوت دور ( حدائق )</span>
                 </div>
             </button>
         </div>
