@@ -46,6 +46,18 @@
   .contener_navbar ul li:nth-child(4) {
     /* padding: 0px ; */
     width: 130px;
+  }.contener_navbar ul li:nth-child(5){
+    /* margin-top: 0; */
+    background-color: rgba(0, 255, 21, 0.267);
+    border-radius: 19px 19px ;
+    color :#000 !important;
+
+  }.contener_navbar ul li a:nth-child(5){
+    /* margin-top: 0; */
+    /* background-color: rgba(0, 255, 21, 0.267);
+    border-radius: 19px 19px ; */
+    color :#000 !important;
+
   }
 .contener_navbar ul li:nth-child(5):hover{
     background-color: transparent;
@@ -257,9 +269,9 @@
         width: 79%;
         /* padding-left: 20px; */
         animation: slideInFromRight 1s ease-in-out;
-        /* background-color: #c71c1c; */
+        background-color: transparent;
         border-radius: 0px 0px 69px 89px  ;
-      }  
+      } 
        .contener_navbar ul li:nth-child(6){
            display: none;
         /* padding: 12px; */

@@ -2,12 +2,13 @@
 import { useState , useEffect} from "react";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useRef } from "react";
+import TextareaAutosize from 'react-textarea-autosize';
 const AddProduct = () => {
 
     const URL= process.env.NEXT_PUBLIC_API_URL
     
-    
+  const imagesRef = useRef(null);
   const [productName, setProductName] = useState("");
   const [images, setImages] = useState([]);
   const [details, setDetails] = useState("");
@@ -125,6 +126,9 @@ const handleImageChange = (e) => {
       setPrice(0);
       setnewprice(0);
     //   setIsOpen(true);
+    if (imagesRef.current) {
+        imagesRef.current.value = '';
+      }
       notifySuccess();
     } else {
         notifyError();
@@ -188,6 +192,7 @@ transition={Flip}
   id="images"
   placeholder="ادخل روابط الصور مفصولة بفواصل"
   onChange={handleImageChange}
+  ref={imagesRef}
   className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
 />
 
@@ -207,13 +212,14 @@ transition={Flip}
 
       <div className="mb-6">
         <label htmlFor="details" className="block text-gray-700 font-semibold mb-2">Details:</label>
-        <textarea
+        <TextareaAutosize
           id="details"
           value={details}
           onChange={(e) => setDetails(e.target.value)}
           required
+          minRows={3}
           className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
-        ></textarea>
+        />
       </div>
 
       <div className="mb-6">

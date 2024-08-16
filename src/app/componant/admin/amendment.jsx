@@ -9,6 +9,7 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
   const [onClose, setOnClose] = useState(true);
   const product = useSelector((state) => state.prodectData.prodectes);
   const URL= process.env.NEXT_PUBLIC_API_URL
+  const [imageUrls, setImageUrls] = useState([]);
 
   const notifySuccess = (eo) => toast.success(eo, {
     position: "top-center",
@@ -95,21 +96,32 @@ let filterProduct ;
 // };
 const handleImageChange = (e) => {
     const value = e.target.value;
+  
+    const newImageUrls = value
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url !== '');
+  
+    setImageUrls(newImageUrls);
+};
 
-    const imageUrls = value.split(',').map(url => url.trim());
-    setImages(imageUrls);
-    setProductData((prevData) => ({ ...prevData, image: imageUrls }));
-  };
+  
 
 // handle Edit product
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+    const updatedProductData = {
+        ...productData,
+        image: imageUrls
+      };
+
     // تحديد البيانات التي تغيرت فقط
     const changes = {};
-    Object.keys(productData).forEach((key) => {
-      if (JSON.stringify(productData[key]) !== JSON.stringify(originalProductData[key])) {
-        changes[key] = productData[key];
+    Object.keys(updatedProductData).forEach((key) => {
+      if (JSON.stringify(updatedProductData[key]) !== JSON.stringify(originalProductData[key])) {
+        changes[key] = updatedProductData[key];
       }
     });
 
