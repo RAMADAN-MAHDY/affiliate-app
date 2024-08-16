@@ -52,7 +52,7 @@ export const counterSlice = createSlice({
     carts: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart')) || [] : [],
     status:"idle",
     email:'',
-    currentCategory: 'products/5',
+    currentCategory: 'products/2',
   },
   reducers: {
     add: (state, action) => {
