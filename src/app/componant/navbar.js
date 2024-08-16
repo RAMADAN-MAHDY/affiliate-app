@@ -104,7 +104,7 @@ const Navebar = ({ para }) => {
                             <Link className={`font-bold inline-flex  rounded-3xl items-center text-[#000]`}
                             style={{ color: '#000' }}
                             href="/login">
-                                <RiLogoutBoxFill className='mr-2 ml-2' />
+                                <RiLogoutBoxFill className='mr-0 ml-2' />
                                 تسجيل دخول</Link>
                         </button>
                     }
