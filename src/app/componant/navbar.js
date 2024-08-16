@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
-import styles from './cssSheet/NavebarComponent.module.css'// If using CSS modules
+import styles from './cssSheet/NavebarComponent.module.css'
 
 const Navebar = ({ para }) => {
     // console.log(para)
@@ -97,22 +97,17 @@ const Navebar = ({ para }) => {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
-
-
-
-
-
-
                     </>
                     :
 
                         <button className='flex '>
-                            <Link className={`font-bold inline-flex  rounded-3xl items-center `} href="/login">
+                            <Link className={`font-bold inline-flex  rounded-3xl items-center text-[#000]`}
+                            style={{ color: '#000' }}
+                            href="/login">
                                 <RiLogoutBoxFill className='mr-2 ml-2' />
                                 تسجيل دخول</Link>
                         </button>
                     }
-                           
                     </li>
                     <li className='flex items-center justify-center'>
 
