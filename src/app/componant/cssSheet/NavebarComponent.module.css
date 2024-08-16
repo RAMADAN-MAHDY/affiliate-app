@@ -44,15 +44,10 @@
     color: #fff;
   }
   .contener_navbar ul li:nth-child(4) {
-    padding: 0px ;
-    width: 100px;
+    /* padding: 0px ; */
+    width: 130px;
   }
-  .contener_navbar ul li:nth-child(5){
-    margin-top: 0px;
-    background-color: transparent;
-
-  }.contener_navbar ul li:nth-child(5):hover{
-    margin-top: 0px;
+.contener_navbar ul li:nth-child(5):hover{
     background-color: transparent;
 
   }.contener_navbar ul li:nth-child(6){

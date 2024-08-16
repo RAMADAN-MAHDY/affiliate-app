@@ -60,10 +60,12 @@ const Navebar = ({ para }) => {
                         </Link>
                     </li>
                     <li className='flex'>
-                        <Link className={`text-[#fff] font-bold inline-flex rounded-3xl items-center p-2`} href={`/card/${usercode}`}>
-                            <FcKindle className='w-[60px]' />
-                            تقرير المسوق</Link>
-                    </li>
+    <Link className={`text-[#fff] font-bold inline-flex items-center p-2 pr-3 rounded-3xl whitespace-nowrap`} href={`/card/${usercode}`}>
+        <FcKindle className='w-[60px] mr-1 ml-1' />
+        تقرير المسوق
+    </Link>
+</li>
+
                    
                     <li className='flex'>
                     {usercode ?
@@ -105,8 +107,8 @@ const Navebar = ({ para }) => {
                     :
 
                         <button className='flex '>
-                            <Link className={`text-[#0c0c0c] bg-[#070706] font-bold inline-flex  rounded-3xl items-center `} href="/login">
-                                <RiLogoutBoxFill />
+                            <Link className={`font-bold inline-flex  rounded-3xl items-center `} href="/login">
+                                <RiLogoutBoxFill className='mr-2 ml-2' />
                                 تسجيل دخول</Link>
                         </button>
                     }
