@@ -63,7 +63,7 @@ const ProductsCard = () => {
   if (products.message === 'no productes fond') {
     return (
       <div className="bg-gradient-to-b from-[#443444] to-purple-600 sm:p-10 p-6 mt-[10px] w-full">
-        <h1 className="text-3xl font-bold text-white mb-7 mt-[-20px] font-serif">منتجاتنا</h1>
+        <h1 className="text-3xl font-bold text-[#000] mb-7 mt-[-20px] font-serif">منتجاتنا</h1>
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -88,8 +88,8 @@ const ProductsCard = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-[#443444] to-purple-600 p-3 w-full m-3 sm:mt-[10px]">
-      <h1 className="text-3xl font-bold text-white mb-7 ml-[30vw] font-serif">منتجاتنا</h1>
+    <div className="bg-gradient-to-b from-[#f0e8f098] to-[#eebbee] p-3 w-full m-3 sm:mt-[10px]">
+      <h1 className="text-3xl font-bold text-[#000] mb-7 ml-[40vw] font-serif">منتجاتنا</h1>
 
       <ToastContainer
         position="top-right"
