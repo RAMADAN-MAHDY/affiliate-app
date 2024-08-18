@@ -1,8 +1,7 @@
 'use client'
-import { useState , useEffect} from "react";
+import { useState , useEffect , useRef} from "react";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRef } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 const AddProduct = () => {
 
@@ -186,7 +185,7 @@ transition={Flip}
 
       <div className="mb-6">
         <label htmlFor="images" className="block text-gray-700 font-semibold mb-2">Images (3 to 4 images):</label>
-       <textarea
+       <TextareaAutosize
   rows="3"
   type="text"
   id="images"

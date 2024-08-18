@@ -1,11 +1,14 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TextareaAutosize from 'react-textarea-autosize';
 
 
 const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,reloadEditForm}) => {
+
+  const imagesRef = useRef(null);
   const [onClose, setOnClose] = useState(true);
   const product = useSelector((state) => state.prodectData.prodectes);
   const URL= process.env.NEXT_PUBLIC_API_URL
@@ -61,15 +64,25 @@ let filterProduct ;
     if (filterProduct.length > 0) {
       const product = filterProduct[0];
       setProductData({
-        image: product.image || [],
+        image:   product.image || [],
         address: product.address,
         details: product.details,
         price: product.price,
         newprice: product.newprice
       });
       setOriginalProductData(product); // حفظ البيانات الأصلية
+      setImageUrls(product.image || []);
     }
-  }, [showEditForm]);
+  }, [showEditForm , productId]);
+
+
+  //show link of image 
+  useEffect(()=>{
+    if (imagesRef.current) {
+        imagesRef.current.value = productData.image;
+      }
+
+  },[productData.image])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -124,7 +137,7 @@ const handleImageChange = (e) => {
         changes[key] = updatedProductData[key];
       }
     });
-
+ 
     if (Object.keys(changes).length > 0) {
     console.log(changes)
     // console.log(formData)
@@ -200,7 +213,7 @@ const handleImageChange = (e) => {
 
         <div className="relative mb-4">
           <label className="block text-gray-700 mb-2">التفاصيل:</label>
-          <textarea
+          <TextareaAutosize
             name="details"
             value={productData.details}
             onChange={handleChange}
@@ -233,11 +246,28 @@ const handleImageChange = (e) => {
             className="w-full px-3 py-2 border border-gray-300 rounded"
           />
         </div>
-
+   {/* عرض الصور الجديده */}
+   {imageUrls.length > 0 && (
+          <div className="mb-4">
+            <h3 className="text-lg font-medium mb-2">Current Images:</h3>
+            <div className="flex gap-4 flex-wrap">
+              {imageUrls.map((img, index) => (
+                <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
+                  <img
+                    src={img}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
-          <textarea
-  rows="3"
+          <TextareaAutosize
+  minRows={3}
+  ref ={imagesRef}
   type="text"
   id="images"
   placeholder="ادخل روابط الصور مفصولة بفواصل"
