@@ -1,7 +1,7 @@
 "use client"
 // components/ConditionForm.js
 import {useEffect, useState , useCallback} from 'react';
-import { useDropzone } from 'react-dropzone';
+// import { useDropzone } from 'react-dropzone';
 import Navebar from '../componant/navbar';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast , Flip } from 'react-toastify';
@@ -11,12 +11,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ConditionForm = () => {
     const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
-    const [err , setErr] = useState();
+    // const [err , setErr] = useState();
     const [commition , setcommition] = useState(0);
     const [delevary , setdelevary] = useState(0);
     const [quantuty , setquantuty] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const pathname = usePathname();
+    // const pathname = usePathname();
     const URL= process.env.NEXT_PUBLIC_API_URL
     const searchParams = useSearchParams();
     const query = searchParams.get('id');// get order id from cart
@@ -144,54 +144,54 @@ const calculaterTotal = (parseFloat(price) * quantuty) + parseFloat(delevary) + 
   };
  
   
-  const onDrop = useCallback((acceptedFiles) => {
-    const imagePaths = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setFormData((prevData) => ({
-      ...prevData,
-      stateDetail: {
-        ...prevData.stateDetail,
-        imagePaths: [...prevData.stateDetail.imagePaths, ...imagePaths]
-      }
-    }));
-  }, []);
+//   const onDrop = useCallback((acceptedFiles) => {
+//     const imagePaths = acceptedFiles.map((file) => URL.createObjectURL(file));
+//     setFormData((prevData) => ({
+//       ...prevData,
+//       stateDetail: {
+//         ...prevData.stateDetail,
+//         imagePaths: [...prevData.stateDetail.imagePaths, ...imagePaths]
+//       }
+//     }));
+//   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+//   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 
 
-  const imageBase64 = async () => {
-    const path = formData.stateDetail.imagePaths[0];
+//   const imageBase64 = async () => {
+//     const path = formData.stateDetail.imagePaths[0];
     
-    // قم بإنشاء عنصر صورة جديد
-    const img = new Image();
-    img.src = path;
+//     // قم بإنشاء عنصر صورة جديد
+//     const img = new Image();
+//     img.src = path;
   
-    // استخدم Promise للتأكد من تحميل الصورة بالكامل
-    return new Promise((resolve, reject) => {
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/jpeg'));
-      };
-      img.onerror = reject;
-    });
-  };
+//     // استخدم Promise للتأكد من تحميل الصورة بالكامل
+//     return new Promise((resolve, reject) => {
+//       img.onload = () => {
+//         const canvas = document.createElement('canvas');
+//         canvas.width = img.width;
+//         canvas.height = img.height;
+//         const ctx = canvas.getContext('2d');
+//         ctx.drawImage(img, 0, 0);
+//         resolve(canvas.toDataURL('image/jpeg'));
+//       };
+//       img.onerror = reject;
+//     });
+//   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     
-    if (formData.stateDetail.imagePaths.length === 0) {
-      setIsLoading(false);
-      setErr(true);
-      return;
-    }
+    // if (formData.stateDetail.imagePaths.length === 0) {
+    //   setIsLoading(false);
+    //   setErr(true);
+    //   return;
+    // }
   
     try {
-      const imageBase64Data = await imageBase64();
+    //   const imageBase64Data = await imageBase64();
   
       const requestData = {
         name: formData.name,
@@ -209,7 +209,7 @@ const calculaterTotal = (parseFloat(price) * quantuty) + parseFloat(delevary) + 
           total: formData.stateDetail.total,
           notes: formData.stateDetail.notes,
           state: formData.stateDetail.state,
-          imagePaths: imageBase64Data // إضافة الصور المحولة إلى Base64
+          imagePaths: formData.stateDetail.imagePaths[0]// إضافة الصور المحولة إلى Base64
         }
       };
   
