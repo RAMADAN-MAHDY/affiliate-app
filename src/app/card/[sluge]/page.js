@@ -161,7 +161,9 @@ const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localSt
       <Loading/>
    
 
-      ) :  data !== null ? (
+      ) : !data || data.length === 0 || data === "حدث خطأ" ? (
+        <p className='text-center text-[#fff] fixed ml-[30%] w-[300px] y-[100px] text-[34px] bg-[#343244] p-6 mt-6'> لا يوجد طلبات </p>
+    ) : (
         <div className='m-3'>
                
           <p className='bg-[#eceaea] p-6 text-[#000000] font-bold text-[24px] font-serif'>Name: <span className='text-[#000000dc] font-bold text-[24px] font-serif'> {data[0].name}  </span>    </p>
@@ -245,10 +247,7 @@ const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localSt
             {/* <MyComponent/> */}
           </div>
         </div>
-      ) : (
-        
-            <p className=' font-bold text-[40px] ml-[40%]'>لا يوجد تقارير لعرضها    </p>
-      )}
+      ) }
 
       </Suspense>
 
