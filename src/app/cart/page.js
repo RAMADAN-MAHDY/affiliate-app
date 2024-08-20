@@ -12,6 +12,8 @@ const CartTable = ({ products, quantities, onQuantityChange }) => {
 
     const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
     const dispatch = useDispatch();
+    // console.log(products[0].image[0])
+
 // const [Delivery, setDelivary] = useState(
 //     products.reduce((acc, product) => {
 //       acc[product._id] = product.Delivery;
