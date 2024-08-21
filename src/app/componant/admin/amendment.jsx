@@ -199,7 +199,7 @@ const handleImageChange = (e) => {
           </div>
         )}
 
-        <div className="mb-4">
+        <div className="mb-4 overflow-hidden">
           <label className="block text-gray-700 mb-2">العنوان:</label>
           <input
             type="text"
