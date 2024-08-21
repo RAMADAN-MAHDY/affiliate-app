@@ -64,39 +64,39 @@ const ConditionForm = ({product , code , onCancel}) => {
   };
  
   
-  const onDrop = useCallback((acceptedFiles) => {
-    const imagePaths = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setFormData((prevData) => ({
-      ...prevData,
-        imagePaths: [...prevData.imagePaths, ...imagePaths]
+//   const onDrop = useCallback((acceptedFiles) => {
+//     const imagePaths = acceptedFiles.map((file) => URL.createObjectURL(file));
+//     setFormData((prevData) => ({
+//       ...prevData,
+//         imagePaths: [...prevData.imagePaths, ...imagePaths]
     
-    }));
-  }, []);
+//     }));
+//   }, []);
 
   
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+//   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSubmit = async (e) => {
     try{
     e.preventDefault();
     setIsLoading(true)
-    if (formData.imagePaths.length === 0) {
-        setIsLoading(false)
-        setErr(true); // تعديل: ضبط حالة الخطأ إذا لم يتم تحميل أي صور
-        return;
-    }
+    // if (formData.imagePaths.length === 0) {
+    //     setIsLoading(false)
+    //     setErr(true); // تعديل: ضبط حالة الخطأ إذا لم يتم تحميل أي صور
+    //     return;
+    // }
   
     // تحويل الصور إلى Base64
-    const imageBase64 = formData.imagePaths.map((path) => {
-      const img = new Image();
-      img.src = path;
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      return canvas.toDataURL('image/jpeg');
-    });
+    // const imageBase64 = formData.imagePaths.map((path) => {
+    //   const img = new Image();
+    //   img.src = path;
+    //   const canvas = document.createElement('canvas');
+    //   canvas.width = img.width;
+    //   canvas.height = img.height;
+    //   const ctx = canvas.getContext('2d');
+    //   ctx.drawImage(img, 0, 0);
+    //   return canvas.toDataURL('image/jpeg');
+    // });
 
     // إنشاء كائن JSON للبيانات المرسلة
     // const requestData = {
@@ -209,7 +209,7 @@ catch (error) {
         />
       </div>
       {/* المزيد من الحقول هنا */}
-      <div className="mb-4">
+      {/* <div className="mb-4">
   <label className="block text-gray-700">الصور</label>
   <div required {...getRootProps()} className={`dropzone border-[3px] border-[#fff] ${err ?"bg-[#f80707]" :"bg-[#bcef57]"}`}>
   <input {...getInputProps()}/>
@@ -219,7 +219,7 @@ catch (error) {
       <p>قم بإسقاط الصور هنا أو انقر لتحميلها</p>
     )}
   </div>
-  {/* إضافة عرض الصور المختارة */}
+   
   {formData.imagePaths.length > 0 && (
     <div className="mt-4">
       <p>الصور المختارة:</p>
@@ -232,7 +232,7 @@ catch (error) {
       </ul>
     </div>
   )}
-</div>
+</div> */}
 
       <div className="mb-4">
         <label className="block text-gray-700">اسم المنتج</label>
