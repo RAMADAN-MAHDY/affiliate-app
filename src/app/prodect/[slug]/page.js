@@ -6,10 +6,12 @@ import Navebar from "@/app/componant/navbar";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 
 export default function Page({ params }) {
+    const router = useRouter();
 
   const dispatch = useDispatch();
   const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
@@ -46,6 +48,20 @@ export default function Page({ params }) {
     dispatch(add({ ...product, quantity: 1 }));
     notifySuccess();
   };
+
+  const handleAddToCartAndNavigate = (product) => {
+    handleAddToCart(product); // أضف المنتج إلى السلة
+    if (usercode) {
+      router.push({
+        pathname: '/form',
+        query: { id: product._id },
+      });
+    } else {
+      router.push('/login');
+    }
+  };
+
+
 
   if (!filteredProduct) {
     return (
@@ -134,15 +150,13 @@ transition={Flip}
                   اضافة اللي السلة 
               
         </button>
-        <Link
-          href={
-           { pathname: usercode?'/form' : "/login",
-            query: usercode ? {id : filteredProduct._id} :{}
-           }}
+        
+        <button
+          onClick={() => handleAddToCartAndNavigate(filteredProduct)}
           className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1"
         >
-          طلب المنتج 
-        </Link>  
+          طلب المنتج
+        </button>
       </div>
       </div>
     </div>
