@@ -5,9 +5,10 @@ import { TbShoppingCartExclamation } from "react-icons/tb";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { FcMenu } from "react-icons/fc";
 import {Avatar , Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,} from "@nextui-org/react";
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
+import Joyride from 'react-joyride';
 
 import styles from './cssSheet/NavebarComponent.module.css'
 
@@ -18,11 +19,99 @@ const Navebar = ({ para }) => {
     const [usercode, setUsercode] = useState(typeof window !== 'undefined' ? localStorage.getItem('codeorderaffilate') || '' : '');
     const [userEmail, setUserEmail] = useState(typeof window !== 'undefined' ? localStorage.getItem('emailorderaffilate') || '' : '');
     const [showinfoUser , setshowinfoUser ] = useState(false);
-
+    const [runTour, setRunTour] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const firstLetter = userEmail.charAt(0).toUpperCase()
+
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const isFirstVisit = localStorage.getItem('firstVisit');
+            if (!false) {
+                setRunTour(true);
+                // localStorage.setItem('firstVisit', 'true');
+            }
+
+            // التحقق من حجم الشاشة
+            const handleResize = () => {
+                setIsMobile(window.innerWidth <= 600);
+            };
+
+            handleResize(); // التحقق عند التحميل
+            window.addEventListener('resize', handleResize);
+
+            return () => window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (runTour && isMobile) {
+            // فتح شريط التنقل تلقائيًا
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle && !menuToggle.checked) {
+                menuToggle.checked = true;
+
+                setTimeout(() => {
+                    // تشغيل Joyride بعد فتح شريط التنقل
+                    setRunTour(true);
+                }, 500);
+            }
+        }
+    }, [runTour, isMobile]);
+
+
+
+
+      const steps = [
+        {
+            target: '.step-home',
+            content: 'مرحبا بك! هذه هي الصفحة الرئيسية حيث يمكنك البدء.',
+            disableBeacon: true,
+        },
+        {
+            target: '.step-cart',
+            content: 'هنا يمكنك رؤية السلة وإدارة المنتجات التي اخترتها.',
+        },
+        {
+            target: '.step-support',
+            content: 'يمكنك الوصول إلى الدعم هنا لأي استفسارات أو مساعدة.',
+        },
+        {
+            target: '.step-affiliate',
+            content: 'هذا هو تقرير المسوق حيث يمكنك متابعة أدائك.',
+        },
+        {
+            target: '.step-user',
+            content: 'يمكنك إدارة حسابك هنا أو تسجيل الدخول.',
+        },
+    ];
+    
+
+
+
+
+
+
+
+
+
     return (
 
         <header className={styles.header}>
+  <Joyride
+                steps={steps}
+                run={runTour}
+                continuous={true}
+                showProgress={true}
+                showSkipButton={true}
+                styles={{
+                    options: {
+                        zIndex: 10000,
+                    },
+                }}
+            />
+
             <input type="checkbox" className={styles.show_nav} id="menuToggle" />
             <label className={styles.label} htmlFor="menuToggle">
                 <FcMenu color='red' />
@@ -32,13 +121,13 @@ const Navebar = ({ para }) => {
             {/* <div className={styles.headerContent}> */}
             <nav className={styles.contener_navbar}>
                 <ul className={styles.ul}>
-                    <li className='flex'>
+                    <li className='flex step-home' >
                         <Link href="/" className='inline-flex items-center'>
                             <FcHome className='w-[50px] font-bold' />
                             <span>الرئيسيه</span>
                         </Link>
                     </li>
-                    <li className='flex'>
+                    <li className='flex step-cart'>
                         <Link href={`/cart`} className='inline-flex items-center '>
 
                         <div className='relative'>
@@ -53,13 +142,13 @@ const Navebar = ({ para }) => {
                            
                         </Link></li>
 
-                    <li className='flex'>
+                    <li className='flex step-support'>
                         <Link href="/SupportPage" className='inline-flex items-center '>
                             <FcOnlineSupport className='w-[60px]' />
                              الدعم
                         </Link>
                     </li>
-                    <li className='flex'>
+                    <li className='flex step-affiliate'>
     <Link className={`text-[#fff] font-bold inline-flex items-center p-2 pr-3 rounded-3xl whitespace-nowrap`} href={`/card/${usercode}`}>
         <FcKindle className='w-[60px] mr-1 ml-1' />
         تقرير المسوق
@@ -67,7 +156,7 @@ const Navebar = ({ para }) => {
 </li>
 
                    
-                    <li className='flex'>
+                    <li className='flex step-user'>
                     {usercode ?
                     <>
     <Dropdown>
@@ -102,7 +191,9 @@ const Navebar = ({ para }) => {
 
                         <button className='flex '>
                             <Link className={`font-bold inline-flex  rounded-3xl items-center text-[#000]`}
-                            style={{ color: '#000' }}
+                            style={{ color: '#000' , backgroundColor:'rgb(119 255 11)',
+                            
+                             }}
                             href="/login">
                                 <RiLogoutBoxFill className='mr-0 ml-2' />
                                 تسجيل دخول</Link>
