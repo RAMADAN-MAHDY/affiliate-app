@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 
 export default function Page({ params }) {
+
     const router = useRouter();
 
   const dispatch = useDispatch();
@@ -61,7 +62,9 @@ export default function Page({ params }) {
     }
   };
 
-
+    useEffect(() => {
+        if (!router.isReady) return; // التأكد من أن router جاهز
+    }, [router]);
 
   if (!filteredProduct) {
     return (
