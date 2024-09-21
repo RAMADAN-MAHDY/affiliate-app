@@ -5,7 +5,7 @@ import { useState } from "react";
 import Navebar from "@/app/componant/navbar";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 
@@ -51,20 +51,15 @@ export default function Page({ params }) {
   };
 
   const handleAddToCartAndNavigate = (product) => {
-    handleAddToCart(product); // أضف المنتج إلى السلة
+    handleAddToCart(product);
     if (usercode) {
-      router.push({
-        pathname: '/form',
-        query: { id: product._id },
-      });
+        router.push(`/form?id=${product._id}`);
     } else {
-      router.push('/login');
+        router.push('/login');
     }
-  };
+};
 
-    useEffect(() => {
-        if (!router.isReady) return; // التأكد من أن router جاهز
-    }, [router]);
+
 
   if (!filteredProduct) {
     return (
