@@ -12,7 +12,7 @@ import Link from 'next/link';
 export default function Page({ params }) {
 
   const dispatch = useDispatch();
-
+  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [copied, setCopied] = useState(false);
 
   const notifySuccess = () => toast.success('تم اضافة المنتج اللي السله', {
