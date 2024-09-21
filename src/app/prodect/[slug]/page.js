@@ -5,6 +5,7 @@ import { useState } from "react";
 import Navebar from "@/app/componant/navbar";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Link from 'next/link';
 
 
 
@@ -132,6 +133,15 @@ transition={Flip}
                   اضافة اللي السلة 
               
         </button>
+        <Link
+          href={
+           { pathname: usercode?'/form' : "/login",
+            query: usercode ? {id : filteredProduct._id} :{}
+           }}
+          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition-colors"
+        >
+          طلب المنتج 
+        </Link>  
       </div>
     </div>
     </>
