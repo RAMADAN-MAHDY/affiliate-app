@@ -79,7 +79,7 @@ const Navebar = ({ para }) => {
         },
         {
             target: '.step-affiliate',
-            content: 'هذا هو تقرير المسوق حيث يمكنك متابعة أدائك.',
+            content: 'هذا هو تقرير المسوق حيث يمكنك متابعة طلباتك.',
         },
         {
             target: '.step-user',
