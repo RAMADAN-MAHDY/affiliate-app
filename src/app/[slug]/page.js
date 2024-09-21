@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Page({ params }) {
   const [copied, setCopied] = useState(false);
+  const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const productID = params.slug;
   const products = useSelector((state) =>state.prodectData.prodectes );
 
@@ -80,6 +81,15 @@ export default function Page({ params }) {
         <button className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1">
           أضف إلى السلة
         </button>
+        <Link
+          href={
+           { pathname: usercode?'/form' : "/login",
+            query: usercode ? {id : filteredProduct._id} :{}
+           }}
+          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition-colors"
+        >
+          طلب المنتج 
+        </Link>  
       </div>
     </div>
   );
