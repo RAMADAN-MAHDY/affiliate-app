@@ -28,9 +28,9 @@ const Navebar = ({ para }) => {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const isFirstVisit = localStorage.getItem('firstVisit');
-            if (!false) {
+            if (!isFirstVisit) {
                 setRunTour(true);
-                // localStorage.setItem('firstVisit', 'true');
+                localStorage.setItem('firstVisit', 'true');
             }
 
             // التحقق من حجم الشاشة
