@@ -6,7 +6,7 @@ import Navebar from "@/app/componant/navbar";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 
