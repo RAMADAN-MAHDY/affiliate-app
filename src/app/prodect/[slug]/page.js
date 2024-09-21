@@ -126,6 +126,7 @@ transition={Flip}
             ))}
           </div>
         </div>
+        <div className="px-6 pb-4 flex justify-between">
         <button className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1"
         onClick={() => handleAddToCart(filteredProduct)}
         >
@@ -138,10 +139,11 @@ transition={Flip}
            { pathname: usercode?'/form' : "/login",
             query: usercode ? {id : filteredProduct._id} :{}
            }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition-colors"
+          className="block mx-auto bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-200 shadow-lg transform hover:-translate-y-1"
         >
           طلب المنتج 
         </Link>  
+      </div>
       </div>
     </div>
     </>
