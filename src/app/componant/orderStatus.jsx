@@ -1,5 +1,4 @@
-'use client';
-import { useState } from "react";
+
 
 const statuses = [
   { label: 'قيد المراجعه', color: 'blue' },
@@ -10,6 +9,13 @@ const statuses = [
 ];
 
 const OrderStatus = ({ currentStatus }) => {
+    // useEffect(()=>{
+
+        // console.log("------------------------------")
+        // console.log(currentStatus)
+        // console.log("------------------------------")
+
+    // },[])
   return (
     <div className="relative flex items-center w-full">
       {currentStatus < 5 ? statuses.map((status, index) => (
@@ -39,7 +45,7 @@ const OrderStatus = ({ currentStatus }) => {
             className={`w-9 h-9 rounded-full bg-[red] border-2 border-gray-800`}
           >
           </div>
-          <p className=" text-sm p-1"> الطلب ملغي </p>
+          <p className=" text-sm p-1">  {currentStatus} </p>
      </div>
       }
     </div>

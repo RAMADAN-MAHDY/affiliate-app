@@ -204,8 +204,8 @@ const cancelEdit = () => {
          return 'تم التسليم';
         case '4':
          return 'تم القبض';
-        case '5':
-         return 'ملغي';
+        case state:
+         return state;
       default:
         return 'قيد المراجعه';
     }
@@ -333,7 +333,7 @@ setshowMessage(true)
                     <option value="5">  ملغي </option>
                 </select>
                 {
-                    selectedOptions[rowData._id] === '(خصم العموله)ملغي' &&
+                    selectedOptions[rowData._id] === '5' &&
                     <input className='p-2 rounded-2xl' type='text' placeholder='ملغي ' value={sendreqIsfiled[rowData._id] || ''} onChange={
                         (event) => handleInputChange(event, rowData._id, data[0].code)}
                     />
