@@ -12,6 +12,7 @@ const AddProduct = () => {
   const [images, setImages] = useState([]);
   const [details, setDetails] = useState("");
   const [price, setPrice] = useState(0);
+  const [commition, setcommition] = useState('');
   const [newprice, setnewprice] = useState(0);
   const [category, setcategory] = useState('1');
   const [isClient, setIsClient] = useState(false)
@@ -76,6 +77,7 @@ const handleImageChange = (e) => {
    image : images,
    details: details,
    price: price,
+   commition:commition,
    newprice :newprice,
   }
 
@@ -105,11 +107,11 @@ const handleImageChange = (e) => {
 
 
   const handleSubmit = (e) => {
-  console.log(category);
+//   console.log(category);
 
     e.preventDefault();
     // هنا يمكنك إرسال البيانات إلى خادم أو القيام بالإجراء المناسب
-   console.log(images);
+//    console.log(images);
    if (!images || !productName || !details || !price ) {
     return notifyError();
   }
@@ -118,7 +120,7 @@ const handleImageChange = (e) => {
     console.log(response.message ==="تم انشاء المنتج بنجاح"
 );
     if (response.message ==="تم انشاء المنتج بنجاح") {
-      console.log("done");
+    //   console.log("done");
       setProductName('');
       setImages([]);
       setDetails('');
@@ -233,6 +235,17 @@ transition={Flip}
         />
       </div>
 
+      <div className="mb-6">
+        <label htmlFor="commition" className="block text-gray-700 font-semibold mb-2">commition:</label>
+        <input
+          type="text"
+          id="commition"
+          value={commition}
+          onChange={(e) => setcommition(e.target.value)}
+          required
+          className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
+        />
+      </div>
       <div className="mb-6">
         <label htmlFor="newprice" className="block text-gray-700 font-semibold mb-2">newprice:</label>
         <input

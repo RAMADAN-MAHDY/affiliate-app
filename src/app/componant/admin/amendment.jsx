@@ -55,7 +55,8 @@ let filterProduct ;
     address: '',
     details: '',
     price: '',
-    newprice: ''
+    newprice: '',
+    commition:''
   });
   const [originalProductData, setOriginalProductData] = useState(null);
   const [error, setError] = useState(null);
@@ -68,7 +69,8 @@ let filterProduct ;
         address: product.address,
         details: product.details,
         price: product.price,
-        newprice: product.newprice
+        newprice: product.newprice,
+        commition:product.commition
       });
       setOriginalProductData(product); // حفظ البيانات الأصلية
       setImageUrls(product.image || []);
@@ -235,7 +237,16 @@ const handleImageChange = (e) => {
             className="w-full px-3 py-2 border border-gray-300 rounded"
           />
         </div>
-
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">عمولة المسوق:</label>
+          <input
+            type="text"
+            name="commition"
+            value={productData.commition}
+            onChange={handleChange}        
+            className="w-full px-3 py-2 border border-gray-300 rounded"
+          />
+        </div>
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">السعر بعد الخصم (اختياري):</label>
           <input
