@@ -95,13 +95,29 @@ transition={Flip}
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
               {filteredProduct.address}
             </h2>
+            <div className='flex justify-around'>
+
             <p className={`text-gray-700 text-[24px] ${filteredProduct.newprice > 0 ? 'line-through text-red-500' : ''}`}>
         السعر: ج{filteredProduct.price}
       </p>
+      {filteredProduct.newprice <= 0  && filteredProduct.commition &&
+                <p className={`font-bold text-[#e56e49]`}>
+                العموله: {filteredProduct.commition}
+              </p>   
+              
+            }
+                </div>
+
+
       {filteredProduct.newprice > 0 &&
                     <div className='flex justify-around'>
                         <p className="text-gray-700 font-bold text-[24px] ">السعر: ج{filteredProduct.newprice}</p>
-                           
+
+                      {filteredProduct.commition &&
+                        <p className={`font-bold text-[#e56e49]`}>
+                العموله: {filteredProduct.commition}
+              </p>  
+                      }
                            <p className='font-bold bg-[#f82525] p-1 text-[#fafafa]'>{((filteredProduct.price - filteredProduct.newprice) / filteredProduct.price *100).toFixed(0)}%</p>
                            
                          </div>  

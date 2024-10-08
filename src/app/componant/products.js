@@ -161,12 +161,21 @@ const ProductsCard = () => {
             )}
             <div className="px-6 py-4">
               <h2 className="text-xl font-bold text-gray-800">{product.address}</h2>
-              <p className={`text-gray-700 ${product.newprice > 0 ? 'line-through text-red-500' : ''}`}>
+              <div className='flex justify-around'>
+              <p className={` ${product.newprice > 0 ? 'line-through text-red-500' : 'font-bold text-[#05950ac2]'}`}>
                 السعر: ج{product.price}
               </p>
+              {product.newprice <= 0  && product.commition &&
+               <p className={`font-bold text-[#e56e49]`}>
+               العموله: {product.commition}
+             </p>
+              }
+             
+              </div>
               {product.newprice > 0 && (
                 <div className='flex justify-around'>
-                  <p className="text-gray-700 font-bold">السعر: ج{product.newprice}</p>
+                  <p className="text-[#05950ac2] font-bold">السعر: ج{product.newprice}</p>
+                  {product.commition&& <p class=" font-bold text-[#e56e49]">العموله: ج{product.commition}</p> }
                 </div>
               )}
             </div>
