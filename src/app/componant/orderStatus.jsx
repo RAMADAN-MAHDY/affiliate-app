@@ -45,7 +45,7 @@ const OrderStatus = ({ currentStatus }) => {
             className={`w-9 h-9 rounded-full bg-[red] border-2 border-gray-800`}
           >
           </div>
-          <p className=" text-sm p-1">  {currentStatus} </p>
+          <p className=" text-sm p-1 text-[#941413] font-bold text-lg">  {currentStatus} </p>
      </div>
       }
     </div>
