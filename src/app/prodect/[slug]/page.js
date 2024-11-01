@@ -1,7 +1,7 @@
 'use client';
 import { useSelector, useDispatch } from "react-redux"; 
-import { add } from '@/lib/authSlice';
-import { useState } from "react";
+import { add, fetchData, setCategory } from '@/lib/authSlice';
+import { useState , useEffect } from "react";
 import Navebar from "@/app/componant/navbar";
 import { ToastContainer, toast , Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,10 +11,11 @@ import { useRouter } from 'next/navigation';
 
 
 export default function Page({ params }) {
-
+//  params  === id
     const router = useRouter();
 
   const dispatch = useDispatch();
+  const [isClient, setIsClient] = useState(false)
   const [usercode, setUsercode] = useState( typeof window !== 'undefined' ?localStorage.getItem('codeorderaffilate') || '':'');
   const [copied, setCopied] = useState(false);
 
@@ -30,9 +31,29 @@ export default function Page({ params }) {
     transition: Flip,
   })
 
-  const productID = params.slug;
+  const [productID , currentCategory , NumberOfCategory ] = params.slug.split('-'); // prodect ID from params
 
-  const products = useSelector((state) =>state.prodectData.prodectes );
+//   console.log(productID)
+
+const fetchProducts = (category) => {
+    dispatch(fetchData(category));
+  };
+
+// fetch data form redux
+useEffect(() => {
+  console.log(products.length === 0)
+// if(products.length === 0){
+    fetchProducts(`${currentCategory}/${NumberOfCategory}`);
+// }
+  }, [NumberOfCategory]);
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+const products = useSelector((state) =>state.prodectData.prodectes );
+
+
 
   const filteredProduct = products.filter(
     (product) => product._id === productID
@@ -59,13 +80,15 @@ export default function Page({ params }) {
     }
 };
 
-
+if(!isClient ){
+    return null;
+}
 
   if (!filteredProduct) {
     return (
         <>
         <Navebar/>
-<div>Product not found</div>;
+<div>loading...</div>;
 </>
     )
   }
