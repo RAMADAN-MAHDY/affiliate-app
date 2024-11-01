@@ -18,6 +18,14 @@ const ProductsCard = () => {
   const products = useSelector((state) => state.prodectData.prodectes);
   const currentCategory = useSelector((state) => state.prodectData.currentCategory);
 
+ // handle currentCategory and send it to details slug
+
+ const currentCategorySlug = currentCategory.replace("/","-");
+
+
+
+
+
   const fetchProducts = (category) => {
     dispatch(fetchData(category));
   };
@@ -187,7 +195,7 @@ const ProductsCard = () => {
                 إضافة إلى السلة
               </button>
               <Link
-                href={`/prodect/${product._id}`}
+                href={`/prodect/${product._id}-${currentCategorySlug}`}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold p-1 rounded-3xl"
               >
                 التفاصيل
