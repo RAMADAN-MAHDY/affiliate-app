@@ -1,10 +1,10 @@
 "use client";
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import cookie from 'cookie';
 
 function LoginForm({ onSignInSuccess, onSignUp }) {
-    // const router = useRouter();
+    const router = useRouter();
 
     const [email, setEmail] = useState( '');
     const [code, setCode] = useState('');
@@ -52,7 +52,8 @@ function LoginForm({ onSignInSuccess, onSignUp }) {
                 setCode('');
                 setPassword('')
                 setErrorMessage('')
-                window.location.href = '/';
+                // window.location.href = '/';
+                router.back();
             } else {
                 setErrorMessage(data.message || 'خطأ في التسجيل');
             }
