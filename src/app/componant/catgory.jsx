@@ -22,7 +22,7 @@ const DropdownCategory = ({ getCategory }) => {
                 </div>
             </button>
             
-            <button
+            {/* <button
                 color="secondary"
                 className={`${buttonFocas==="2" ?  style.buttonActive : "p-1"} w-[460px] h-12 bg-[#bd02ec] rounded-3xl`}
                 onClick={() => handleAction("products/1", '2')}
@@ -30,7 +30,7 @@ const DropdownCategory = ({ getCategory }) => {
                 <div className={`${buttonFocas === "2" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
                     <span className="inline-block text-[#fff]">اجهزه الكترونيه ( ساعات - سماعات - موبيلات )</span>
                 </div>
-            </button>
+            </button> */}
 
             <button
                 color="secondary"
@@ -42,7 +42,7 @@ const DropdownCategory = ({ getCategory }) => {
                 </div>
             </button>
 
-            <button
+            {/* <button
                 color="secondary"
                 className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#bd02ec] rounded-3xl`}
                 onClick={() => handleAction("products/5", '4')}
@@ -50,7 +50,7 @@ const DropdownCategory = ({ getCategory }) => {
                 <div className={`${buttonFocas==="4" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
                     <span className="inline-block text-[#fff]">ستائر ومفروشات</span>
                 </div>
-            </button>
+            </button> */}
 
             <button
                 color="secondary"
@@ -62,7 +62,7 @@ const DropdownCategory = ({ getCategory }) => {
                 </div>
             </button>
 
-            <button
+            {/* <button
                 color="secondary"
                 className={`${buttonFocas==="6" ? style.buttonActive : "p-1"} w-40 h-12 bg-[#bd02ec] rounded-3xl`}
                 onClick={() => handleAction("products/6", '6')}
@@ -70,7 +70,7 @@ const DropdownCategory = ({ getCategory }) => {
                 <div className={`${buttonFocas==="6" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
                     <span className="inline-block text-[#fff] px-3"> منوعات  </span>
                 </div>
-            </button>
+            </button> */}
         </div>
     );
 };
