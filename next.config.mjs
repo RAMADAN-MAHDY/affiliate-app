@@ -18,46 +18,39 @@ const nextConfig = {
       return config;
     },
   
-    async headers() {
-      const securityHeaders = [
-        {
-          key: "Content-Security-Policy",
-          value: `
-            default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval';
-            style-src 'self' 'unsafe-inline';
-            img-src 'self' data:;
-            font-src 'self';
-            connect-src 'self';
-            frame-ancestors 'self';
-          `.replace(/\n/g, ""),
-        },
-        {
-          key: "X-Frame-Options",
-          value: "SAMEORIGIN",
-        },
-        {
-          key: "X-Content-Type-Options",
-          value: "nosniff",
-        },
-        {
-          key: "Referrer-Policy",
-          value: "strict-origin-when-cross-origin",
-        },
-        {
-          key: "Permissions-Policy",
-          value: "camera=(), microphone=(), geolocation=()",
-        },
-        {
-          key: "Strict-Transport-Security",
-          value: "max-age=63072000; includeSubDomains; preload",
-        },
-      ];
-  
+    headers() {
       return [
         {
-          source: "/(.*)",
-          headers: securityHeaders,
+          source: '/(.*)',
+          headers: [
+            {
+              key: 'Content-Security-Policy',
+              value: `
+                default-src 'self';
+                script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://vercel.live;
+                connect-src 'self' https://affiliate-api-lilac.vercel.app;
+                img-src 'self' data: https:;
+                style-src 'self' 'unsafe-inline';
+                font-src 'self' https:;
+              `.replace(/\s{2,}/g, ' ').trim(),
+            },
+            {
+              key: 'X-Frame-Options',
+              value: 'SAMEORIGIN',
+            },
+            {
+              key: 'X-Content-Type-Options',
+              value: 'nosniff',
+            },
+            {
+              key: 'Referrer-Policy',
+              value: 'strict-origin-when-cross-origin',
+            },
+            {
+              key: 'Permissions-Policy',
+              value: 'camera=(), microphone=(), geolocation=()',
+            },
+          ],
         },
       ];
     },
