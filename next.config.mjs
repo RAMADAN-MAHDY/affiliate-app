@@ -28,7 +28,7 @@ const nextConfig = {
               value: `
                 default-src 'self';
                 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://vercel.live;
-                connect-src 'self' https://affiliate-api-lilac.vercel.app https://www.googletagmanager.com https://vercel.live;
+                connect-src 'self' https://affiliate-api-lilac.vercel.app https://www.googletagmanager.com https://vercel.live https://www.google-analytics.com;
                 img-src 'self' data: https:;
                 style-src 'self' 'unsafe-inline';
                 font-src 'self' https:;
@@ -56,5 +56,4 @@ const nextConfig = {
     },
   };
   
-  export default nextConfig;
-  
+export default nextConfig;
