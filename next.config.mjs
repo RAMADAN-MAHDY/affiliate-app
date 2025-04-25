@@ -32,6 +32,7 @@ const nextConfig = {
                 img-src 'self' data: https:;
                 style-src 'self' 'unsafe-inline';
                 font-src 'self' https:;
+                frame-src 'self' https://vercel.live;
               `.replace(/\s{2,}/g, ' ').trim(),
             },
             {
