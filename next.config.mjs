@@ -1,55 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: '**',
-        },
-      ],
+    reactStrictMode: true,
+    experimental: {
+      serverActions: true,
     },
-  
-    productionBrowserSourceMaps: false,
-  
-    webpack: (config, { isServer }) => {
-      if (isServer) {
-        config.resolve.alias['punycode'] = 'punycode/';
-      }
-      return config;
-    },
-  
-    headers() {
+    headers: async () => {
       return [
         {
-          source: '/(.*)',
+          source: '/(.*)', // Apply to all pages
           headers: [
             {
               key: 'Content-Security-Policy',
               value: `
                 default-src 'self';
-                script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://vercel.live;
-                connect-src 'self' https://affiliate-api-lilac.vercel.app https://www.googletagmanager.com https://vercel.live https://www.google-analytics.com;
-                img-src 'self' data: https:;
+                script-src 'self' https://www.googletagmanager.com;
+                connect-src 'self' https://www.google-analytics.com;
+                img-src 'self' data: https://www.google-analytics.com;
                 style-src 'self' 'unsafe-inline';
-                font-src 'self' https:;
-                frame-src 'self' https://vercel.live;
+                font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+                frame-src https://www.googletagmanager.com;
               `.replace(/\s{2,}/g, ' ').trim(),
-            },
-            {
-              key: 'X-Frame-Options',
-              value: 'SAMEORIGIN',
-            },
-            {
-              key: 'X-Content-Type-Options',
-              value: 'nosniff',
-            },
-            {
-              key: 'Referrer-Policy',
-              value: 'strict-origin-when-cross-origin',
-            },
-            {
-              key: 'Permissions-Policy',
-              value: 'camera=(), microphone=(), geolocation=()',
             },
           ],
         },
@@ -57,4 +27,5 @@ const nextConfig = {
     },
   };
   
-export default nextConfig;
+  export default nextConfig;
+  
