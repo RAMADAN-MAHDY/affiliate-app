@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(request) {
+    console.log('✅ middleware is running');
   const nonce = crypto.randomUUID(); // Generate a unique nonce
   const response = NextResponse.next();
 
