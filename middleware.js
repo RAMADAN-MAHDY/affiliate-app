@@ -34,6 +34,6 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'], 
-  // هنطبق الميدل وير على كل الصفحات، ونستثني الملفات الداخلية بتاعة Next.js
-};
+    matcher: ['/', '/**'], // هيطبق على كل الصفحات
+  };
+  
