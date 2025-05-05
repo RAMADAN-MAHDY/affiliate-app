@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import TextareaAutosize from 'react-textarea-autosize';
 const AddProduct = () => {
 
-    const URL= process.env.NEXT_PUBLIC_API_URL
+    const API_URL= process.env.NEXT_PUBLIC_API_URL
     
   const imagesRef = useRef(null);
   const [productName, setProductName] = useState("");
@@ -64,43 +64,56 @@ const notifySuccess = () => toast.success('تم إضافة المنتج بنجا
 //         .catch(error => console.error(error));
 // };
 
-const handleImageChange = (e) => {
-    const value = e.target.value;
+// const handleImageChange = (e) => {
+//     const value = e.target.value;
 
-    const imageUrls = value.split(',').map(url => url.trim());
-    setImages(imageUrls);
+//     const imageUrls = value.split(',').map(url => url.trim());
+//     setImages(imageUrls);
+//   };
+
+const handleImageChange = (e) => {
+    setImages(e.target.files);
   };
   
    
-  const data = {
-    address: productName,
-   image : images,
-   details: details,
-   price: price,
-   commition:commition,
-   newprice :newprice,
-  }
+//   const data = {
+//     address: productName,
+//    image : images,
+//    details: details,
+//    price: price,
+//    commition:commition,
+//    newprice :newprice,
+//   }
 
-  const postData = async (data) => {
+  const postData = async () => {
     try {
-      const response = await fetch(`${URL}/products/${category}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const formData = new FormData();
+      formData.append('address', productName);
+      formData.append('details', details);
+      formData.append('price', price);
+      formData.append('commition', commition);
+      formData.append('newprice', newprice);
+  
+      for (let i = 0; i < images.length; i++) {
+        formData.append('images', images[i]); // backend لازم يستقبل الصور تحت اسم "images"
+      }
+  
+      const response = await fetch(`${API_URL}/products/${category}`, {
+        method: 'POST',
+        body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+  
       return response.json();
     } catch (error) {
       console.error('There was a problem with your fetch operation:', error);
       throw error;
     }
   };
+  
 
 
 
@@ -115,7 +128,7 @@ const handleImageChange = (e) => {
    if (!images || !productName || !details || !price ) {
     return notifyError();
   }
-  postData(data)
+  postData()
   .then((response) => {
     console.log(response.message ==="تم انشاء المنتج بنجاح"
 );
@@ -187,28 +200,32 @@ transition={Flip}
 
       <div className="mb-6">
         <label htmlFor="images" className="block text-gray-700 font-semibold mb-2">Images (3 to 4 images):</label>
-       <TextareaAutosize
+       {/* <TextareaAutosize
   rows="3"
   type="text"
   id="images"
-  placeholder="ادخل روابط الصور مفصولة بفواصل"
+  placeholder="تحميل الصوره بصيغة  jpg او png او jpeg"
   onChange={handleImageChange}
   ref={imagesRef}
   className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
-/>
+/> */}
 
-        {images.length > 0 && (
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Image ${index + 1}`}
-                className="w-full h-auto object-cover rounded-md"
-              />
-            ))}
-          </div>
-        )}
+<input type="file" name="images" onChange={handleImageChange} multiple />
+
+{(images.length > 0) && (
+  <div className="mt-2 grid grid-cols-3 gap-2">
+  {Array.from(images).map((image, index) => (
+  <img
+    key={index}
+    src={URL.createObjectURL(image)} 
+    alt={`Image ${index + 1}`}
+    className="w-full h-auto object-cover rounded-md"
+  />
+))}
+
+  </div>
+)}
+
       </div>
 
       <div className="mb-6">
