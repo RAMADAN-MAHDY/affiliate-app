@@ -304,7 +304,7 @@ useEffect(() => {
     </div>
   </div>
 )}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
           <TextareaAutosize
   minRows={3}
@@ -315,7 +315,7 @@ useEffect(() => {
   onChange={handleImageChange}
   className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
 />
-        </div>
+        </div> */}
 
         <div className="flex justify-end gap-4">
           <button
