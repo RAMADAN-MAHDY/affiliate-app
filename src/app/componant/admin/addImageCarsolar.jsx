@@ -107,9 +107,6 @@ const AddImageToCarousel = () => {
 
             const response = await fetch(`${URL_Api}/image`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 body: formData,
             });
 
