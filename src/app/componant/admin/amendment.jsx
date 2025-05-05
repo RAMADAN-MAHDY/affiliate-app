@@ -65,7 +65,8 @@ let filterProduct ;
 
   useEffect(() => {
     setIsClient(true);
-    if (filterProduct.length > 0) {
+    if (filterProduct && filterProduct.length > 0)
+        {
       const product = filterProduct[0];
       setProductData({
         image:   product.image || [],
@@ -136,16 +137,6 @@ const handleImageChange = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    
-    // إضافة الصور إلى FormData
-    // imageUrls.forEach((file, index) => {
-    //   formData.append(`image_${index}`, file);
-    // });
-
-   
-
-    // إضافة البيانات الأخرى إلى FormData
 
     try {
         
@@ -269,7 +260,7 @@ const handleImageChange = (e) => {
           />
         </div>
    {/* عرض الصور الجديده */}
-   {images.length > 0 && (
+   {images?.length > 0 && (
    <div className="mb-4">
    <label className="block text-gray-700 mb-2">الصور:</label>
    <input
@@ -282,28 +273,26 @@ const handleImageChange = (e) => {
    />
  </div>
         )}
-        
-      {images.length > 0 && (
+
+{images?.length > 0 && (
   <div className="mb-4">
     <h3 className="text-lg font-medium mb-2">معاينة الصور الجديدة:</h3>
     <div className="flex gap-4 flex-wrap">
-      {images.map((img, index) => {
-        if (img instanceof File) {
-          return (
-            <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
-              <img
-                src={URL.createObjectURL(img)}
-                alt={`Preview ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          );
-        }
-        return null;
-      })}
+      {Array.from(images).map((img, index) => (
+        img instanceof File && (
+          <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
+            <img
+              src={URL.createObjectURL(img)}
+              alt={`Preview ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )
+      ))}
     </div>
   </div>
 )}
+
         {/* <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
           <TextareaAutosize
