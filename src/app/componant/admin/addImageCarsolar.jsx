@@ -137,8 +137,8 @@ const AddImageToCarousel = () => {
             if (response.message === "تم تحميل الصوره بنجاح") {
                 // console.log("done");
                 setImages([]);
-                setlabel('');
-                setcaption('');
+                // setlabel('');
+                // setcaption('');
                 notifySuccess();
                 setisloading(false);
             } else {
