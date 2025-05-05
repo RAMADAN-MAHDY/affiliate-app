@@ -12,8 +12,7 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
   const [onClose, setOnClose] = useState(true);
   const product = useSelector((state) => state.prodectData.prodectes);
   const URL_Api= process.env.NEXT_PUBLIC_API_URL
-  const [imageUrls, setImageUrls] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]); // حالة لتخزين روابط الصور للمعاينة
+  const [images, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const notifySuccess = (eo) => toast.success(eo, {
@@ -125,25 +124,10 @@ let filterProduct ;
 //     setImageUrls(newImageUrls);
 // };
 const handleImageChange = (e) => {
-  const files = Array.from(e.target.files);
-  const validFiles = files.filter((file) => file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024); // 5MB كحد أقصى
-
-  if (validFiles.length !== files.length) {
-    notifyError("بعض الملفات غير صالحة (يجب أن تكون صورًا وأقل من 5 ميجابايت)");
-  }
-
-  setImageUrls(validFiles);
-
-  const previews = validFiles.map((file) => URL.createObjectURL(file));
-  setPreviewImages(previews);
-};
-
-useEffect(() => {
-  return () => {
-    previewImages.forEach((url) => URL.revokeObjectURL(url));
+    setImageUrls(e.target.files);
   };
-}, [previewImages]);
-
+  
+   
   
 
 // handle Edit product
@@ -151,21 +135,28 @@ useEffect(() => {
     e.preventDefault();
     setIsLoading(true);
 
-    const formData = new FormData();
-
+    
     // إضافة الصور إلى FormData
-    imageUrls.forEach((file, index) => {
-      formData.append(`image_${index}`, file);
-    });
+    // imageUrls.forEach((file, index) => {
+    //   formData.append(`image_${index}`, file);
+    // });
+
+   
 
     // إضافة البيانات الأخرى إلى FormData
-    Object.keys(productData).forEach((key) => {
-      if (key !== "image") {
-        formData.append(key, productData[key]);
-      }
-    });
 
     try {
+        
+        const formData = new FormData();
+        Object.keys(productData).forEach((key) => {
+            if (key !== "image") {
+              formData.append(key, productData[key]);
+            }
+          });
+          
+          for (let i = 0; i < images.length; i++) {
+              formData.append('images', images[i]); // backend لازم يستقبل الصور تحت اسم "images"
+            }
       const response = await fetch(`${URL_Api}/${categoryId}/${productId}`, {
         method: "PUT",
         body: formData,
@@ -275,7 +266,7 @@ useEffect(() => {
           />
         </div>
    {/* عرض الصور الجديده */}
-   {imageUrls.length > 0 && (
+   {images.length > 0 && (
    <div className="mb-4">
    <label className="block text-gray-700 mb-2">الصور:</label>
    <input
@@ -288,14 +279,14 @@ useEffect(() => {
    />
  </div>
         )}
-        {previewImages.length > 0 && (
+        {images.length > 0 && (
   <div className="mb-4">
     <h3 className="text-lg font-medium mb-2">معاينة الصور الجديدة:</h3>
     <div className="flex gap-4 flex-wrap">
-      {previewImages.map((img, index) => (
+      {images.map((img, index) => (
         <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
           <img
-            src={img}
+            src={URL.createObjectURL(img)}
             alt={`Preview ${index + 1}`}
             className="w-full h-full object-cover"
           />
