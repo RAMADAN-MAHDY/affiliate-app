@@ -14,6 +14,7 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
   const URL_Api= process.env.NEXT_PUBLIC_API_URL
   const [images, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCliendt, setIsClient] = useState(false);
 
   const notifySuccess = (eo) => toast.success(eo, {
     position: "top-center",
@@ -63,6 +64,7 @@ let filterProduct ;
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsClient(true);
     if (filterProduct.length > 0) {
       const product = filterProduct[0];
       setProductData({
@@ -180,6 +182,7 @@ const handleImageChange = (e) => {
     }
   };
 
+  if (!isCliendt) return null;
   if (!product) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
