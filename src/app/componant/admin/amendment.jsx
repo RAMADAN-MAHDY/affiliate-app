@@ -11,8 +11,10 @@ const EditForm = ({ categoryId, productId, showEditForm ,setReloadEditForm ,relo
   const imagesRef = useRef(null);
   const [onClose, setOnClose] = useState(true);
   const product = useSelector((state) => state.prodectData.prodectes);
-  const URL= process.env.NEXT_PUBLIC_API_URL
+  const URL_Api= process.env.NEXT_PUBLIC_API_URL
   const [imageUrls, setImageUrls] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]); // حالة لتخزين روابط الصور للمعاينة
+  const [isLoading, setIsLoading] = useState(false);
 
   const notifySuccess = (eo) => toast.success(eo, {
     position: "top-center",
@@ -109,66 +111,81 @@ let filterProduct ;
 //         })
 //         .catch(error => console.error(error));
 // };
+
+// التعامل مع الصور من خلال ارسال لينك الصوره
+
+// const handleImageChange = (e) => {
+//     const value = e.target.value;
+  
+//     const newImageUrls = value
+//       .split(',')
+//       .map(url => url.trim())
+//       .filter(url => url !== '');
+  
+//     setImageUrls(newImageUrls);
+// };
 const handleImageChange = (e) => {
-    const value = e.target.value;
-  
-    const newImageUrls = value
-      .split(',')
-      .map(url => url.trim())
-      .filter(url => url !== '');
-  
-    setImageUrls(newImageUrls);
+  const files = Array.from(e.target.files);
+  const validFiles = files.filter((file) => file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024); // 5MB كحد أقصى
+
+  if (validFiles.length !== files.length) {
+    notifyError("بعض الملفات غير صالحة (يجب أن تكون صورًا وأقل من 5 ميجابايت)");
+  }
+
+  setImageUrls(validFiles);
+
+  const previews = validFiles.map((file) => URL.createObjectURL(file));
+  setPreviewImages(previews);
 };
+
+useEffect(() => {
+  return () => {
+    previewImages.forEach((url) => URL.revokeObjectURL(url));
+  };
+}, [previewImages]);
 
   
 
 // handle Edit product
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
+    const formData = new FormData();
 
-    const updatedProductData = {
-        ...productData,
-        image: imageUrls
-      };
+    // إضافة الصور إلى FormData
+    imageUrls.forEach((file, index) => {
+      formData.append(`image_${index}`, file);
+    });
 
-    // تحديد البيانات التي تغيرت فقط
-    const changes = {};
-    Object.keys(updatedProductData).forEach((key) => {
-      if (JSON.stringify(updatedProductData[key]) !== JSON.stringify(originalProductData[key])) {
-        changes[key] = updatedProductData[key];
+    // إضافة البيانات الأخرى إلى FormData
+    Object.keys(productData).forEach((key) => {
+      if (key !== "image") {
+        formData.append(key, productData[key]);
       }
     });
- 
-    if (Object.keys(changes).length > 0) {
-    console.log(changes)
-    // console.log(formData)
-       try{
-    const response =
-     await fetch(`${URL}/${categoryId}/${productId}`, {
+
+    try {
+      const response = await fetch(`${URL_Api}/${categoryId}/${productId}`, {
         method: "PUT",
-        body: JSON.stringify(changes), 
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+        body: formData,
+      });
+
       if (!response.ok) {
-        notifyError("حدث خطأ غير متوقع ")
-        throw new Error('Network response was not ok');
+        notifyError("حدث خطأ غير متوقع");
+        throw new Error("Network response was not ok");
       }
-      notifySuccess('تم تعديل المنتج بنجاح!');
-      setReloadEditForm(!reloadEditForm)
-      setOnClose(!onClose)
+
+      notifySuccess("تم تعديل المنتج بنجاح!");
+      setReloadEditForm(!reloadEditForm);
+      setOnClose(!onClose);
       return response.json();
-
-
     } catch (error) {
-        notifyError()
-      console.error('There was a problem with your fetch operation:', error);
+      notifyError("حدث خطأ أثناء الإرسال");
+      console.error("There was a problem with your fetch operation:", error);
       throw error;
-    }
-    } else {
-        notifyError('انت لسه مغيرتش حاجه ');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -259,21 +276,34 @@ const handleImageChange = (e) => {
         </div>
    {/* عرض الصور الجديده */}
    {imageUrls.length > 0 && (
-          <div className="mb-4">
-            <h3 className="text-lg font-medium mb-2">Current Images:</h3>
-            <div className="flex gap-4 flex-wrap">
-              {imageUrls.map((img, index) => (
-                <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
-                  <img
-                    src={img}
-                    alt={`Image ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+   <div className="mb-4">
+   <label className="block text-gray-700 mb-2">الصور:</label>
+   <input
+     type="file"
+     id="images"
+     multiple
+     accept="image/*"
+     onChange={handleImageChange}
+     className="text-[#000] block w-full border border-gray-300 rounded-md px-4 py-3 leading-tight focus:outline-none focus:border-green-500 focus:ring-green-500"
+   />
+ </div>
         )}
+        {previewImages.length > 0 && (
+  <div className="mb-4">
+    <h3 className="text-lg font-medium mb-2">معاينة الصور الجديدة:</h3>
+    <div className="flex gap-4 flex-wrap">
+      {previewImages.map((img, index) => (
+        <div key={index} className="relative w-32 h-32 overflow-hidden rounded-lg shadow-md">
+          <img
+            src={img}
+            alt={`Preview ${index + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">الصور:</label>
           <TextareaAutosize
@@ -302,6 +332,12 @@ const handleImageChange = (e) => {
             إلغاء
           </button>
         </div>
+        {isLoading && <div>
+            <svg className="animate-spin h-5 w-5 bg-[#343] text-blue-500" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12z"></path>
+            </svg>
+            </div>}
       </form>
     </div>
   );
