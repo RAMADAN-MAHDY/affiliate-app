@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="ar" rel="rtl">
             <head>
+                <meta name="google-adsense-account" content="ca-pub-1900509020605535"></meta>
                 <meta name="keywords" content="افليت المهدي, EL MAHDY, تسويق الكتروني, تسويق بالعمولة, تحسين محركات البحث, استراتيجيات تسويق" />
                 <link rel="icon" href="/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png" sizes="32x32" />
                 <meta name="google-site-verification" content="-1HDfMA8r2MPfNp6oa5PTR1Pe2Z-g4CThr_hEn1rIsM" />
@@ -30,7 +31,7 @@ export default function RootLayout({ children }) {
             <body className={inter.className}>
                 {/* Pass nonce to GoogleAnalytics component */}
                 <GoogleAnalytics trackingId={GA_TRACKING_ID} nonce={nonce} />
-                
+
                 <StoreProvider>
                     <NextUIProvider>
                         {children}
