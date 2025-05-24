@@ -42,7 +42,7 @@ const DropdownCategory = ({ getCategory }) => {
                 </div>
             </button>
 
-            {/* <button
+            <button
                 color="secondary"
                 className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#bd02ec] rounded-3xl`}
                 onClick={() => handleAction("products/5", '4')}
@@ -50,7 +50,7 @@ const DropdownCategory = ({ getCategory }) => {
                 <div className={`${buttonFocas==="4" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
                     <span className="inline-block text-[#fff]">ستائر ومفروشات</span>
                 </div>
-            </button> */}
+            </button>
 
             <button
                 color="secondary"
