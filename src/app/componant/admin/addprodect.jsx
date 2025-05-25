@@ -280,7 +280,7 @@ transition={Flip}
   <option value="4">منتجات اوت دور</option>
   <option value="5">  ستائر و مفروشات</option>
 {/*   <option value="منوعات">منوعات */}
-    </option>
+{/*     </option> */}
      </select>
      {category !== "1" && category !== "2" && category !== "3" && category !== "4" && category !== "5" && <input placeholder="ادخل نوع الفئة او الصنف" onChange={(e)=>setcategory(e.target.value)} required/> }
      
