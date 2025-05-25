@@ -187,7 +187,7 @@ transition={Flip}
 
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-md p-8">
       <div className="mb-6">
-        <label htmlFor="productName" className="block text-gray-700 font-semibold mb-2">Product address:</label>
+        <label htmlFor="productName" className="block text-gray-700 font-semibold mb-2"> عنوان النتج:</label>
         <input
           type="text"
           id="productName"
@@ -199,7 +199,7 @@ transition={Flip}
       </div>
 
       <div className="mb-6">
-        <label htmlFor="images" className="block text-gray-700 font-semibold mb-2">Images (3 to 4 images):</label>
+        <label htmlFor="images" className="block text-gray-700 font-semibold mb-2">اضافة الصور (3 الي 4 صور):</label>
        {/* <TextareaAutosize
   rows="3"
   type="text"
@@ -229,7 +229,7 @@ transition={Flip}
       </div>
 
       <div className="mb-6">
-        <label htmlFor="details" className="block text-gray-700 font-semibold mb-2">Details:</label>
+        <label htmlFor="details" className="block text-gray-700 font-semibold mb-2">التفاصيل:</label>
         <TextareaAutosize
           id="details"
           value={details}
@@ -241,7 +241,7 @@ transition={Flip}
       </div>
 
       <div className="mb-6">
-        <label htmlFor="price" className="block text-gray-700 font-semibold mb-2">Price:</label>
+        <label htmlFor="price" className="block text-gray-700 font-semibold mb-2">السعر:</label>
         <input
           type="number"
           id="price"
@@ -253,7 +253,7 @@ transition={Flip}
       </div>
 
       <div className="mb-6">
-        <label htmlFor="commition" className="block text-gray-700 font-semibold mb-2">commition:</label>
+        <label htmlFor="commition" className="block text-gray-700 font-semibold mb-2">العموله:</label>
         <input
           type="text"
           id="commition"
@@ -264,7 +264,7 @@ transition={Flip}
         />
       </div>
       <div className="mb-6">
-        <label htmlFor="newprice" className="block text-gray-700 font-semibold mb-2">newprice:</label>
+        <label htmlFor="newprice" className="block text-gray-700 font-semibold mb-2">السعر بعد الخصم : (اختياري)</label>
         <input
           type="number"
           id="newprice"
@@ -274,12 +274,12 @@ transition={Flip}
         />
       </div>
       <select id="category" className="m-2 p-2 " onChange={(e)=>setcategory(e.target.value) }>
-  <option value="1"> الكترونيات</option>
+{/*   <option value="1"> الكترونيات</option> */}
   <option value="2">ملابس </option>
   <option value="3">ادوات منزليه</option>
   <option value="4">منتجات اوت دور</option>
   <option value="5">  ستائر و مفروشات</option>
-  <option value="منوعات">منوعات
+{/*   <option value="منوعات">منوعات */}
     </option>
      </select>
      {category !== "1" && category !== "2" && category !== "3" && category !== "4" && category !== "5" && <input placeholder="ادخل نوع الفئة او الصنف" onChange={(e)=>setcategory(e.target.value)} required/> }
