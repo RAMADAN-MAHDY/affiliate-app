@@ -4,6 +4,7 @@ import StoreProvider from './StoreProvider';
 import { NextUIProvider } from "@nextui-org/react";
 import GoogleAnalytics from '@/app/componant/GoogleAnalytics';
 import { headers } from 'next/headers'; // Import headers from next/headers
+import Footer from "@/app/componant/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,15 +29,18 @@ export default function RootLayout({ children }) {
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1900509020605535"
      crossOrigin="anonymous"></script>
             </head>
-            <body className={inter.className}>
+            <body className={inter.className + " min-h-screen flex flex-col justify-between"}>
                 {/* Pass nonce to GoogleAnalytics component */}
                 <GoogleAnalytics trackingId={GA_TRACKING_ID} nonce={nonce} />
 
                 <StoreProvider>
                     <NextUIProvider>
-                        {children}
+                        <div className="flex-grow flex flex-col">
+                          {children}
+                        </div>
                     </NextUIProvider>
                 </StoreProvider>
+                <Footer />
             </body>
         </html>
     );
