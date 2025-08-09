@@ -9,7 +9,7 @@ import { FcSearch } from 'react-icons/fc';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingCard from '@/app/componant/loadingCard/loadingCards';
-
+import allproudect from '@/app/componant/getAllProduct';
 const ProductsCard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
@@ -17,6 +17,7 @@ const ProductsCard = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.prodectData.prodectes);
   const currentCategory = useSelector((state) => state.prodectData.currentCategory);
+  const showAllProducts = useSelector((state) => state.prodectData.showAllProducts);
 
  // handle currentCategory and send it to details slug
 
@@ -71,7 +72,7 @@ const ProductsCard = () => {
   if (products.message === 'no productes fond') {
     return (
       <div className="bg-gradient-to-b from-[#443444] to-purple-600 sm:p-10 p-6 mt-[10px] w-full">
-        <h1 className="text-3xl font-bold text-[#000] mb-7 mt-[-20px] font-serif">منتجاتنا</h1>
+        {/* <h1 className="text-3xl font-bold text-[#000] mb-7 mt-[-20px] font-serif">منتجاتنا</h1> */}
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -145,6 +146,12 @@ const ProductsCard = () => {
         </div>
       </div>
 
+
+  {showAllProducts ? (
+
+        <allproudect/>
+    
+      ):
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-9">
         {filteredProducts.length > 0 ? filteredProducts.map((product) => (
           <div
@@ -205,8 +212,9 @@ const ProductsCard = () => {
         )) : (
           <LoadingCard />
         )}
-      </div>
-    </div>
+      </div>  
+}
+</div>
   );
 };
 

@@ -9,6 +9,7 @@ export const fetchData = createAsyncThunk(
   'counterSlice/fetchData',
   async (category) => {
     try {
+        console.log(URL + "/hggdk;")
       const response = await fetch(`${URL}/${category}`,{ next: { revalidate: 3600 } });
       const data = await response.json();
       return data;
@@ -49,6 +50,7 @@ export const counterSlice = createSlice({
   initialState :{
     prodectes:[],
     Allprodectes:[],
+    showAllProducts: false,
     carts: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart')) || [] : [],
     status:"idle",
     email:'',
@@ -79,6 +81,27 @@ export const counterSlice = createSlice({
         }
 
     },
+    showAllProducts: (state , action) => {
+        const value = action.payload;
+        if (value === undefined) {
+            state.showAllProducts = state.showAllProducts; // عكس الحالة الحالية
+        }
+        else if (value === true) {
+            state.showAllProducts = true;
+        }
+        else if (value === false) {
+            state.showAllProducts = false;
+        }
+        // إذا لم يتم تمرير قيمة، عكس الحالة الحالية
+        else {
+            console.warn("Invalid value for showAllProducts. Expected true, false, or undefined.");
+        }
+        // حفظ الحالة في التخزين المحلي
+        // تحديث الحالة في المتجر
+        // إذا كنت تريد تحديث الحالة في المتجر، يمكنك استخدام:
+
+    }
+    ,
     addDelivary:(state, action)=>{
       const {productId , deliveryValue} = action.payload;
       const productToUpdate = state.carts.find(product => product._id ==productId );
@@ -129,5 +152,5 @@ export const counterSlice = createSlice({
   },
 });
 
-export const {add, addquantity ,addDelivary , remove , setCategory } = counterSlice.actions ; 
+export const {add, addquantity ,addDelivary , remove , setCategory ,showAllProducts } = counterSlice.actions ; 
 export default counterSlice.reducer ;

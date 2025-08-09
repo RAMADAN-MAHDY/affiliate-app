@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllData } from '@/lib/authSlice';
-import LoadingCard from '@/app/componant/loadingCard/loadingCards';
+import { fetchAllData, add } from '@/lib/authSlice';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css"; 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Link from 'next/link';
 
 const ProductList = () => {
   const dispatch = useDispatch();
   const { Allprodectes, status } = useSelector(state => state.prodectData);
   const [showMessage, setShowMessage] = useState(false);
+  const currentCategory = useSelector((state) => state.prodectData.currentCategory);
+  const currentCategorySlug = currentCategory.replace("/", "-");
 
   useEffect(() => {
     if (status === 'idle') {
@@ -20,27 +21,21 @@ const ProductList = () => {
     }
   }, [status, dispatch]);
 
+  // إعدادات السلايدر
   const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
+    dots: false,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 2500,
+    speed: 700,
+    slidesToShow: 5,
     slidesToScroll: 1,
+    swipeToSlide: true,
+    pauseOnHover: true,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      }
+      { breakpoint: 1280, settings: { slidesToShow: 4 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } }
     ]
   };
 
@@ -50,64 +45,105 @@ const ProductList = () => {
     setTimeout(() => setShowMessage(false), 2000);
   };
 
+  // دمج كل المنتجات من جميع الفئات في مصفوفة واحدة
+  const allProducts = Object.values(Allprodectes)
+    .flat()
+    .filter(p => p && p.address); // فلترة المنتجات الفارغة
+
   return (
-    <div className="p-4 bg-gradient-to-b from-[#443444] to-purple-600 m-0 w-full">
-      <h1 className="text-3xl font-bold text-white mb-7">منتجاتنا</h1>
-      {status === 'failed' && <LoadingCard />}
+    <div className="px-3 sm:px-6 lg:px-12 py-10 bg-gradient-to-b from-[#f0f0f8] to-[#e9e6f1] w-full text-gray-800 dark:from-[#1e1a2b] dark:to-[#431d6e] dark:text-white transition-colors duration-500">
+
+      {/* <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8 border-b-4 border-purple-600 pb-3 w-fit mx-auto tracking-wide">
+         المنتجات
+      </h1> */}
+
       {status === 'succeeded' && (
         <div>
-          {Object.keys(Allprodectes).map(category => (
-            <div key={category} className="mb-8">
-              <h2 className="text-xl font-bold mb-4 text-[#fff]">{category}</h2>
-              <Slider {...settings}>
-                {Allprodectes[category].map((product) => (
-                  <div
-                    key={product._id}
-                    className=" shadow-md dark:text-[#fff] dark:bg-gray-800 dark:shadow-none rounded-lg overflow-hidden transition-transform transform hover:scale-105 sm:w-[200px] p-4 mx-2"
-                    style={{ width: '150px' }}
+          {/* عرض للموبايل Grid */}
+          <div className="grid grid-cols-2 sm:hidden gap-3">
+            {allProducts.map(product => (
+              <div
+                key={product._id}
+                className="bg-white dark:bg-[#2c2a3a] rounded-xl shadow-md p-2 flex flex-col justify-between h-[210px] hover:shadow-lg transition-all duration-300"
+              >
+                {product.image && (
+                  <img
+                    className="w-full h-20 object-cover rounded-lg mb-1"
+                    src={product.image[0]}
+                    alt={product.address}
+                  />
+                )}
+                <h2 className="text-[11px] font-bold line-clamp-2">{product.address}</h2>
+                <p className={`text-[10px] ${product.newprice > 0 ? 'line-through text-red-500' : 'text-green-700 font-semibold'}`}>
+                  ج{product.price}
+                </p>
+                {product.newprice > 0 && (
+                  <p className="text-[10px] text-green-600 font-bold">ج{product.newprice}</p>
+                )}
+                <div className="flex justify-between mt-1">
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-purple-600 hover:bg-purple-800 text-white py-[2px] px-2 rounded-full text-[9px]"
                   >
-                    <div className='bg-[#1ffa1f]'>
+                    + سلة
+                  </button>
+                  <Link
+                    href={`/prodect/${product._id}-${currentCategorySlug}`}
+                    className="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-900 text-black dark:text-white py-[2px] px-2 rounded-full text-[9px]"
+                  >
+                    تفاصيل
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
 
-                    {product.image && (
-                      <img
-                        className="w-full h-48 object-cover transition-opacity duration-200 hover:opacity-75"
-                        src={product.image[0]}
-                        alt={product.address}
-                      />
-                    )}
-                    <div className="px-4 py-3">
-                      <h2 className="text-lg font-bold text-gray-800">{product.address}</h2>
-                      <p className={`text-gray-700 ${product.newprice > 0 ? 'line-through text-red-500 p-1 ' : ''}`}>
-                        السعر: ج{product.price}
-                      </p>
-                      {product.newprice > 0 && (
-                        <div className='flex justify-around'>
-                          <p className="text-gray-700">السعر: ج{product.newprice}</p>
-                          <p className='font-bold bg-[#ff0000] text-[#ffffff]'>{((product.price - product.newprice) / product.price * 100).toFixed(0)}%</p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="px-4 pb-3 flex justify-between">
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        className="hover:bg-blue-700 font-bold py-2 px-4 rounded-full bg-blue-500 text-white"
-                      >
-                        إضافة إلى السلة
-                      </button>
-                      <Link
-                        href={`/prodect/${product._id}`}
-                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
-                      >
-                        عرض التفاصيل
-                      </Link>
-                    </div>
-
-                    </div>
+          {/* الشاشات الأكبر مع Slider */}
+          <div className="hidden sm:block">
+            <Slider {...settings}>
+              {allProducts.map(product => (
+                <div
+                  key={product._id}
+                  className="bg-white dark:bg-[#2c2a3a] rounded-xl shadow-md mx-2 p-3 flex flex-col justify-between h-[220px] w-[160px] hover:shadow-lg transition-all duration-300"
+                >
+                  {product.image && (
+                    <img
+                      className="w-full h-24 object-cover rounded-lg mb-1"
+                      src={product.image[0]}
+                      alt={product.address}
+                    />
+                  )}
+                  <h2 className="text-[12px] font-bold line-clamp-2">{product.address}</h2>
+                  <p className={`text-[11px] ${product.newprice > 0 ? 'line-through text-red-500' : 'text-green-700 font-semibold'}`}>
+                    ج{product.price}
+                  </p>
+                  {product.newprice > 0 && (
+                    <p className="text-[11px] text-green-600 font-bold">ج{product.newprice}</p>
+                  )}
+                  <div className="flex justify-between mt-1">
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="bg-purple-600 hover:bg-purple-800 text-white py-[3px] px-2 rounded-full text-[10px]"
+                    >
+                      + سلة
+                    </button>
+                    <Link
+                      href={`/prodect/${product._id}-${currentCategorySlug}`}
+                      className="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-900 text-black dark:text-white py-[3px] px-2 rounded-full text-[10px]"
+                    >
+                      تفاصيل
+                    </Link>
                   </div>
-                ))}
-              </Slider>
-            </div>
-          ))}
+                </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+      )}
+
+      {showMessage && (
+        <div className="fixed bottom-6 right-6 bg-purple-700 text-white py-3 px-6 rounded-xl shadow-lg z-50">
+          ✅ تم إضافة المنتج إلى السلة!
         </div>
       )}
     </div>

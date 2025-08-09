@@ -1,17 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import style from "./cssSheet/marquee.module.css"; // تأكد من إضافة ملف CSS هذا
+import { useDispatch } from "react-redux";
+import {showAllProducts} from '@/lib/authSlice'; // تأكد من تعديل المسار حسب هيكل مشروعك
 
 const DropdownCategory = ({ getCategory }) => {
     const [buttonFocas, setbuttonfocas] = useState(null);
+    const dispatch = useDispatch();
 
     const handleAction = (key, value) => {
+
+        if(key === "الكل") {
+            dispatch(showAllProducts(true));
+        } else {
+            dispatch(showAllProducts(false));
+            getCategory(key); // تمرير المفتاح إلى الدالة المرسلة
+        }
+        // تحديث الحالة المحلية لتغيير مظهر الزر
         setbuttonfocas(value); // تحديث النص في الزر
-        getCategory(key); // تمرير المفتاح إلى الدالة المرسلة
+
+
     };
 
     return (
-        <div className="mb-3 overflow-x-auto flex space-x-3">
+        <div className="mb-3 overflow-x-auto flex justify-center space-x-3">
             <button
                 color="secondary"
                 className={`${buttonFocas==="1" ?  style.buttonActive : "p-3"} w-40 h-12 bg-[#bd02ec] rounded-3xl `}
@@ -32,7 +44,7 @@ const DropdownCategory = ({ getCategory }) => {
                 </div>
             </button> */}
 
-            <button
+            {/* <button
                 color="secondary"
                 className={`${buttonFocas==="3" ?  style.buttonActive : "p-1"} w-[220px] h-12 bg-[#bd02ec] rounded-3xl`}
                 onClick={() => handleAction("products/2", "3")}
@@ -40,11 +52,20 @@ const DropdownCategory = ({ getCategory }) => {
                 <div className={`${buttonFocas==="3" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
                     <span className="inline-block text-[#fff]">ملابس ( رجالي - حريمي - اطفال )</span>
                 </div>
+            </button> */}
+             <button
+                color="secondary"
+                className={`${buttonFocas==="3" ?  style.buttonActive : "p-1"} w-[220px] h-12 bg-[#bd02ec] rounded-3xl sm:hidden`}
+                onClick={() =>handleAction("الكل", '3')}
+            >
+                <div className={`${buttonFocas==="3" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
+                    <span className="inline-block text-[#fff]">الكل</span>
+                </div>
             </button>
 
             <button
                 color="secondary"
-                className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#bd02ec] rounded-3xl`}
+                className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#bd02ec] rounded-3xl `}
                 onClick={() => handleAction("products/5", '4')}
             >
                 <div className={`${buttonFocas==="4" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
