@@ -4,8 +4,8 @@ import { FcHome, FcOnlineSupport, FcKindle } from "react-icons/fc";
 import { TbShoppingCartExclamation } from "react-icons/tb";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { FcMenu } from "react-icons/fc";
-import {Avatar , Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,} from "@nextui-org/react";
-import { useState ,useEffect} from 'react';
+import { Avatar, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, } from "@nextui-org/react";
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import Joyride from 'react-joyride';
@@ -18,7 +18,7 @@ const Navebar = ({ para }) => {
 
     const [usercode, setUsercode] = useState(typeof window !== 'undefined' ? localStorage.getItem('codeorderaffilate') || '' : '');
     const [userEmail, setUserEmail] = useState(typeof window !== 'undefined' ? localStorage.getItem('emailorderaffilate') || '' : '');
-    const [showinfoUser , setshowinfoUser ] = useState(false);
+    const [showinfoUser, setshowinfoUser] = useState(false);
     const [runTour, setRunTour] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const firstLetter = userEmail.charAt(0).toUpperCase()
@@ -63,7 +63,7 @@ const Navebar = ({ para }) => {
 
 
 
-      const steps = [
+    const steps = [
         {
             target: '.step-home',
             content: 'مرحبا بك! هذه هي الصفحة الرئيسية حيث يمكنك البدء.',
@@ -86,7 +86,7 @@ const Navebar = ({ para }) => {
             content: 'يمكنك إدارة حسابك هنا أو تسجيل الدخول.',
         },
     ];
-    
+
 
 
 
@@ -99,7 +99,7 @@ const Navebar = ({ para }) => {
     return (
 
         <header className={styles.header}>
-  <Joyride
+            <Joyride
                 steps={steps}
                 run={runTour}
                 continuous={true}
@@ -130,91 +130,88 @@ const Navebar = ({ para }) => {
                     <li className='flex step-cart'>
                         <Link href={`/cart`} className='inline-flex items-center '>
 
-                        <div className='relative'>
-                        { products.length > 0 && <span className='bg-[#ff0404] pl-1 pr-1 pb-2 w-4 h-4 rounded-full text-[11px] font-bold text-[#ffffff] fixed mt-[-7px]'>
-                               { products.length}
-                            </span> }
-                            <TbShoppingCartExclamation className='w-[30px] font-bold text-[#05fc05]' />
-                        </div>
-                       
-                           
+                            <div className='relative'>
+                                {products.length > 0 && <span className='bg-[#ff0404] pl-1 pr-1 pb-2 w-4 h-4 rounded-full text-[11px] font-bold text-[#ffffff] fixed mt-[-7px]'>
+                                    {products.length}
+                                </span>}
+                                <TbShoppingCartExclamation className='w-[30px] font-bold text-[#05fc05]' />
+                            </div>
+
+
                             السله
-                           
+
                         </Link></li>
 
                     <li className='flex step-support'>
                         <Link href="/SupportPage" className='inline-flex items-center '>
                             <FcOnlineSupport className='w-[60px]' />
-                             الدعم
+                            الدعم
                         </Link>
                     </li>
                     <li className='flex step-affiliate'>
-    <Link className={`text-[#fff] font-bold inline-flex items-center p-2 pr-3 rounded-3xl whitespace-nowrap`} href={`/card/${usercode}`}>
-        <FcKindle className='w-[60px] mr-1 ml-1' />
-        تقرير المسوق
-    </Link>
-</li>
+                        <Link className={`text-[#fff] font-bold inline-flex items-center p-2 pr-3 rounded-3xl whitespace-nowrap`} href={`/card/${usercode}`}>
+                            <FcKindle className='w-[60px] mr-1 ml-1' />
+                            تقرير المسوق
+                        </Link>
+                    </li>
 
-                   
+
                     <li className='flex step-user'>
-                    {usercode ?
-                    <>
-    <Dropdown>
-      <DropdownTrigger>
-      <Avatar showFallback name={firstLetter} className='text-[24px] font-bold' isBordered color="success" src='hi.pravatar.cc/150?u=a042581f4e29026704' onClick={()=>{
-                        setshowinfoUser(!showinfoUser)
-                    }} /> 
-      </DropdownTrigger>
-      <DropdownMenu 
-        aria-label="Action event example" 
-      >
-        {/* <DropdownItem key="new">New file</DropdownItem>
+                        {usercode ?
+                            <>
+                                <Dropdown>
+                                    <DropdownTrigger>
+                                        <Avatar showFallback name={firstLetter} className='text-[24px] font-bold' isBordered color="success" src='hi.pravatar.cc/150?u=a042581f4e29026704' onClick={() => {
+                                            setshowinfoUser(!showinfoUser)
+                                        }} />
+                                    </DropdownTrigger>
+                                    <DropdownMenu
+                                        aria-label="Action event example"
+                                    >
+                                        {/* <DropdownItem key="new">New file</DropdownItem>
         <DropdownItem key="copy">Copy link</DropdownItem>
         <DropdownItem key="edit">Edit file</DropdownItem> */}
-        <DropdownItem  className="text-danger" color="danger">
-        <button className='flex ' onClick={() => {
-                        localStorage.removeItem("emailorderform");
-                        localStorage.removeItem("codeorderaffilate");
-                        location.reload();
-                    }} >
-                        <div className='inline-flex items-center'>
-                            <RiLogoutBoxFill />
-                            تسجيل خروج
+                                        <DropdownItem className="text-danger" color="danger">
+                                            <button className='flex ' onClick={() => {
+                                                localStorage.removeItem("emailorderform");
+                                                localStorage.removeItem("codeorderaffilate");
+                                                location.reload();
+                                            }} >
+                                                <div className='inline-flex items-center'>
+                                                    <RiLogoutBoxFill />
+                                                    تسجيل خروج
 
-                        </div>
-                    </button> 
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
-                    </>
-                    :
+                                                </div>
+                                            </button>
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </>
+                            :
 
-                        <button className='flex '>
-                            <Link className={`font-bold inline-flex  rounded-3xl items-center text-[#000]`}
-                            style={{ color: '#000' , backgroundColor:'rgb(119 255 11)',
-                            
-                             }}
-                            href="/login">
-                                <RiLogoutBoxFill className='mr-0 ml-2' />
-                                تسجيل دخول</Link>
-                        </button>
-                    }
+                            <button className='flex font-bold bg-[#000000] p-5 rounded-2xl items-center text-[#000]'>
+                                <Link className='inline-flex'
+                                    href="/login">
+                                    <RiLogoutBoxFill className='mr-0 ml-2' />
+                                    تسجيل دخول</Link>
+                            </button>
+                        }
                     </li>
                     <li className='flex items-center justify-center'>
 
-<img src='/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' loading="lazy"/>
+                        <img src='/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png' alt="logo" className='w-[100px] h-[100px] mt-3' loading="lazy" />
 
-</li>
+                    </li>
 
 
-                
+
                 </ul>
             </nav>
 
-       
 
 
-           
+
+
         </header>
 
 

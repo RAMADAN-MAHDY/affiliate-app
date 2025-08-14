@@ -23,14 +23,14 @@ const DropdownCategory = ({ getCategory }) => {
     };
 
     return (
-        <div className="mb-3 overflow-x-auto flex justify-center space-x-3">
+        <div className="mb-3 flex justify-center gap-3 flex-wrap space-x-3 w-full">
             <button
                 color="secondary"
-                className={`${buttonFocas==="1" ?  style.buttonActive : "p-3"} w-40 h-12 bg-[#bd02ec] rounded-3xl `}
+                className={`${buttonFocas==="1" ?  style.buttonActive : "p-3"} w-40 h-12 bg-[#b4b4b4] rounded-2xl `}
                 onClick={() => handleAction("products/3", "1")}
             >
                 <div className={`${buttonFocas==="1" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block text-[#fff]">منتجات منزلية</span>
+                    <span className="inline-block text-[#000]">منتجات منزلية</span>
                 </div>
             </button>
             
@@ -55,31 +55,31 @@ const DropdownCategory = ({ getCategory }) => {
             </button> */}
              <button
                 color="secondary"
-                className={`${buttonFocas==="3" ?  style.buttonActive : "p-1"} w-[220px] h-12 bg-[#bd02ec] rounded-3xl sm:hidden`}
+                className={`${buttonFocas==="3" ?  style.buttonActive : "p-1"} w-[220px] h-12 bg-[#b4b4b4] rounded-2xl sm:hidden`}
                 onClick={() =>handleAction("الكل", '3')}
             >
                 <div className={`${buttonFocas==="3" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block text-[#fff]">الكل</span>
+                    <span className="inline-block text-[#000]">الكل</span>
                 </div>
             </button>
 
             <button
                 color="secondary"
-                className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#bd02ec] rounded-3xl `}
+                className={`${buttonFocas==="4" ?  style.buttonActive : "p-1"} w-[175px] h-12 bg-[#b4b4b4] rounded-2xl `}
                 onClick={() => handleAction("products/5", '4')}
             >
                 <div className={`${buttonFocas==="4" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block text-[#fff]">ستائر ومفروشات</span>
+                    <span className="inline-block text-[#000]">ستائر ومفروشات</span>
                 </div>
             </button>
 
             <button
                 color="secondary"
-                className={`${buttonFocas==="5" ? style.buttonActive : "p-1"} w-40 h-12 bg-[#bd02ec] rounded-3xl`}
+                className={`${buttonFocas==="5" ? style.buttonActive : "p-1"} w-40 h-12 bg-[#b4b4b4] rounded-2xl`}
                 onClick={() => handleAction("products/4", '5')}
             >
                 <div className={`${buttonFocas==="5" && style.marquee} relative overflow-hidden whitespace-nowrap`}>
-                    <span className="inline-block text-[#fff]">منتجات اوت دور ( حدائق )</span>
+                    <span className="inline-block text-[#000]">منتجات اوت دور ( حدائق )</span>
                 </div>
             </button>
 

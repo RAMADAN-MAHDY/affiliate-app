@@ -1,25 +1,24 @@
-
 import { Amiri, Alkalami } from 'next/font/google';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
+import ProductList from './componant/getAllProduct';           // all products 
+import Navebar from "@/app/componant/navbar";
+import CarouselFadeExample from '@/app/componant/carousel';
+import ProductsCard from '@/app/componant/products';
 
-const CarouselFadeExample = dynamic(() => import('@/app/componant/carousel'), { ssr: false });
-
-const ProductList = dynamic(() => import('./componant/getAllProduct'), { ssr: false });            // all products 
-
-const ProductsCard = dynamic(() => import('@/app/componant/products'), { ssr: false });
-
-const Navebar = dynamic(() => import("@/app/componant/navbar"), { ssr: false });
-// Fetchdata();
+// const Navebar = dynamic(() => import("@/app/componant/navbar"), { ssr: false });
+// const CarouselFadeExample = dynamic(() => import('@/app/componant/carousel'), { ssr: false });
+// const ProductsCard = dynamic(() => import('@/app/componant/products'), { ssr: false });
+// const ProductList = dynamic(() => import('./componant/getAllProduct'), { ssr: false });            // all products 
 
 
-const amiri = Amiri({
+const amiri = Amiri({ 
   weight: ['400'],
   subsets: ['arabic'],
 });
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen bg-[#fafafa]">
+    <main className="flex flex-col items-center m-3 sm:m-0 w-full min-h-screen bg-[#fafafa]">
       <Navebar para="home" />
 
       <img
@@ -32,10 +31,10 @@ export default function Home() {
         بسم الله الرحمن الرحيم
       </h1>
 
-      <div className="w-full z-0">
+      <div className="w-full ml-0 z-0">
         <CarouselFadeExample />
       </div>
-      <div className="w-full sm:hidden">
+      <div className="w-full ml-[-50px] sm:hidden">
         <ProductsCard />
       </div>
 

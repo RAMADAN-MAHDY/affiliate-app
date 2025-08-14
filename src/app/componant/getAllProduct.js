@@ -51,7 +51,7 @@ const ProductList = () => {
     .filter(p => p && p.address); // فلترة المنتجات الفارغة
 
   return (
-    <div className="px-3 sm:px-6 lg:px-12 py-10 bg-gradient-to-b from-[#f0f0f8] to-[#e9e6f1] w-full text-gray-800 dark:from-[#1e1a2b] dark:to-[#431d6e] dark:text-white transition-colors duration-500">
+    <div className="px-0 sm:px-6 lg:px-12 py-10 bg-gradient-to-b from-[#f0f0f8] to-[#e9e6f1] w-full text-gray-800 dark:from-[#1e1a2b] dark:to-[#431d6e] dark:text-white transition-colors duration-500">
 
       {/* <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8 border-b-4 border-purple-600 pb-3 w-fit mx-auto tracking-wide">
          المنتجات

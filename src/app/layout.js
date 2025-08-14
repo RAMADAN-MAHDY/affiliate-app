@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1900509020605535"
      crossOrigin="anonymous"></script>
             </head>
-            <body className={inter.className + " min-h-screen flex flex-col justify-between"}>
+            <body className={inter.className + "min-h-screen flex flex-col justify-between"}>
                 {/* Pass nonce to GoogleAnalytics component */}
                 <GoogleAnalytics trackingId={GA_TRACKING_ID} nonce={nonce} />
 

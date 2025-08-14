@@ -39,7 +39,8 @@ const handleRemove = (id) => {
   
 
   return (
-    <table className="ml-6 min-w-full bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className='overflow-x-auto'>
+    <table className="ml-6 min-w-full bg-white rounded-lg shadow-lg ">
       <thead>
         <tr>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">صورة المنتج</th>
@@ -112,6 +113,7 @@ const handleRemove = (id) => {
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 
@@ -169,7 +171,7 @@ const dispatch = useDispatch();
     <Navebar/>
     
 
-    <div className="container mx-auto pt-2 mt-[40px]">
+    <div className="container pt-2 ml-3 sm:m-0 mt-[40px] min-h-[80vh]">
       <h1 className="text-2xl font-bold mb-4">عربة التسوق</h1>
       <CartTable products={products} quantities={quantities} onQuantityChange={handleQuantityChange} />
       <div className="flex justify-between items-center py-4">
