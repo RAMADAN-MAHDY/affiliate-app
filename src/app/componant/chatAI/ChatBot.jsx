@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Markdown from 'react-markdown'
 import ChatButton from './chatButtom'
+import { image } from "d3";
 
 export default function ChatBotWidget() {
 
@@ -175,10 +176,10 @@ export default function ChatBotWidget() {
                             {history.map((msg, i) => (
                                 <div
                                     key={i}
-                                    className={`my-2 flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}
+                                    className={`my-2 flex ${msg.from === "user" ? "justify-end" : "justify-start w-full"}`}
                                 >
                                     <div
-                                        className={`px-3 py-2 rounded-xl max-w-[80%] text-sm ${msg.from === "user"
+                                        className={`px-3 py-2 rounded-xl max-w-[100%] text-sm ${msg.from === "user"
                                             ? "bg-blue-100 text-blue-900"
                                             : "bg-blue-600 text-white"
                                             }`}
@@ -187,7 +188,11 @@ export default function ChatBotWidget() {
                                             msg.text
                                         ) : (
                                             <>
+                                            <p className="w-full">   
+                                              
                                                 <Markdown>{(msg.text || "").toString().trim()}</Markdown>
+                                            </p>
+                                          
                                                 <button
                                                     className="mt-1 text-sm text-yellow-200  hover:text-white"
                                                     onClick={() => speak(msg.text)}
@@ -205,12 +210,13 @@ export default function ChatBotWidget() {
                                             </>
                                         )}
 
-
                                     </div>
                                 </div>
                             ))}
                             <div ref={chatEndRef} />
                         </div>
+
+                        {loading && <img className="w-20 h-20" src="/animation/MetaAIlogo.gif" alt="..."/>}
 
                         <div className="flex gap-2 mt-2 items-center flex-wrap">
 
