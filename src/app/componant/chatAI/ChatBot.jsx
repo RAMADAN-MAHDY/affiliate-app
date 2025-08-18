@@ -1,23 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-// import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Markdown from 'react-markdown'
-import dynamic from "next/dynamic";
-
-
-
-const DotLottieReact = dynamic(() =>
-    import('@lottiefiles/dotlottie-react').then(mod => mod.DotLottieReact), {
-    ssr: false,
-    loading: () => (
-        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent animate-spin rounded-full" />
-    )
-});
+import ChatButton from './chatButtom'
 
 export default function ChatBotWidget() {
 
-
- 
     const url = process.env.NEXT_PUBLIC_URL_chatAi;
 
     const [showChat, setShowChat] = useState(false);
@@ -26,9 +13,9 @@ export default function ChatBotWidget() {
     const [loading, setLoading] = useState(false);
     const chatEndRef = useRef(null);
 
-    // const currentLanguage = "ar";
-
-    // const t = (enText, arText) => (currentLanguage === "ar" ? arText : enText);
+    const handleShowChat = () => {
+        setShowChat(v => !v);
+    }
 
     useEffect(() => {
         if (showChat && history.length === 0) {
@@ -106,44 +93,9 @@ export default function ChatBotWidget() {
             setHistory(h => [...h, { from: "bot", text: "صارت مشكلة في الاتصال بالمساعد. يرجي التواصل عبر الجوال 0562790402" }]);
         }
         setLoading(false);
-    }; 
-
-    const handleConfirm = async () => {
-        if (loading) return;
-        setLoading(true);
-        let token = localStorage.getItem("token");
-
-        try {
-            const res = await fetch(`${url}/analyze`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    ...(token && { Authorization: `Bearer ${token}` })  // Use the token for authorization
-                },
-                body: JSON.stringify(),
-            });
-            const data = await res.json();
-
-            console.log("data.token", data)
-
-            const replyMsg = data.agreement
-                ? (data.reply || "✅ تم تأكيد الحجز بنجاح، سنقوم بالتواصل معك قريبًا!")
-                : (data.reply || data.message || "من فضلك أدخل البيانات أولًا، أو على الأقل رقم الجوال للتواصل 📱");
-
-            setHistory(h => [
-                ...h,
-                { from: "user", text: "تم الاتفاق" },
-                { from: "bot", text: replyMsg }
-            ]);
-        } catch {
-            setHistory(h => [
-                ...h,
-                { from: "bot", text: "صارت مشكلة في إرسال تأكيدك." },
-            ]);
-        } finally {
-            setLoading(false);
-        }
     };
+
+
 
     // Function to speak the given text
     const cleanText = (text) => {
@@ -180,9 +132,6 @@ export default function ChatBotWidget() {
         speakSentence();
     };
 
-
-
-
     const stopSpeak = () => {
         window.speechSynthesis.cancel();
 
@@ -190,26 +139,11 @@ export default function ChatBotWidget() {
 
 
     return (
-        <>
-            <div className="fixed bottom-[20%] h-[70%] sm:right-6 right-0 z-50 flex flex-col items-end min-w-[200px]">
-                <button
-                    className="rounded-full shadow-lg w-16 h-16 flex items-center justify-center hover:scale-110 transition relative right-[-140px]"
-                    onClick={() => {
-                        setShowChat(v => !v);
-                        // setShowWelcome(false);
-                    }}
-                    aria-label="فتح الشات"
-                >
-                    {typeof window !== "undefined" && typeof DotLottieReact !== "undefined" &&
-                        <DotLottieReact
-                            src="/animation/EbAMuFGCsN.lottie"
-                            loop
-                            autoplay
-                        />
-                    }
-                </button>
-
-                {showChat && (
+        <>    
+               <ChatButton ShowChat = {handleShowChat} />
+               
+                {showChat && (      
+                    <div className="fixed bottom-[20%] h-[70%] sm:right-6 right-0 flex flex-col items-end min-w-[200px] z-[1000]">
                     <div
                         className="bg-white shadow-2xl h-[100%] rounded-2xl p-4 max-w-xs w-[690px] border border-blue-200 mt-4 relative animate-fade-in flex flex-col"
                         style={{ minHeight: 380 }}
@@ -289,16 +223,6 @@ export default function ChatBotWidget() {
                                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                                 disabled={loading}
                             />
-
-                            <button
-                                onClick={handleConfirm}
-                                disabled={loading}
-                                className="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition disabled:opacity-50 flex-shrink-0"
-                                aria-label="تم الاتفاق"
-                            >
-                                تم الاتفاق
-                            </button>
-
                             <button
                                 className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition disabled:opacity-50 flex-shrink-0"
                                 onClick={handleSend}
@@ -310,8 +234,10 @@ export default function ChatBotWidget() {
                         </div>
 
                     </div>
+
+</div>
+
                 )}
-            </div>
         </>
     );
 }

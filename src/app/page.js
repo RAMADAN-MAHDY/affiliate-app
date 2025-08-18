@@ -4,7 +4,6 @@ import ProductList from './componant/getAllProduct';           // all products
 import Navebar from "@/app/componant/navbar";
 import CarouselFadeExample from '@/app/componant/carousel';
 import ProductsCard from '@/app/componant/products';
-import ChatBotWidget from '@/app/componant/ChatBot'
 
 // const Navebar = dynamic(() => import("@/app/componant/navbar"), { ssr: false });
 // const CarouselFadeExample = dynamic(() => import('@/app/componant/carousel'), { ssr: false });
@@ -46,7 +45,10 @@ export default function Home() {
  <div className="w-full hidden sm:block">
         <ProductsCard />
       </div>
-               <ChatBotWidget />
+      
+
+
+    
 
     </main>
   );

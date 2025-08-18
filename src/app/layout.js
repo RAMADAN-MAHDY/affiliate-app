@@ -5,6 +5,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import GoogleAnalytics from '@/app/componant/GoogleAnalytics';
 import { headers } from 'next/headers'; // Import headers from next/headers
 import Footer from "@/app/componant/Footer";
+import ChatBot from '@/app/componant/chatAI/ChatBot'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +28,7 @@ export default function RootLayout({ children }) {
                 <link rel="icon" href="/WhatsApp Image 2024-07-11 at 21.01.51_df437c70.png" sizes="32x32" />
                 <meta name="google-site-verification" content="-1HDfMA8r2MPfNp6oa5PTR1Pe2Z-g4CThr_hEn1rIsM" />
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1900509020605535"
-     crossOrigin="anonymous"></script>
+                    crossOrigin="anonymous"></script>
             </head>
             <body className={inter.className + "min-h-screen flex flex-col justify-between"}>
                 {/* Pass nonce to GoogleAnalytics component */}
@@ -36,10 +37,12 @@ export default function RootLayout({ children }) {
                 <StoreProvider>
                     <NextUIProvider>
                         <div className="flex-grow flex flex-col">
-                          {children}
+                            {children}
                         </div>
                     </NextUIProvider>
                 </StoreProvider>
+                <ChatBot />
+
                 <Footer />
             </body>
         </html>
