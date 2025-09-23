@@ -89,7 +89,7 @@ export default function ChatBotWidget() {
             if (!data.token && token) {
                 localStorage.removeItem("token");
             }
-            setHistory(h => [...h, { from: "bot", text: data?.reply || " يوجد ضغط حاليا من فضلك التواصل علي هذا الرقم 0562790402 او حاول ثانيا" }]);
+            setHistory(h => [...h, { from: "bot", text: data?.reply || " يوجد ضغط حاليا من فضلك التواصل علي هذا الرقم 01021256768 او حاول ثانيا" }]);
         } catch {
             setHistory(h => [...h, { from: "bot", text: "صارت مشكلة في الاتصال بالمساعد. يرجي التواصل عبر الجوال 01021256768" }]);
         }
