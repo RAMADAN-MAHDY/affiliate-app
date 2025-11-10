@@ -11,13 +11,14 @@ response.headers.set(
   `
     default-src 'self';
     script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
-    connect-src 'self' https://www.google-analytics.com http://localhost:5000 https://affiliate-api-lilac.vercel.app https://affiliate-app-api-ai-chat.vercel.app;
+    connect-src 'self' https://www.google-analytics.com https://ep1.adtrafficquality.google http://localhost:5000 https://affiliate-api-lilac.vercel.app https://affiliate-app-api-ai-chat.vercel.app;
     img-src * data: blob:;
     style-src 'self' 'unsafe-inline';
     font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
     frame-src https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
   `.replace(/\s{2,}/g, ' ').trim()
 );
+
 
 
   response.headers.set('X-Frame-Options', 'DENY'); // منع التضمين في iframe
