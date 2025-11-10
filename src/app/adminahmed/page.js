@@ -123,12 +123,14 @@ const Admin = () => {
     };
 
     const filteredData = useMemo(() => {
-        if (!data) return [];
-        return data.filter((item) =>
-            item.code.toString().includes(searchInput) ||
-            item.email.toString().includes(searchInput)
-        );
-    }, [data, searchInput]);
+    if (!data) return [];
+    return data.filter((item) => {
+        const codeStr = item?.code?.toString?.() || "";
+        const emailStr = item?.email?.toString?.() || "";
+        return codeStr.includes(searchInput) || emailStr.includes(searchInput);
+    });
+}, [data, searchInput]);
+
 
     // const handleEmojiClick = () => {
     //     setNotices(!notices);
