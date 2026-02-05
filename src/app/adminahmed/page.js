@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Amiri, Alkalami } from 'next/font/google';
 import DropdownComp from '@/app/componant/admin/dropdown';
 import Navebar from '@/app/componant/navbar';
+import ErrorBoundary from '@/app/componant/ErrorBoundary';
 const amiri = Alkalami({
     weight: ['400'],
     subsets: ['arabic'],
@@ -182,42 +183,48 @@ const Admin = () => {
                         <p className='p-3 m-3'>Loading</p>
                     </div>
                 ) : filteredData.length > 0 ? (
-                    <div className="overflow-x-auto mr-3 mt-5">
-                        <table className="table-auto w-full border-collapse">
-                            <thead>
-                                <tr className='text-[#32ff46] bg-[#433]'>
-                                    <th className="border border-gray-800 px-4 py-2">العدد</th>
-                                    <th className="border border-gray-800 px-4 py-2">الاسم</th>
-                                    <th className="border border-gray-800 px-4 py-2">الكود</th>
-                                    <th className="border border-gray-800 px-4 py-2">عرض الطلبات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredData.map((dataItem) => (
-                                    <tr key={dataItem.code}>
-                                        <td className="border border-gray-800 px-4 py-2 text-[#000000]">
-                                            {length ? (
-                                                length.find(item => item.code === dataItem.code)?.conditionsLength < 1 ?
-                                                    0 :
-                                                    length.find(item => item.code === dataItem.code)?.conditionsLength
-                                            ) : (
-                                                0
-                                            )}
-                                            {lengthisLoading && <div className="m-0 loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-[10px] w-[10px] p-3">
-                                            </div>}
-                                        </td>
-                                        <td className="border border-gray-800 px-4 py-2">{dataItem.email}</td>
-                                        <td className="border border-gray-800 px-4 py-2">{dataItem.code}</td>
-                                        <td className="border border-gray-800 px-4 py-2">
-                                            <Link href={`/adminahmed/${dataItem.code}`}
-                                                className='bg-[#236a22] text-[#fff] p-2 rounded-3xl hover:bg-[#4cfa49]'>عرض الطلبات
-                                            </Link>
-                                        </td>
+                    <ErrorBoundary>
+                        <div className="overflow-x-auto mr-3 mt-5">
+                            <table className="table-auto w-full border-collapse">
+                                <thead>
+                                    <tr className='text-[#32ff46] bg-[#433]'>
+                                        <th className="border border-gray-800 px-4 py-2">العدد</th>
+                                        <th className="border border-gray-800 px-4 py-2">الاسم</th>
+                                        <th className="border border-gray-800 px-4 py-2">الكود</th>
+                                        <th className="border border-gray-800 px-4 py-2">عرض الطلبات</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {filteredData.map((dataItem) => {
+                                        const matchedLength = Array.isArray(length)
+                                            ? length.find(item => item.code === dataItem?.code)
+                                            : null;
+                                        const conditionsLength = matchedLength?.conditionsLength ?? 0;
+                                        return (
+                                            <tr key={dataItem?.code ?? dataItem?.email ?? 'row'}>
+                                                <td className="border border-gray-800 px-4 py-2 text-[#000000]">
+                                                    {conditionsLength < 1 ? 0 : conditionsLength}
+                                                    {lengthisLoading && <div className="m-0 loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-[10px] w-[10px] p-3">
+                                                    </div>}
+                                                </td>
+                                                <td className="border border-gray-800 px-4 py-2">{dataItem?.email ?? '—'}</td>
+                                                <td className="border border-gray-800 px-4 py-2">{dataItem?.code ?? '—'}</td>
+                                                <td className="border border-gray-800 px-4 py-2">
+                                                    {dataItem?.code ? (
+                                                        <Link href={`/adminahmed/${dataItem.code}`}
+                                                            className='bg-[#236a22] text-[#fff] p-2 rounded-3xl hover:bg-[#4cfa49]'>عرض الطلبات
+                                                        </Link>
+                                                    ) : (
+                                                        <span className="text-[#888]">—</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </ErrorBoundary>
                 ) : (
                     <p>No data available</p>
                 )}
