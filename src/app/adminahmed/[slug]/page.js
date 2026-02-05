@@ -7,6 +7,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ConditionForm from '@/app/componant/updateOrder';
 import DropdownComp from '@/app/componant/admin/dropdown';
 import Navbar from '@/app/componant/navbar';
+import ErrorBoundary from '@/app/componant/ErrorBoundary';
 const TableAdmin = ({ params }) => {
 
 
@@ -219,18 +220,17 @@ const cancelEdit = () => {
     return (<>
     <Navbar/>
 <DropdownComp/>
-    {data.length > 0 && data !== "حدث خطا" &&
+    {Array.isArray(data) && data.length > 0 && data !== "حدث خطا" &&
 <div className='flex  justify-around items-center font-bold text-[#000]' >
 
-    <p> {data[0].name}</p>   
+    <p> {data[0]?.name ?? '—'}</p>
 
-    <p> {data[0].code}</p>  
+    <p> {data[0]?.code ?? '—'}</p>
 
 </div>
 
     }
-  
-    
+
 <div className="relative">
             {/* عرض نموذج التعديل فوق الجدول */}
             {isEditing && selectedProduct && (
@@ -257,140 +257,148 @@ const cancelEdit = () => {
                                         الغاء
             </button>
         </div> }
-        <div className="overflow-x-auto ">
-            <table className="table-auto w-full border-collapse border border-gray-800">
-                <thead>
-                    <tr className='text-[#32ff46] bg-[#433]' key={params.slug}>
-                        <th className="border border-gray-800 px-4 py-2 min-w-[auto]" style={{ whiteSpace: 'nowrap' }}>النسخ  </th>
-                        <th className="border border-gray-800 px-4 py-2 min-w-[auto]" style={{ whiteSpace: 'nowrap' }}>اسم العميل</th>
-                        <th className="border border-gray-800 px-4 py-2">رقم الهاتف</th>
-                        <th className="border border-gray-800 px-4 py-2">المحافظه</th>
-                        <th className="border border-gray-800 px-4 py-2 max-w-[400px] min-w-[300px]">العنوان</th>
-                        <th className="border border-gray-800 px-4 py-2 max-w-[200px] min-w-[200px]">اسم المنتج</th>
-                        <th className="border border-gray-800 px-4 py-2">سعر المنتج</th>
-                        <th className="border border-gray-800 px-4 py-2 min-w-[30px] m-0 text-center">الكميه</th>
-                        <th className="border border-gray-800 px-4 py-2">الشحن</th>
-                        <th className="border border-gray-800 px-4 py-2 w-[30px]">العموله</th>
-                        <th className="border border-gray-800 px-4 py-2">اجمالي السعر</th>
-                        <th className="border border-gray-800 px-4 py-2">حالة الطلب</th> <th className="border border-gray-800 px-4 py-2" style={{ whiteSpace: 'nowrap' }}>التاريخ </th>
-                        <th className="border border-gray-800 px-4 py-2">طلب العموله </th>
-                        <th className="border border-gray-800 px-4 py-2 max-w-[200px] min-w-[200px]"> ملاحظه </th>
-                        <th className="border border-gray-800 px-4 py-2"> عمولتنا </th>
-                        <th className="border border-gray-800 px-4 py-2">الصور</th>
-                    </tr>
-                </thead>
-                <tbody key={params.slug} >
-                    {data.length > 0 && data !== "حدث خطا" ? data.map((datas , index)=>(
+        <ErrorBoundary>
+            <div className="overflow-x-auto ">
+                <table className="table-auto w-full border-collapse border border-gray-800">
+                    <thead>
+                        <tr className='text-[#32ff46] bg-[#433]' key={params.slug}>
+                            <th className="border border-gray-800 px-4 py-2 min-w-[auto]" style={{ whiteSpace: 'nowrap' }}>النسخ  </th>
+                            <th className="border border-gray-800 px-4 py-2 min-w-[auto]" style={{ whiteSpace: 'nowrap' }}>اسم العميل</th>
+                            <th className="border border-gray-800 px-4 py-2">رقم الهاتف</th>
+                            <th className="border border-gray-800 px-4 py-2">المحافظه</th>
+                            <th className="border border-gray-800 px-4 py-2 max-w-[400px] min-w-[300px]">العنوان</th>
+                            <th className="border border-gray-800 px-4 py-2 max-w-[200px] min-w-[200px]">اسم المنتج</th>
+                            <th className="border border-gray-800 px-4 py-2">سعر المنتج</th>
+                            <th className="border border-gray-800 px-4 py-2 min-w-[30px] m-0 text-center">الكميه</th>
+                            <th className="border border-gray-800 px-4 py-2">الشحن</th>
+                            <th className="border border-gray-800 px-4 py-2 w-[30px]">العموله</th>
+                            <th className="border border-gray-800 px-4 py-2">اجمالي السعر</th>
+                            <th className="border border-gray-800 px-4 py-2">حالة الطلب</th> <th className="border border-gray-800 px-4 py-2" style={{ whiteSpace: 'nowrap' }}>التاريخ </th>
+                            <th className="border border-gray-800 px-4 py-2">طلب العموله </th>
+                            <th className="border border-gray-800 px-4 py-2 max-w-[200px] min-w-[200px]"> ملاحظه </th>
+                            <th className="border border-gray-800 px-4 py-2"> عمولتنا </th>
+                            <th className="border border-gray-800 px-4 py-2">الصور</th>
+                        </tr>
+                    </thead>
+                    <tbody key={params.slug} >
+                        {Array.isArray(data) && data.length > 0 && data !== "حدث خطا" ? (
+                            data.flatMap((datas) => (
+                                Array.isArray(datas?.conditions)
+                                    ? datas.conditions.map((rowData, rowIndex) => (
 
-datas.conditions.map((rowData, rowIndex) => (
-    <tr key={`${rowData._id}-${rowIndex}`} className={`${rowIndex % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
-        <CopyToClipboard text={getTableRowContent(rowData)}>
-            <button onClick={() => {
-                setcoby({ ...copyStatus, [rowData._id]: true })
-            }} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded "> {copyStatus[rowData._id] ? "تم " : "نسخ "}</button>
-        </CopyToClipboard>
-        
-<button className='p-2 m-1 bg-[#054ffafc] rounded-2xl ' onClick={()=>{
-toggleEdit(rowData._id ,rowData);
-window.scrollTo({ top: 0, behavior: 'smooth' });
-}}>
-{isEditing[rowData._id] ? 'Cancel' : 'تعديل'}
-</button>
-<button className='p-2 m-1 bg-[#fa0505fc] rounded-2xl text-[#fff] ' onClick={()=>{
-setidOrder(rowData._id)
-setshowMessage(true)
-}}>
-حذف
-</button>
-        <td className="border border-gray-800 px-4 py-2 w-auto" style={{ whiteSpace: 'nowrap' }}>{rowData.clientname}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.phone}</td>
-        <td className="border border-gray-800 px-4 py-2 ">{rowData.covernorate}</td>
-        <td className="border border-gray-800 px-4 py-2 max-w-[400px] break-words">{rowData.city}</td>
+        <tr key={`${rowData?._id ?? 'row'}-${rowIndex}`} className={`${rowIndex % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
+            <CopyToClipboard text={getTableRowContent(rowData)}>
+                <button onClick={() => {
+                    setcoby({ ...copyStatus, [rowData._id]: true })
+                }} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded "> {copyStatus[rowData._id] ? "تم " : "نسخ "}</button>
+            </CopyToClipboard>
 
-        <td className="border border-gray-800 px-4 py-2  max-w-[200px] break-words">{rowData.productname}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.productprece}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.quantity}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.productorder}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.commition}</td>
-        <td className="border border-gray-800 px-4 py-2">{rowData.total}</td>
-        <td className="border border-gray-800 px-4 py-2 text-[#5d11ff]">    <span className='text-[#fd3737]' >{
-        getStatusText(rowData.state)               
-            }</span>
+    <button className='p-2 m-1 bg-[#054ffafc] rounded-2xl ' onClick={()=>{
+    toggleEdit(rowData._id ,rowData);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    }}>
+    {isEditing[rowData._id] ? 'Cancel' : 'تعديل'}
+    </button>
+    <button className='p-2 m-1 bg-[#fa0505fc] rounded-2xl text-[#fff] ' onClick={()=>{
+    setidOrder(rowData._id)
+    setshowMessage(true)
+    }}>
+    حذف
+    </button>
+            <td className="border border-gray-800 px-4 py-2 w-auto" style={{ whiteSpace: 'nowrap' }}>{rowData?.clientname ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.phone ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2 ">{rowData?.covernorate ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2 max-w-[400px] break-words">{rowData?.city ?? '—'}</td>
 
-            <div>
-                <label htmlFor={`options-${rowData._id}`}>اختر خيارًا:</label>
-                <select className='rounded-2xl p-1 '
-                    id={`options-${rowData._id}`}
-                    value={selectedOptions[rowData._id] || ''}
-                    onChange={(event) => handleOptionChange(event, rowData._id, data[0].code)}
-                >
-                    {/* <option value="">اختر...</option> */}
-                    <option value="0"> قيد المراجعه</option>
-                    <option value="1"> تم قبول الطلب</option>
-                    <option value="2"> جاري التوصيل</option>
-                    <option value="3">  تم التسليم</option>
-                    <option value="4">  تم القبض</option>
-                    <option value="5">  ملغي </option>
-                </select>
-                {
-                    selectedOptions[rowData._id] === '5' &&
-                    <input className='p-2 rounded-2xl' type='text' placeholder='ملغي ' value={sendreqIsfiled[rowData._id] || ''} onChange={
-                        (event) => handleInputChange(event, rowData._id, data[0].code)}
-                    />
+            <td className="border border-gray-800 px-4 py-2  max-w-[200px] break-words">{rowData?.productname ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.productprece ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.quantity ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.productorder ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.commition ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2">{rowData?.total ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2 text-[#5d11ff]">    <span className='text-[#fd3737]' >{
+            getStatusText(rowData?.state)
+                }</span>
 
+                <div>
+                    <label htmlFor={`options-${rowData?._id}`}>اختر خيارًا:</label>
+                    <select className='rounded-2xl p-1 '
+                        id={`options-${rowData?._id}`}
+                        value={selectedOptions[rowData?._id] || ''}
+                        onChange={(event) => handleOptionChange(event, rowData?._id, data[0]?.code)}
+                    >
+                        {/* <option value="">اختر...</option> */}
+                        <option value="0"> قيد المراجعه</option>
+                        <option value="1"> تم قبول الطلب</option>
+                        <option value="2"> جاري التوصيل</option>
+                        <option value="3">  تم التسليم</option>
+                        <option value="4">  تم القبض</option>
+                        <option value="5">  ملغي </option>
+                    </select>
+                    {
+                        selectedOptions[rowData?._id] === '5' &&
+                        <input className='p-2 rounded-2xl' type='text' placeholder='ملغي ' value={sendreqIsfiled[rowData?._id] || ''} onChange={
+                            (event) => handleInputChange(event, rowData?._id, data[0]?.code)}
+                        />
+
+                    }
+
+                    <button className=' bg-[#12e512df] p-2 rounded-2xl m-1' onClick={() => handleUpdateStatus(rowData?._id, data[0]?.code)}>تحديث الحالة</button>
+                </div>
+            </td>
+            <td className="border border-gray-800 px-4 py-2" style={{ whiteSpace: 'nowrap' }}>
+                {rowData?.timestamp ? format(new Date(rowData.timestamp), `dd-MM & hh:mm a`) : '—'}
+            </td>
+
+            <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]"> {rowData?.commitionreq && <p>طلب العموله  </p>} {rowData?.commitionreq}</td>
+            <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]">{rowData?.notes ?? '—'}</td>
+            <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]">
+                <input
+                    className='w-[100px] p-1 m-0 rounded-xl'
+                    type='text'
+                    placeholder='العموله'
+                    onChange={(event) => {
+                        const value = event.target.value;
+                        setcommition(prevCommition => ({
+                            ...prevCommition,
+                            [rowData?._id]: value
+                        }));
+                    }}
+                    value={commition[rowData?._id] !== undefined ? commition[rowData?._id] : (getcommition.find(item => item.id === rowData?._id)?.commition || "")}
+                />
+
+                <button className='bg-[#0bff27] p-1 m-2 rounded-2xl' onClick={() => {
+                    handleUpdateCommition(rowData?._id)
                 }
 
-                <button className=' bg-[#12e512df] p-2 rounded-2xl m-1' onClick={() => handleUpdateStatus(rowData._id, data[0].code)}>تحديث الحالة</button>
-            </div>
-        </td>
-        <td className="border border-gray-800 px-4 py-2" style={{ whiteSpace: 'nowrap' }}>{format(rowData.timestamp, `dd-MM & hh:mm a`)}</td>
+                }>حفظ</button>
+            </td>
 
-        <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]"> {rowData.commitionreq && <p>طلب العموله  </p>} {rowData.commitionreq}</td>
-        <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]">{rowData.notes}</td>
-        <td className="border border-gray-800 px-4 py-2 text-[#ff3a3a]">
-            <input
-                className='w-[100px] p-1 m-0 rounded-xl'
-                type='text'
-                placeholder='العموله'
-                onChange={(event) => {
-                    const value = event.target.value;
-                    setcommition(prevCommition => ({
-                        ...prevCommition,
-                        [rowData._id]: value
-                    }));
-                }}
-                value={commition[rowData._id] !== undefined ? commition[rowData._id] : (getcommition.find(item => item.id === rowData._id)?.commition || "")}
-            />
+            <td className="border border-gray-800 ">
+                {Array.isArray(rowData?.imagePaths) && rowData.imagePaths.length > 0 && (
 
-            <button className='bg-[#0bff27] p-1 m-2 rounded-2xl' onClick={() => {
-                handleUpdateCommition(rowData._id)
-            }
+                    rowData.imagePaths.map((sre, imgIndex) => (
 
-            }>حفظ</button>
-        </td>
-
-        <td className="border border-gray-800 ">
-            {rowData.imagePaths && rowData.imagePaths.length > 0 && (
-
-                rowData.imagePaths.map((sre, imgIndex) => (
-
-                    <ImageHoverEffect
-                        key={`${rowData._id}-img-${imgIndex}`}
-                        src={sre}
-                    />
-                ))
-
-            )}
-        </td>
-    </tr>
-)
+                        <ImageHoverEffect
+                            key={`${rowData?._id ?? 'row'}-img-${imgIndex}`}
+                            src={sre}
+                        />
                     ))
-                    
-                    ) : <p className='text-center text-[#fff] fixed ml-[30%] w-[300px] y-[100px] text-[34px] bg-[#343244] p-6 mt-6'> لا يوجد طلبات </p>}
-                </tbody>
-            </table>
-          
-        </div>
+
+                )}
+            </td>
+        </tr>
+    )
+                                )
+                                    : []
+                            ))
+
+                        ) : <tr><td colSpan={17} className='text-center text-[#fff] bg-[#343244] p-6 mt-6'> لا يوجد طلبات </td></tr>}
+                    </tbody>
+                </table>
+
+            </div>
+        </ErrorBoundary>
 </div>
     
     
@@ -403,7 +411,6 @@ setshowMessage(true)
 
 }
 export default TableAdmin;
-
 
 
 
