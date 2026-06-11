@@ -16,8 +16,8 @@ const Navebar = ({ para }) => {
     // console.log(para)
     const products = useSelector((state) => state.prodectData.carts);
 
-    const [usercode, setUsercode] = useState(typeof window !== 'undefined' ? localStorage.getItem('codeorderaffilate') || '' : '');
-    const [userEmail, setUserEmail] = useState(typeof window !== 'undefined' ? localStorage.getItem('emailorderaffilate') || '' : '');
+    const [usercode, setUsercode] = useState(''); // always empty on server to avoid hydration mismatch
+    const [userEmail, setUserEmail] = useState(''); // loaded from localStorage after mount
     const [showinfoUser, setshowinfoUser] = useState(false);
     const [runTour, setRunTour] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -26,23 +26,25 @@ const Navebar = ({ para }) => {
 
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const isFirstVisit = localStorage.getItem('firstVisit');
-            if (!isFirstVisit) {
-                setRunTour(true);
-                localStorage.setItem('firstVisit', 'true');
-            }
+        // Load user data from localStorage only on client (after hydration)
+        setUsercode(localStorage.getItem('codeorderaffilate') || '');
+        setUserEmail(localStorage.getItem('emailorderaffilate') || '');
 
-            // التحقق من حجم الشاشة
-            const handleResize = () => {
-                setIsMobile(window.innerWidth <= 600);
-            };
-
-            handleResize(); // التحقق عند التحميل
-            window.addEventListener('resize', handleResize);
-
-            return () => window.removeEventListener('resize', handleResize);
+        const isFirstVisit = localStorage.getItem('firstVisit');
+        if (!isFirstVisit) {
+            setRunTour(true);
+            localStorage.setItem('firstVisit', 'true');
         }
+
+        // التحقق من حجم الشاشة
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     useEffect(() => {
