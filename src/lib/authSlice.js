@@ -9,13 +9,19 @@ export const fetchData = createAsyncThunk(
   'counterSlice/fetchData',
   async (category) => {
     try {
-      const response = await fetch(`${URL}/${category}`,{ next: { revalidate: 3600 } });
-      const data = await response.json();
-      return data;
+      const response = await fetch(`${URL}/${category}`, { next: { revalidate: 3600 } });
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
+      }
+      const text = await response.text();
+      if (!text || text.trim() === '') {
+        throw new Error('API returned empty response');
+      }
+      return JSON.parse(text);
     } catch (error) {
       throw error;
     }
-  }  
+  }
 );
 
 
@@ -23,9 +29,15 @@ export const fetchData = createAsyncThunk(
     'counterSlice/fetchAllData',
     async () => {
       try {
-        const response = await fetch(`${URL}/productsAll`,{ next: { revalidate: 3600 } });
-        const data = await response.json();
-        return data;
+        const response = await fetch(`${URL}/productsAll`, { next: { revalidate: 3600 } });
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+        const text = await response.text();
+        if (!text || text.trim() === '') {
+          throw new Error('API returned empty response');
+        }
+        return JSON.parse(text);
       } catch (error) {
         throw error;
       }
