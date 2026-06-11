@@ -124,14 +124,14 @@ const Navebar = ({ para }) => {
                     <li className='flex step-home' >
                         <Link href="/" className='inline-flex items-center'>
                             <FcHome className='w-[50px] font-bold' />
-                            <span>الرئيسيه</span>
+                            الرئيسيه
                         </Link>
                     </li>
                     <li className='flex step-cart'>
                         <Link href={`/cart`} className='inline-flex items-center '>
 
                             <div className='relative'>
-                                {products.length > 0 && <span className='bg-[#ff0404] pl-1 pr-1 pb-2 w-4 h-4 rounded-full text-[11px] font-bold text-[#ffffff] fixed mt-[-7px]'>
+                                {products.length > 0 && <span className={styles.badge}>
                                     {products.length}
                                 </span>}
                                 <TbShoppingCartExclamation className='w-[30px] font-bold text-[#05fc05]' />
@@ -189,7 +189,7 @@ const Navebar = ({ para }) => {
                             </>
                             :
 
-                            <button className='flex font-bold bg-[#000000] p-5 rounded-2xl items-center text-[#000]'>
+                            <button className={`flex font-bold items-center ${styles.login_btn}`}>
                                 <Link className='inline-flex'
                                     href="/login">
                                     <RiLogoutBoxFill className='mr-0 ml-2' />
