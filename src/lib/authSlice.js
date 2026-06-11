@@ -9,7 +9,6 @@ export const fetchData = createAsyncThunk(
   'counterSlice/fetchData',
   async (category) => {
     try {
-        console.log(URL + "/hggdk;")
       const response = await fetch(`${URL}/${category}`,{ next: { revalidate: 3600 } });
       const data = await response.json();
       return data;
@@ -51,7 +50,7 @@ export const counterSlice = createSlice({
     prodectes:[],
     Allprodectes:[],
     showAllProducts: false,
-    carts: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart')) || [] : [],
+    carts: [], // Always start empty to avoid SSR/client hydration mismatch; cart is loaded from localStorage in StoreProvider
     status:"idle",
     email:'',
     currentCategory: 'products/3',
